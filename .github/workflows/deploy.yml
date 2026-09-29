@@ -30,8 +30,8 @@ jobs:
           # FTPS (шифрование). Если Рег.ру не примет — поменять на ftp.
           protocol: ftps
           # Корневая папка сайта на хостинге. Задаётся переменной репозитория
-          # FTP_SERVER_DIR; по умолчанию www/thousandli.ru/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/' }}
+          # FTP_SERVER_DIR; по умолчанию www/thousandli.ru/test/ (тестовая копия, пока заказчик не видит)
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/test/' }}
           local-dir: ./
           # что НЕ заливать на хостинг
           exclude: |

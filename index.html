@@ -3,26 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>thousandli.ru</title>
-  <meta name="description" content="Сайт проекта Варвары.">
+  <title>Онлайн-школа китайского языка «Тысяча ли»</title>
+  <meta name="description" content="Уроки китайского с педагогами для детей и взрослых. Программа выстраивается под ваш уровень и цели. Подготовка к HSK, HSKK, YCT, BCT, CSCA.">
+  <meta name="robots" content="noindex, nofollow">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="thousandli.ru">
-  <meta property="og:description" content="Сайт проекта Варвары.">
-  <meta property="og:image" content="img/og.jpg">
+  <meta property="og:title" content="Онлайн-школа китайского языка «Тысяча ли»">
+  <meta property="og:description" content="Уроки китайского с педагогами для детей и взрослых. Программа под ваш уровень и цели.">
+  <meta property="og:image" content="img/hero-founder.png">
   <meta property="og:url" content="https://thousandli.ru/">
 
-  <meta name="theme-color" content="#ffffff">
-  <link rel="icon" href="favicon.ico" sizes="any">
+  <meta name="theme-color" content="#004e34">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
+  <link rel="preload" href="fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main class="page">
-    <h1>thousandli.ru</h1>
-    <p>Каркас проекта готов. Здесь будет вёрстка макета из Figma.</p>
+  <header class="header">
+    <div class="header__bar">
+      <a class="header__logo" href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную">
+        <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
+      </a>
+
+      <nav class="header__nav" aria-label="Основное меню">
+        <a class="header__link" href="#programs">Программы</a>
+        <a class="header__link" href="#founder">Об основателе</a>
+        <a class="header__link" href="#prices">Стоимость</a>
+        <a class="header__link" href="#learning">Как проходит обучение</a>
+      </nav>
+
+      <ul class="header__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a class="header__social" href="#" aria-label="ВКонтакте"><img src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+        <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a class="header__social" href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+
+      <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__inner">
+        <span class="hero__bg-hanzi" aria-hidden="true">学校</span>
+
+        <div class="hero__content">
+          <h1 class="hero__title" id="hero-title">
+            Онлайн школа<br>
+            <span class="hero__title-accent">китайского языка</span><br>
+            “Тысяча ли”
+          </h1>
+          <p class="hero__text">Уроки с&nbsp;педагогами для детей и&nbsp;взрослых, программа выстраивается под ваш уровень и&nbsp;цели.</p>
+
+          <div class="hero__actions">
+            <div class="hero__action">
+              <a class="btn btn--gold btn--lg" href="#lesson">Записаться на урок</a>
+              <span class="hero__badge">30 минут бесплатно</span>
+            </div>
+            <a class="btn btn--white btn--lg" href="#programs">Выбрать программу</a>
+          </div>
+        </div>
+
+        <img class="hero__temple" src="img/hero-temple.png" width="621" height="740" alt="" aria-hidden="true">
+        <div class="hero__strip" aria-hidden="true">
+          <span class="hero__strip-text">在线汉语学校</span>
+        </div>
+        <img class="hero__flags" src="img/hero-flags.png" width="228" height="325" alt="" aria-hidden="true">
+        <img class="hero__founder" src="img/hero-founder.png" width="589" height="734" alt="Основатель школы «Тысяча ли»">
+
+        <ul class="stats">
+          <li class="stats__item stats__item--1">
+            <span class="stats__value">8 лет</span>
+            <span class="stats__label">Школа работает с детьми и&nbsp;взрослыми</span>
+          </li>
+          <li class="stats__item stats__item--2">
+            <span class="stats__value">600+</span>
+            <span class="stats__label">Учеников успешно окончили обучение</span>
+          </li>
+          <li class="stats__item stats__item--3">
+            <span class="stats__value">Любые экзамены</span>
+            <span class="stats__label">HSK, HSKK, YCT, BCT, CSCA — готовим к&nbsp;любому из&nbsp;международных</span>
+          </li>
+          <li class="stats__item stats__item--4">
+            <span class="stats__value">5+ лет в КНР</span>
+            <span class="stats__label stats__label--sm">Все преподаватели имеют педагогический опыт, жили или живут в&nbsp;Китае.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <script src="js/main.js" defer></script>
