@@ -49,7 +49,7 @@ jobs:
           echo "== DNS A www ==";            dig +short A www.thousandli.ru
           echo "== DNS NS ==";               dig +short NS thousandli.ru
           echo "(сервер хостинга: 31.31.198.27)"
-          for u in http://thousandli.ru/test/ https://thousandli.ru/test/; do
+          for u in http://thousandli.ru/test/ https://thousandli.ru/test/ https://www.thousandli.ru/test/; do
             echo "== $u =="
             curl -sS -o /dev/null --max-time 20 \
               -w "code=%{http_code} redirect=%{redirect_url} ip=%{remote_ip}\n" "$u" || true
