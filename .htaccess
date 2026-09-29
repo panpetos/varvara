@@ -1,16 +1,16 @@
 # thousandli.ru — Apache (shared-хостинг Рег.ру)
 
-# --- HTTPS + один вариант домена (без www) ---
+# --- Один вариант домена (без www) ---
+# Редирект на HTTPS включим после выпуска SSL-сертификата (Let's Encrypt),
+# иначе без сертификата сайт не откроется:
+#   RewriteCond %{HTTPS} off
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # на HTTPS
-  RewriteCond %{HTTPS} off
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-
   # www -> без www
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+  RewriteRule ^ %{REQUEST_SCHEME}://%1%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 # --- gzip ---
