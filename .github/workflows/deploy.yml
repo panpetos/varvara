@@ -53,6 +53,8 @@ jobs:
             echo "== $u =="
             curl -sS -o /dev/null --max-time 20 \
               -w "code=%{http_code} redirect=%{redirect_url} ip=%{remote_ip}\n" "$u" || true
+            curl -sS -o /dev/null --max-time 20 -L --max-redirs 5 \
+              -w "  итог: code=%{http_code} url=%{url_effective} редиректов=%{num_redirects}\n" "$u" || true
           done
           echo "== SSL-сертификат =="
           echo | openssl s_client -connect thousandli.ru:443 -servername thousandli.ru 2>/dev/null \

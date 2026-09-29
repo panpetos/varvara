@@ -5,8 +5,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # на HTTPS
+  # на HTTPS. На Рег.ру HTTPS принимает nginx и проксирует в Apache по http,
+  # поэтому %{HTTPS} всегда off — смотрим заголовок X-Forwarded-Proto.
   RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # www -> без www
