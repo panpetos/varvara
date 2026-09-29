@@ -1,0 +1,11 @@
+# секреты — НИКОГДА не коммитим
+.env
+deploy/.env
+deploy/*.local
+*.local.sh
+secrets/
+
+# системное
+.DS_Store
+Thumbs.db
+node_modules/

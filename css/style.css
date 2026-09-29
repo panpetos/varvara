@@ -1,0 +1,32 @@
+/* ==========================================================================
+   thousandli.ru — базовые стили. Здесь появятся токены и вёрстка из Figma.
+   ========================================================================== */
+
+:root {
+  /* Токены цветов/шрифтов из Figma добавим сюда (get_variable_defs). */
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --container: 1200px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+.page {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px);
+}
