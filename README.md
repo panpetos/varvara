@@ -30,15 +30,38 @@ deploy/         — деплой на хостинг
 
 ## Деплой
 
-Вариант 1 — по SSH с локальной машины (rsync):
+### Автоматический (основной) — GitHub Actions по FTP
+
+При каждом пуше в ветку `main` или `claude/**` workflow
+`.github/workflows/deploy.yml` сам заливает сайт на хостинг по FTP(S).
+Ничего вручную делать не нужно.
+
+**Одноразовая настройка секретов** в репозитории
+(`Settings → Secrets and variables → Actions`):
+
+| Secret          | Значение                     |
+| --------------- | ---------------------------- |
+| `FTP_SERVER`    | `31.31.198.27`               |
+| `FTP_USERNAME`  | `u3661467`                   |
+| `FTP_PASSWORD`  | *(FTP-пароль хостинга)*      |
+
+Переменная (вкладка **Variables**, необязательно):
+
+| Variable          | Значение по умолчанию   |
+| ----------------- | ----------------------- |
+| `FTP_SERVER_DIR`  | `www/thousandli.ru/`    |
+
+Если Рег.ру не примет FTPS — в `deploy.yml` поменять `protocol: ftps` на `ftp`.
+Если файлы зальются не в ту папку — поправить переменную `FTP_SERVER_DIR`.
+
+### Резервный — по SSH с локальной машины (rsync)
 
 ```bash
 cp deploy/.env.example deploy/.env   # вписать SSH_PASSWORD и REMOTE_DIR
 bash deploy/deploy.sh
 ```
 
-Вариант 2 — вручную: загрузить содержимое проекта (кроме `.git`, `deploy/`, `README.md`)
-в корневую папку домена через файловый менеджер ISPmanager или по FTP.
+Или вручную через файловый менеджер ISPmanager / FTP.
 
 ## Разработка
 

@@ -1,0 +1,42 @@
+name: Deploy to reg.ru
+
+# Автодеплой сайта thousandli.ru на хостинг Рег.ру по FTP.
+# Срабатывает на каждый пуш в рабочую ветку + можно запустить вручную.
+
+on:
+  push:
+    branches:
+      - main
+      - "claude/**"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-regru
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # FTPS (шифрование). Если Рег.ру не примет — поменять на ftp.
+          protocol: ftps
+          # Корневая папка сайта на хостинге. Задаётся переменной репозитория
+          # FTP_SERVER_DIR; по умолчанию www/thousandli.ru/
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/' }}
+          local-dir: ./
+          # что НЕ заливать на хостинг
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            deploy/**
+            README.md
