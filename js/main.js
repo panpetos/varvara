@@ -184,8 +184,41 @@ function initReveal() {
   items.forEach((el) => io.observe(el));
 }
 
+/* Видео-презентация в модальном окне */
+function initVideoModal() {
+  const modal = document.getElementById('video-modal');
+  if (!modal || typeof modal.showModal !== 'function') return;
+  const video = modal.querySelector('video');
+  const fallback = modal.querySelector('.video-modal__fallback');
+
+  // файла ещё нет на хостинге — показываем аккуратное сообщение вместо пустого плеера
+  video.querySelector('source').addEventListener('error', () => {
+    video.hidden = true;
+    fallback.hidden = false;
+  });
+
+  const open = () => {
+    modal.showModal();
+    document.body.classList.add('is-modal-open');
+    if (!video.hidden) {
+      video.play().catch(() => {});
+    }
+  };
+  const close = () => modal.close();
+
+  document.querySelectorAll('[data-video-open]').forEach((btn) => btn.addEventListener('click', open));
+  modal.querySelector('[data-video-close]').addEventListener('click', close);
+  // клик по затемнению (вне окна) закрывает
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  modal.addEventListener('close', () => {
+    video.pause();
+    document.body.classList.remove('is-modal-open');
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
+  initVideoModal();
   initReveal();
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   document.querySelectorAll('[role="tablist"]').forEach(initTabs);

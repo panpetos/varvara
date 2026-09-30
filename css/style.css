@@ -861,22 +861,161 @@ h1, p { margin: 0; }
   height: 697px;
 }
 
+/* Весь кадр — кнопка: клик открывает видео */
 .founder__play {
   position: absolute;
-  top: 270px;
-  left: 194.5px;
-  width: 139.5px;
-  height: 137px;
+  top: 16px;
+  left: 14px;
+  width: 502px;
+  height: 681px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: 18px;
   background: transparent;
   cursor: pointer;
-  transition: transform .2s ease;
+  transition: background-color .3s ease;
+}
+
+/* мягкая пульсация вокруг кнопки Play (центр круга на кадре) */
+.founder__play-ring {
+  position: absolute;
+  top: 254px;
+  left: 180.5px;
+  width: 139.5px;
+  height: 137px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.founder__play-ring::before,
+.founder__play-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: play-pulse 2.6s cubic-bezier(.22, .61, .36, 1) infinite;
+}
+
+.founder__play-ring::after { animation-delay: 1.3s; }
+
+@keyframes play-pulse {
+  from { opacity: .9; scale: 1; }
+  to { opacity: 0; scale: 1.45; }
 }
 
 @media (hover: hover) {
-  .founder__play:hover { transform: scale(1.05); }
+  .founder__play:hover { background: rgba(0, 0, 0, 0.12); }
+  .founder__play:hover .founder__play-ring::before { animation-duration: 1.6s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .founder__play-ring::before,
+  .founder__play-ring::after { animation: none; opacity: 0; }
+}
+
+/* ---------- Модальное окно видео ---------- */
+.video-modal {
+  width: min(1000px, 100vw - 32px);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  opacity: 0;
+  scale: .94;
+  translate: 0 16px;
+  transition: opacity .35s ease, scale .45s cubic-bezier(.22, .61, .36, 1), translate .45s cubic-bezier(.22, .61, .36, 1), overlay .45s allow-discrete, display .45s allow-discrete;
+}
+
+.video-modal[open] { opacity: 1; scale: 1; translate: 0 0; }
+
+@starting-style {
+  .video-modal[open] { opacity: 0; scale: .94; translate: 0 16px; }
+}
+
+.video-modal::backdrop {
+  background: rgba(0, 20, 13, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition: background-color .35s ease, backdrop-filter .35s ease, overlay .45s allow-discrete, display .45s allow-discrete;
+}
+
+.video-modal[open]::backdrop {
+  background: rgba(0, 20, 13, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+@starting-style {
+  .video-modal[open]::backdrop { background: rgba(0, 20, 13, 0); backdrop-filter: blur(0); }
+}
+
+.video-modal__box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #000;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.video-modal__video {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 120px);
+  background: #000;
+}
+
+.video-modal__video[hidden] { display: none; }
+
+.video-modal__fallback {
+  padding: 120px 24px;
+  font-family: var(--ff-display);
+  font-size: 20px;
+  text-align: center;
+  color: var(--c-white);
+}
+
+.video-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: background-color .2s ease, rotate .3s ease;
+}
+
+.video-modal__close::before,
+.video-modal__close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  margin: -1px 0 0 -9px;
+  border-radius: 1px;
+  background: var(--c-green);
+  rotate: 45deg;
+}
+
+.video-modal__close::after { rotate: -45deg; }
+
+@media (hover: hover) {
+  .video-modal__close:hover { background: var(--c-white); rotate: 90deg; }
+}
+
+body.is-modal-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .video-modal, .video-modal::backdrop { transition: none; }
 }
 
 .founder__video-caption {

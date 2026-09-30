@@ -304,7 +304,7 @@
 
         <div class="founder__video">
           <img class="founder__video-img" src="img/founder/video.jpg" width="528" height="697" alt="Кадр из видео-презентации Варвары Тимофеевой" loading="lazy">
-          <button class="founder__play" type="button" aria-label="Смотреть видео-презентацию"></button>
+          <button class="founder__play" type="button" aria-label="Смотреть видео-презентацию" aria-haspopup="dialog" aria-controls="video-modal" data-video-open><span class="founder__play-ring" aria-hidden="true"></span></button>
           <p class="founder__video-caption">Посмотрите<br>видео-презентацию на&nbsp;2&nbsp;минуты</p>
         </div>
       </div>
@@ -622,6 +622,16 @@
       </div>
     </div>
   </footer>
+
+  <dialog class="video-modal" id="video-modal" aria-label="Видео-презентация Варвары Тимофеевой">
+    <div class="video-modal__box">
+      <button class="video-modal__close" type="button" aria-label="Закрыть видео" data-video-close></button>
+      <video class="video-modal__video" controls playsinline preload="metadata">
+        <source src="video/founder.mp4" type="video/mp4">
+      </video>
+      <p class="video-modal__fallback" hidden>Видео скоро появится.</p>
+    </div>
+  </dialog>
 
   <script src="js/main.js" defer></script>
 </body>
