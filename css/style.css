@@ -133,6 +133,8 @@ html { -webkit-text-size-adjust: 100%; }
 /* декор (кольцо в отзывах и т.п.) по макету выходит за край — без горизонтального скролла */
 html, body { overflow-x: clip; }
 
+html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+
 body {
   margin: 0;
   font-family: var(--ff-text);
@@ -182,17 +184,37 @@ h1, p { margin: 0; }
 
 /* ---------- Шапка ---------- */
 .header {
+  position: sticky;
+  top: 12px;
+  z-index: 100;
   width: min(var(--container), 100% - 2 * var(--gutter));
   margin: 28px auto 0;
 }
 
+/* Скруглённая «стеклянная» плашка: полупрозрачный фон + размытие того, что под ней */
 .header__bar {
   display: flex;
   align-items: center;
   height: 75px;
   padding: 0 17px 0 21px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: var(--r-pill);
   background: var(--c-header);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: background-color .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+.header.is-scrolled .header__bar {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(242, 242, 242, 0.62);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 30px rgba(0, 40, 26, 0.12);
+}
+
+/* без поддержки backdrop-filter — плотнее, чтобы текст читался */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header.is-scrolled .header__bar { background: rgba(242, 242, 242, 0.96); }
 }
 
 .header__logo {
@@ -1772,79 +1794,104 @@ h1, p { margin: 0; }
 }
 
 .footer__inner {
-  position: relative;
+  display: grid;
+  grid-template-columns: 326px 1fr 1fr 1fr;
+  column-gap: 40px;
   width: min(var(--container), 100% - 2 * var(--gutter));
-  height: 386px;
   margin: 0 auto;
+  padding: 34px 0 40px;
 }
 
-.footer__brand { position: absolute; top: 0; left: 0; }
-.footer__logo { position: absolute; top: 34px; left: 24px; width: 208px; height: 138px; max-width: none; }
-.footer__socials { position: absolute; top: 193px; left: 1px; margin: 0; }
-.footer__cta { position: absolute; top: 252px; left: 0; width: 253px; height: 41px; font-size: 16px; font-weight: 500; white-space: nowrap; }
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
 
-.footer__col { position: absolute; }
-.footer__col--programs { top: 30px; left: 326px; }
-.footer__col--menu { top: 38px; left: 704px; }
-.footer__col--docs { top: 80px; left: 1030px; }
+.footer__logo { width: 208px; height: 138px; margin-left: 24px; }
+.footer__socials { margin: 0; }
+.footer__cta { width: 253px; height: 41px; font-size: 16px; font-weight: 500; white-space: nowrap; }
 
 .footer__heading {
+  margin: 0 0 22px;
   font-family: var(--ff-display);
   font-size: 18px;
   font-weight: 500;
   line-height: 1.3;
 }
 
-.footer__programs {
+.footer__list {
   display: flex;
   flex-direction: column;
-  gap: 13px;
-  margin-top: 23px;
-}
-
-.footer__programs a {
-  position: relative;
-  display: block;
-  font-size: 17px;
-  font-weight: 500;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1.3;
 }
 
-.footer__programs a::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: -22px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--c-gold);
-}
+.footer__list a { color: rgba(255, 255, 255, 0.85); }
 
-.footer__menu {
+.footer__bottom {
+  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.footer__docs-title { font-size: 15px; font-weight: 500; line-height: 1.3; }
-
-.footer__docs {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-top: 9px;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 14px;
-  font-weight: 300;
-  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.6);
 }
-
-.footer__docs li:nth-child(2) { line-height: 1; }
 
 @media (hover: hover) {
   .footer a:not(.btn) { transition: color .2s ease; }
   .footer a:not(.btn):hover { color: var(--c-gold); }
+}
+
+/* ---------- Анимации ---------- */
+/* Появление при прокрутке: отдельные свойства translate/scale не ломают повороты (transform) у карточек */
+.reveal {
+  opacity: 0;
+  translate: 0 36px;
+  transition:
+    opacity .9s cubic-bezier(.22, .61, .36, 1) var(--d, 0ms),
+    translate .9s cubic-bezier(.22, .61, .36, 1) var(--d, 0ms),
+    scale .9s cubic-bezier(.22, .61, .36, 1) var(--d, 0ms);
+}
+
+.reveal--zoom { translate: 0 20px; scale: .96; }
+.reveal--left { translate: -40px 0; }
+.reveal--right { translate: 40px 0; }
+
+.reveal.is-in { opacity: 1; translate: 0 0; scale: 1; }
+
+/* Лёгкий подъём карточек при наведении — только после окончания появления (класс is-done) */
+.reveal.is-done { --d: 0ms; transition: opacity .3s ease, translate .3s ease, scale .3s ease, box-shadow .3s ease; }
+
+@media (hover: hover) {
+  .program-card.is-done:hover,
+  .lesson.is-done:hover,
+  .plan.is-done:hover { translate: 0 -6px; box-shadow: 0 18px 40px rgba(0, 40, 26, 0.12); }
+  .adv-card.is-done:hover { translate: 0 -4px; }
+}
+
+/* Смена таба — мягкое проявление */
+.programs__panel:not([hidden]) { animation: panel-in .45s cubic-bezier(.22, .61, .36, 1); }
+@keyframes panel-in { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+
+/* Плавное раскрытие ответов FAQ (где браузер поддерживает) */
+:root { interpolate-size: allow-keywords; }
+.faq__item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .4s cubic-bezier(.22, .61, .36, 1), content-visibility .4s allow-discrete;
+}
+.faq__item[open]::details-content { block-size: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; translate: none; scale: none; transition: none; }
+  .programs__panel:not([hidden]) { animation: none; }
+  .faq__item::details-content { transition: none; }
 }

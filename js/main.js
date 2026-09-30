@@ -107,7 +107,87 @@ function initLeadForm(form) {
   });
 }
 
+/* Закреплённая шапка: «стекло» плотнее после начала прокрутки */
+function initHeader() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+  const update = () => header.classList.toggle('is-scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+/* Появление блоков при прокрутке. Классы вешает JS — без JS всё видно сразу */
+function initReveal() {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // [селектор, вариант, шаг задержки между соседями, мс]
+  const groups = [
+    ['.hero__content', '', 0],
+    ['.hero__founder, .hero__temple', 'zoom', 120],
+    ['.stats__item', '', 90],
+    ['.section-title, .method__title, .programs__title, .founder__title, .steps__title, .reviews__title, .lead__title', '', 0],
+    ['.method__item', 'left', 110],
+    ['.method__book', 'zoom', 0],
+    ['.method__summary', '', 0],
+    ['.programs__tabs', '', 0],
+    ['.program-card', '', 70],
+    ['.founder__motto, .founder__name', 'left', 80],
+    ['.founder__fact', 'left', 80],
+    ['.founder__collage, .founder__more', '', 100],
+    ['.founder__video', 'right', 0],
+    ['.lesson', '', 110],
+    ['.cta', '', 0],
+    ['.adv-main', 'left', 0],
+    ['.adv-card, .adv-photo', '', 80],
+    ['.steps__btn', '', 0],
+    ['.compare__wrap', '', 0],
+    ['.plan', '', 140],
+    ['.reviews__photo', 'zoom', 0],
+    ['.review--a, .review--b, .review--d, .reviews__note', '', 110],
+    ['.faq__item', '', 70],
+    ['.lead__info', 'left', 0],
+    ['.lead__form, .lead__contacts', 'right', 100],
+    ['.footer__brand, .footer__col', '', 90],
+  ];
+
+  const items = [];
+  groups.forEach(([selector, variant, step]) => {
+    const parents = new Map();
+    document.querySelectorAll(selector).forEach((el) => {
+      // задержка считается внутри общего родителя — соседние карточки выезжают по очереди
+      const key = el.parentElement;
+      const i = parents.get(key) || 0;
+      parents.set(key, i + 1);
+      el.classList.add('reveal');
+      if (variant) el.classList.add('reveal--' + variant);
+      if (step) el.style.setProperty('--d', Math.min(i * step, 600) + 'ms');
+      items.push(el);
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('is-in');
+      io.unobserve(el);
+      // после появления убираем задержку, чтобы наведение реагировало сразу
+      el.addEventListener('transitionend', function done(e) {
+        if (e.target !== el || e.propertyName !== 'opacity') return;
+        el.classList.add('is-done');
+        el.removeEventListener('transitionend', done);
+      });
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+
+  items.forEach((el) => io.observe(el));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initHeader();
+  initReveal();
+  document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   document.querySelectorAll('[role="tablist"]').forEach(initTabs);
   initTabLinks();
   const form = document.querySelector('.lead__form');
