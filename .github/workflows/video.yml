@@ -1,0 +1,66 @@
+name: Optimize video on hosting
+
+# Ручной запуск: берёт исходник из test/video на хостинге, пережимает для веба
+# (H.264, до 1920 по длинной стороне, быстрый старт), делает обложку WebP
+# и заливает рядом: <dst>.mp4 и <dst>-poster.webp. Исходник не трогает.
+
+on:
+  workflow_dispatch:
+    inputs:
+      src:
+        description: "Имя исходного файла в www/thousandli.ru/test/video/"
+        required: true
+      dst:
+        description: "Имя результата без расширения (латиница), например founder-ru"
+        required: true
+      crf:
+        description: "Качество x264 (меньше — лучше и тяжелее), 23–28"
+        required: false
+        default: "25"
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      SRC: ${{ inputs.src }}
+      DST: ${{ inputs.dst }}
+      CRF: ${{ inputs.crf }}
+      DIR: www/thousandli.ru/test/video
+    steps:
+      - name: Install ffmpeg + webp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg webp > /dev/null
+
+      - name: Validate inputs
+        run: |
+          [[ "$DST" =~ ^[a-z0-9-]+$ ]] || { echo "dst: только латиница, цифры и дефис"; exit 1; }
+          [[ "$CRF" =~ ^[0-9]+$ ]] || { echo "crf: число"; exit 1; }
+
+      - name: Download source
+        run: |
+          ENC=$(python3 -c 'import os,urllib.parse; print(urllib.parse.quote(os.environ["SRC"]))')
+          curl -sS --ssl-reqd --insecure -u "$FTP_USERNAME:$FTP_PASSWORD" \
+            "ftp://$FTP_SERVER/$DIR/$ENC" -o src.mp4
+          ls -l src.mp4
+          ffprobe -v error -show_entries stream=codec_name,width,height,bit_rate,r_frame_rate:format=duration,size -of compact src.mp4
+
+      - name: Encode for web
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i src.mp4 \
+            -vf "scale=w='min(iw,1920)':h='min(ih,1920)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+            -c:v libx264 -preset slow -crf "$CRF" -profile:v high -pix_fmt yuv420p \
+            -c:a aac -b:a 128k -ac 2 -movflags +faststart "$DST.mp4"
+          ffmpeg -hide_banner -loglevel error -y -ss 2 -i "$DST.mp4" -frames:v 1 poster.png
+          cwebp -quiet -q 80 poster.png -o "$DST-poster.webp"
+          ls -l "$DST.mp4" "$DST-poster.webp"
+          ffprobe -v error -show_entries stream=codec_name,width,height:format=duration,size -of compact "$DST.mp4"
+
+      - name: Upload to hosting
+        run: |
+          for f in "$DST.mp4" "$DST-poster.webp"; do
+            curl -sS --ssl-reqd --insecure -u "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "ftp://$FTP_SERVER/$DIR/$f"
+            echo "uploaded $f"
+          done
+          curl -sSI --max-time 20 "https://thousandli.ru/test/video/$DST.mp4" | grep -iE "^(HTTP|content-type|content-length|accept-ranges)"

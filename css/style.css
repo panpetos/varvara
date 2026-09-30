@@ -521,6 +521,18 @@ h1, p { margin: 0; }
   width: 434px;
   height: 466px;
   pointer-events: none;
+  /* медленная «левитация»: transform не конфликтует с translate анимации появления */
+  animation: book-float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes book-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-0.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .method__book { animation: none; }
 }
 
 .method__summary {
@@ -529,7 +541,7 @@ h1, p { margin: 0; }
   margin-top: 68px;
   border-radius: var(--r-md);
   overflow: hidden;
-  background: var(--c-green) url("../img/method/summary-decor.png") no-repeat right top / 232px 93px;
+  background: var(--c-green) url("../img/method/summary-decor.webp") no-repeat right top / 232px 93px;
 }
 
 .method__summary-badge {
