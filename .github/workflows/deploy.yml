@@ -54,6 +54,7 @@ jobs:
             **/.github/**
             deploy/**
             README.md
+            CLAUDE.md
 
       - name: Check site (DNS, HTTP, HTTPS)
         if: always()
