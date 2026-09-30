@@ -21,6 +21,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Индексация открывается только при деплое в корень сайта (не в /test/):
+      # убираем meta robots noindex и заголовок X-Robots-Tag
+      - name: Open indexing for production
+        env:
+          TARGET: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/test/' }}
+        run: |
+          if [[ "$TARGET" == */test/ ]]; then
+            echo "Тестовая копия ($TARGET): индексация закрыта"; exit 0
+          fi
+          sed -i '/data-env="test"/d; /Тестовая копия: индексация закрыта/d' index.html
+          sed -i '/# test-noindex:start/,/# test-noindex:end/d' .htaccess
+          ! grep -q noindex index.html .htaccess
+          echo "Прод ($TARGET): индексация открыта"
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -66,6 +80,9 @@ jobs:
           echo "== send.php (запрос-ловушка для ботов: письмо не отправляется) =="
           curl -sS --max-time 20 -X POST -d "website=bot&name=Test&phone=79990000000&consent=1" \
             -w "\n  code=%{http_code}\n" https://thousandli.ru/test/send.php || true
+          echo "== Индексация тестовой копии (ожидается noindex) =="
+          curl -sSI --max-time 20 https://thousandli.ru/test/ | grep -i "x-robots-tag" || echo "X-Robots-Tag нет"
+          curl -sS --max-time 20 https://thousandli.ru/test/ | grep -o '<meta name="robots"[^>]*>' || echo "meta robots нет"
           echo "== SSL-сертификат =="
           echo | openssl s_client -connect thousandli.ru:443 -servername thousandli.ru 2>/dev/null \
             | openssl x509 -noout -subject -issuer -dates 2>/dev/null || echo "сертификата нет"

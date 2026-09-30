@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /send.php
+Disallow: /test/
+
+Sitemap: https://thousandli.ru/sitemap.xml
