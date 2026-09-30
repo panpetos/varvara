@@ -94,9 +94,10 @@
 /* Иероглифы в подписях карточек (Noto Sans SC), урезаны до используемых символов */
 @font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-1.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+6C49; }
 @font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-2.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+65C5, U+7EFC; }
-@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-3.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+513F, U+5411, U+653F, U+7559, U+8003, U+8BD5, U+8BED; }
-@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-4.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+4ED6, U+53E3, U+5546, U+5C11, U+6C34, U+6E38; }
-@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-5.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+4EBA, U+5165, U+5176, U+52A1, U+5408, U+5B66, U+5E73, U+6210, U+6280, U+65B9, U+65F6, U+79D1, U+95E8; }
+@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-3.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+513F, U+5411, U+5904, U+653F, U+7559, U+8003, U+8BD5, U+8BED; }
+@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-4.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+4ED6, U+522B, U+53E3, U+5546, U+5C11, U+6C34, U+6CA1, U+6E38, U+79CD; }
+@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-5.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+4E13, U+4EBA, U+5165, U+5176, U+52A1, U+5408, U+5B66, U+5E73, U+6210, U+6240, U+6280, U+65B9, U+65F6, U+6CD5, U+79D1, U+95E8; }
+@font-face { font-family: "Hanzi"; src: url("../fonts/cjk-label-6.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+4E00, U+6709, U+7684; }
 
 /* ---------- Токены ---------- */
 :root {
@@ -526,13 +527,59 @@ h1, p { margin: 0; }
   will-change: transform;
 }
 
+.method__cover {
+  position: absolute;
+  top: 0;
+  left: 84px;
+  width: 276px;
+  height: 416px;
+}
+
+.method__disk {
+  position: absolute;
+  top: 315px;
+  left: 283px;
+  width: 114px;
+  height: 114px;
+  border-radius: 50%;
+  background: var(--c-gold);
+}
+
+.method__glint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Кольца с надписью (под обложкой): замкнуты в круг и очень медленно вращаются в разные стороны */
+.method__ring {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  overflow: visible;
+  font-family: "Hanzi", sans-serif;
+  font-size: 14px;
+  fill: var(--c-gold);
+  animation: ring-spin 90s linear infinite;
+}
+
+.method__ring text { dominant-baseline: central; }
+
+.method__ring--left { top: 76px; left: -2px; }
+.method__ring--right { top: 272px; left: 240px; animation-duration: 120s; animation-direction: reverse; }
+
+@keyframes ring-spin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes book-float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-8px) rotate(-0.5deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .method__book { animation: none; }
+  .method__book, .method__ring { animation: none; }
 }
 
 .method__summary {
@@ -928,7 +975,8 @@ h1, p { margin: 0; }
 
 /* ---------- Модальное окно видео ---------- */
 .video-modal {
-  width: min(1000px, 100vw - 32px);
+  /* окно по размеру вертикального видео (9:16) */
+  width: fit-content;
   max-width: none;
   max-height: none;
   padding: 0;
@@ -974,14 +1022,18 @@ h1, p { margin: 0; }
 
 .video-modal__video {
   display: block;
-  width: 100%;
-  max-height: calc(100vh - 120px);
+  width: auto;
+  height: min(100dvh - 80px, 900px);
+  max-width: calc(100vw - 32px);
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
   background: #000;
 }
 
 .video-modal__video[hidden] { display: none; }
 
 .video-modal__fallback {
+  width: min(480px, 100vw - 32px);
   padding: 120px 24px;
   font-family: var(--ff-display);
   font-size: 20px;

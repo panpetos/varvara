@@ -213,7 +213,21 @@
           </li>
         </ul>
 
-        <img class="method__book" src="img/method/book.webp" width="434" height="466" alt="Учебник с авторской методикой" loading="lazy">
+        <div class="method__book">
+          <span class="method__disk" aria-hidden="true"></span>
+          <svg class="method__ring method__ring--left" viewBox="0 0 200 200" width="200" height="200" aria-hidden="true" focusable="false">
+            <path id="ring-path-1" d="M12,100a88,88 0 1,1 176,0a88,88 0 1,1 -176,0" fill="none"/>
+            <text><textPath href="#ring-path-1" textLength="549.9" lengthAdjust="spacing">一种别处所没有的专有方法一种别处所没有的专有方法一种别处所没有的专有方法</textPath></text>
+          </svg>
+          <svg class="method__ring method__ring--right" viewBox="0 0 200 200" width="200" height="200" aria-hidden="true" focusable="false">
+            <path id="ring-path-2" d="M13.5,100a86.5,86.5 0 1,1 173,0a86.5,86.5 0 1,1 -173,0" fill="none"/>
+            <text><textPath href="#ring-path-2" textLength="540.5" lengthAdjust="spacing">一种别处所没有的专有方法一种别处所没有的专有方法一种别处所没有的专有方法</textPath></text>
+          </svg>
+          <img class="method__cover" src="img/method/book-cover.webp" width="276" height="416" alt="Учебник с авторской методикой" loading="lazy" decoding="async">
+          <svg class="method__glint" viewBox="0 0 434 466" aria-hidden="true" focusable="false">
+            <path d="M360 377 357.5 402.5 331 403M365.8 380 364.5 408 344 409.5" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
 
         <p class="method__summary">
           <span class="method__summary-badge">Итог:</span>
@@ -723,7 +737,7 @@
   <dialog class="video-modal" id="video-modal" aria-label="Видео-презентация Варвары Тимофеевой">
     <div class="video-modal__box">
       <button class="video-modal__close" type="button" aria-label="Закрыть видео" data-video-close></button>
-      <video class="video-modal__video" controls playsinline preload="none" poster="video/founder-ru-poster.webp">
+      <video class="video-modal__video" width="1080" height="1920" controls playsinline preload="none" poster="video/founder-ru-poster.webp">
         <source src="video/founder-ru.mp4" type="video/mp4">
       </video>
       <p class="video-modal__fallback" hidden>Видео скоро появится.</p>
