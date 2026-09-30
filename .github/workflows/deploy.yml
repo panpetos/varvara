@@ -44,7 +44,14 @@ jobs:
       - name: Check site (DNS, HTTP, HTTPS)
         if: always()
         continue-on-error: true
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
+          echo "== Файлы на хостинге: test/video (загружены вручную) =="
+          curl -sS --ssl-reqd --insecure --max-time 30 -u "$FTP_USERNAME:$FTP_PASSWORD" \
+            "ftp://$FTP_SERVER/www/thousandli.ru/test/video/" || echo "не удалось получить список"
           echo "== DNS A thousandli.ru ==";  dig +short A thousandli.ru
           echo "== DNS A www ==";            dig +short A www.thousandli.ru
           echo "== DNS NS ==";               dig +short NS thousandli.ru
