@@ -2325,12 +2325,12 @@ body.is-modal-open { overflow: hidden; }
   .hero__flags,
   .hero__founder { top: auto; bottom: 0; }
 
-  .hero__bg-hanzi { left: calc(35 * var(--u)); bottom: calc(240 * var(--u)); width: calc(199 * var(--u)); height: auto; opacity: .55; }
-  .hero__temple { left: calc(1 * var(--u)); bottom: calc(-38 * var(--u)); width: calc(299 * var(--u)); height: calc(352 * var(--u)); }
-  .hero__strip { left: calc(287 * var(--u)); right: auto; bottom: calc(-33 * var(--u)); width: calc(75 * var(--u)); height: calc(396 * var(--u)); border-radius: calc(18.6 * var(--u)); }
+  .hero__bg-hanzi { left: calc(var(--ax, 0px) + 35 * var(--u)); bottom: calc(240 * var(--u)); width: calc(199 * var(--u)); height: auto; opacity: .55; }
+  .hero__temple { left: calc(var(--ax, 0px) + 1 * var(--u)); bottom: calc(-38 * var(--u)); width: calc(299 * var(--u)); height: calc(352 * var(--u)); }
+  .hero__strip { left: calc(var(--ax, 0px) + 287 * var(--u)); right: auto; bottom: calc(-33 * var(--u)); width: calc(75 * var(--u)); height: calc(396 * var(--u)); border-radius: calc(18.6 * var(--u)); }
   .hero__strip-text { top: calc(140 * var(--u)); left: calc(23 * var(--u)); width: calc(30 * var(--u)); height: auto; opacity: .8; }
-  .hero__flags { left: calc(263 * var(--u)); bottom: calc(226 * var(--u)); width: calc(98 * var(--u)); height: auto; }
-  .hero__founder { left: calc(12 * var(--u)); bottom: calc(-10 * var(--u)); width: calc(330 * var(--u)); height: auto; }
+  .hero__flags { left: calc(var(--ax, 0px) + 263 * var(--u)); bottom: calc(226 * var(--u)); width: calc(98 * var(--u)); height: auto; }
+  .hero__founder { left: calc(var(--ax, 0px) + 12 * var(--u)); bottom: calc(-10 * var(--u)); width: calc(330 * var(--u)); height: auto; }
 
   /* в мобильном макете плашки с цифрами нет */
   .stats { display: none; }
@@ -3331,7 +3331,8 @@ body.is-modal-open { overflow: hidden; }
 
 /* Совсем узкие телефоны (до 374 px) */
 @media (max-width: 374.98px) {
-  .hero__title { font-size: 26px; }
+  /* «ОНЛАЙН-ШКОЛА» помещается в одну строку и на внешнем экране Galaxy Fold (344 px) */
+  .hero__title { font-size: min(29px, (100vw - 58px) / 11.3); }
   .program-card__img { width: 108px; height: 108px; }
   .program-card__title { max-width: calc(100% - 150px); }
 }
@@ -3340,3 +3341,185 @@ body.is-modal-open { overflow: hidden; }
   .compare__hand { animation: none; }
   .header__menu, .header__burger-lines, .header__burger-lines::before, .header__burger-lines::after { transition: none; }
 }
+
+/* =====================================================================
+   Планшет 600–1023 px: Galaxy Z Fold в раскрытом виде (~690×840,
+   и горизонтально ~840), iPad вертикально. Слой поверх мобильной версии:
+   две колонки там, где мобильный блок стал бы растянутым и пустым.
+   ===================================================================== */
+@media (min-width: 600px) and (max-width: 1023.98px) {
+  :root {
+    --col: min(100% - 48px, 920px);
+    --edge: max(24px, (100vw - 920px) / 2);
+  }
+
+  /* шапка: бургер + кнопка записи всегда на виду */
+  .header__bar { padding-left: 16px; }
+  .header__logo img { width: 150px; }
+
+  /* ----- первый экран: текст слева, иллюстрация справа ----- */
+  .hero__inner {
+    --u: calc(48cqw / 361);
+    --ax: 52cqw;
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 40px;
+  }
+
+  /* распорка справа: высота иллюстрации */
+  .hero__inner::after { flex: 0 0 0; height: calc(401 * var(--u) + 20px); }
+
+  .hero__content { position: relative; z-index: 6; width: 54%; padding-top: 44px; }
+  .hero__title { padding-left: 32px; font-size: clamp(28px, 4.2cqw, 38px); }
+  .hero__text { max-width: 360px; margin-left: 32px; font-size: 17px; }
+  .hero__actions { max-width: 340px; margin: 44px 0 0 28px; }
+
+  /* ----- методика: список слева, парящая книга справа ----- */
+  .method__inner {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 40%);
+    column-gap: 24px;
+  }
+
+  .method__title,
+  .method__summary { grid-column: 1 / -1; }
+
+  .method__list { grid-column: 1; }
+
+  .method__book {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    justify-self: center;
+    margin-top: 20px;
+    zoom: .62;
+  }
+
+  @media (min-width: 800px) {
+    .method__book { zoom: .74; }
+  }
+
+  .method__item-text { font-size: 15px; }
+
+  /* «Итог»: декор у правого края в натуральном размере */
+  .method__summary { --u: 1px; }
+  .method__summary::before { left: auto; right: -93px; }
+  .method__summary::after { left: auto; right: -25px; }
+  .method__summary-text { width: auto; max-width: calc(100% - 180px); }
+
+  /* ----- программы: табы в ряд, карточки в две колонки ----- */
+  .programs__title { max-width: none; }
+  .programs__arrows { display: none; }
+
+  .programs__tabs { margin-right: 0; padding-right: 0; overflow: visible; }
+  .programs__tab { flex: 1 1 0; width: auto; }
+
+  .programs__panel,
+  .programs__panel--wide { grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ----- основатель: факты слева, видео справа ----- */
+  .founder__inner {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 44%);
+    grid-template-areas:
+      "title   title"
+      "motto   motto"
+      "name    video"
+      "facts   video"
+      "collage video"
+      "more    video";
+    grid-template-rows: auto auto auto auto auto 1fr;
+    column-gap: 28px;
+    padding: 28px 28px 28px;
+  }
+
+  .founder__title { grid-area: title; max-width: none; }
+  .founder__motto { grid-area: motto; justify-self: start; width: min(100%, 520px); }
+  .founder__name { grid-area: name; margin-top: 28px; }
+  .founder__facts { grid-area: facts; }
+  .founder__collage { grid-area: collage; }
+  .founder__more { grid-area: more; align-self: start; max-width: 360px; }
+  .founder__video { grid-area: video; align-self: start; margin-top: 28px; }
+
+  /* ----- преимущества: две колонки, главная карточка на всю высоту справа ----- */
+  .advantages__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .adv-card--a { grid-area: 1 / 1; }
+  .adv-photo--1 { grid-area: 1 / 2; aspect-ratio: auto; }
+  .adv-card--c { grid-area: 2 / 1; }
+  .adv-card--d { grid-area: 3 / 1; }
+  .adv-card--e { grid-area: 4 / 1; }
+  .adv-main { grid-area: 2 / 2 / 5 / 3; min-height: 500px; }
+
+  /* ----- 4 шага: декор держится у краёв карточки ----- */
+  .steps__inner { --u: 1px; }
+  .steps__decor--cat { width: 220px; height: 322px; top: 299px; }
+  .steps__decor--lantern { right: 40px; }
+  .steps__decor--work { left: 70px; }
+  .steps__decor--exam { right: 140px; }
+  .steps__decor--travel { right: 60px; }
+  .steps__decor--heart { right: 100px; }
+
+  /* ----- сравнение: таблица целиком, без прокрутки ----- */
+  .compare__title { max-width: none; }
+  .compare__hint { display: none; }
+  .compare__table { width: 100%; }
+  .compare__table tr > :first-child { width: 34%; }
+  .compare__table th,
+  .compare__table td,
+  .compare__table tbody th,
+  .compare__table tbody tr:nth-child(4) th,
+  .compare__table tbody tr:nth-child(5) th { font-size: 13px; }
+  .compare__table thead th { font-size: 12px; }
+
+  /* ----- стоимость: тарифы рядом ----- */
+  .pricing__cards { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .plan__btn { margin-top: auto; }
+
+  /* ----- отзывы: сетка 2×2 ----- */
+  .reviews__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: start;
+    row-gap: 32px;
+    padding: 0 16px 44px;
+  }
+
+  .reviews__title { grid-column: 1 / -1; max-width: 560px; }
+  .review--a,
+  .review--b,
+  .review--d { left: 0; margin-top: 0; }
+  .review--a { grid-area: 2 / 1; margin-top: 10px; }
+  .review--d { grid-area: 2 / 2; }
+  .review--b { grid-area: 3 / 1; margin-top: 10px; }
+  .reviews__photo { grid-area: 3 / 2; margin-top: 0; }
+  .reviews__note { grid-column: 1 / -1; margin-top: 10px; }
+
+  /* ----- форма: текст и форма слева, фото справа ----- */
+  .lead__inner {
+    min-height: 600px;
+    padding: 32px 32px 32px;
+    padding-right: 48%;
+  }
+
+  .lead__photo { left: auto; right: -10px; width: min(48%, 420px); height: auto; aspect-ratio: 344 / 377; }
+  .lead__clouds { left: auto; right: -160px; bottom: 30px; }
+  .lead__stars { left: auto; right: 24px; bottom: 200px; }
+
+  /* ----- подвал: бренд сверху, три колонки ----- */
+  .footer__inner { grid-template-columns: repeat(3, 1fr); column-gap: 24px; }
+  .footer__brand { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 24px; }
+  .footer__socials { margin-top: 0; }
+  .footer__col:last-of-type { grid-column: auto; }
+  .footer__bottom { flex-direction: row; justify-content: space-between; }
+}
+
