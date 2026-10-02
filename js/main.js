@@ -26,6 +26,19 @@ function initTabs(tablist) {
   });
 }
 
+/* Стрелки над табами (мобильная версия): соседний таб */
+function initTabArrows() {
+  document.querySelectorAll('[data-tab-step]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tabs = [...document.querySelectorAll('.programs__tab')];
+      const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      const next = tabs[(i + Number(btn.dataset.tabStep) + tabs.length) % tabs.length];
+      next.click();
+      next.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  });
+}
+
 /* Ссылки «Программы» в подвале открывают нужный таб */
 function initTabLinks() {
   document.querySelectorAll('a[data-tab]').forEach((link) => {
@@ -105,6 +118,65 @@ function initLeadForm(form) {
       submit.disabled = false;
     }
   });
+}
+
+/* Мобильное меню (бургер) */
+function initBurger() {
+  const header = document.querySelector('.header');
+  const btn = header && header.querySelector('.header__burger');
+  if (!btn) return;
+  const set = (open) => {
+    header.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+  };
+  btn.addEventListener('click', () => set(!header.classList.contains('is-open')));
+  // пункт меню выбран — закрываем
+  header.querySelectorAll('.header__menu a').forEach((a) => a.addEventListener('click', () => set(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && header.classList.contains('is-open')) { set(false); btn.focus(); } });
+  document.addEventListener('click', (e) => { if (!header.contains(e.target)) set(false); });
+}
+
+/* Слайдер «Как проходят занятия» на телефоне: прокрутка со snap + стрелки и точки */
+function initLessonsSlider() {
+  const list = document.querySelector('.lessons__list');
+  const dots = [...document.querySelectorAll('.lessons__dots span')];
+  if (!list || !dots.length) return;
+  const cards = [...list.children];
+  const current = () => {
+    const x = list.scrollLeft;
+    let best = 0;
+    cards.forEach((c, i) => { if (Math.abs(c.offsetLeft - list.offsetLeft - x) < Math.abs(cards[best].offsetLeft - list.offsetLeft - x)) best = i; });
+    // у правого края — последний слайд
+    if (x + list.clientWidth >= list.scrollWidth - 2) best = cards.length - 1;
+    return best;
+  };
+  const update = () => dots.forEach((d, i) => d.classList.toggle('is-active', i === current()));
+  list.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+  document.querySelectorAll('[data-slide-step]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const i = Math.min(cards.length - 1, Math.max(0, current() + Number(btn.dataset.slideStep)));
+      list.scrollTo({ left: cards[i].offsetLeft - list.offsetLeft, behavior: 'smooth' });
+    });
+  });
+}
+
+/* Таблица сравнения: подсказка «листайте» исчезает после первой прокрутки */
+function initCompareHint() {
+  const wrap = document.querySelector('.compare__wrap');
+  const hint = document.querySelector('.compare__hint');
+  if (!wrap || !hint) return;
+  wrap.addEventListener('scroll', () => { if (wrap.scrollLeft > 20) hint.classList.add('is-hidden'); }, { passive: true });
+}
+
+/* 1024–1439 px: до планшетного макета десктоп масштабируется целиком, без обрезки справа */
+function initDesktopZoom() {
+  const mq = window.matchMedia('(min-width: 1024px) and (max-width: 1439.98px)');
+  const update = () => {
+    document.documentElement.style.setProperty('--page-zoom', mq.matches ? String(window.innerWidth / 1440) : '1');
+  };
+  update();
+  window.addEventListener('resize', update, { passive: true });
 }
 
 /* Закреплённая шапка: «стекло» плотнее после начала прокрутки */
@@ -217,12 +289,17 @@ function initVideoModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initDesktopZoom();
   initHeader();
+  initBurger();
   initVideoModal();
   initReveal();
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   document.querySelectorAll('[role="tablist"]').forEach(initTabs);
   initTabLinks();
+  initTabArrows();
+  initLessonsSlider();
+  initCompareHint();
   const form = document.querySelector('.lead__form');
   if (form) initLeadForm(form);
 });

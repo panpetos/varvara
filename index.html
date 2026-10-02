@@ -124,6 +124,12 @@
         <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
       </a>
 
+      <button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="header-menu">
+        <span class="header__burger-lines" aria-hidden="true"></span>
+      </button>
+
+      <div class="header__menu" id="header-menu">
+      <div class="header__menu-inner">
       <nav class="header__nav" aria-label="Основное меню">
         <a class="header__link" href="#programs">Программы</a>
         <a class="header__link" href="#founder">Об основателе</a>
@@ -138,6 +144,8 @@
       </ul>
 
       <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+      </div>
+      </div>
     </div>
   </header>
 
@@ -148,7 +156,7 @@
 
         <div class="hero__content">
           <h1 class="hero__title" id="hero-title">
-            Онлайн-школа<br>
+            Онлайн-школа <br>
             <span class="hero__title-accent">китайского языка</span><br>
             «Тысяча ли»
           </h1>
@@ -163,7 +171,10 @@
           </div>
         </div>
 
-        <img class="hero__temple" src="img/hero-temple.webp" width="621" height="740" alt="" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/hero-temple.webp" width="299" height="352">
+          <img class="hero__temple" src="img/hero-temple.webp" width="621" height="740" alt="" aria-hidden="true">
+        </picture>
         <div class="hero__strip" aria-hidden="true">
           <img class="hero__strip-text" src="img/hero-strip-hanzi.svg" width="44" height="363" alt="" aria-hidden="true">
         </div>
@@ -197,17 +208,26 @@
 
         <ul class="method__list">
           <li class="method__item">
-            <img class="method__icon" src="img/method/icon-books.webp" width="74" height="72" alt="" loading="lazy">
+            <picture>
+              <source media="(max-width: 1023px)" srcset="img/m/icon-books.webp" width="70" height="70">
+              <img class="method__icon" src="img/method/icon-books.webp" width="74" height="72" alt="" loading="lazy">
+            </picture>
             <h3 class="method__item-title">Учебники, которых ещё нет в&nbsp;России</h3>
             <p class="method__item-text method__item-text--1">Современные китайские учебники, дополненные авторскими материалами: актуальной лексикой и&nbsp;примерами живой речи.</p>
           </li>
           <li class="method__item">
-            <img class="method__icon method__icon--2" src="img/method/icon-diplomacy.webp" width="74" height="72" alt="" loading="lazy">
+            <picture>
+              <source media="(max-width: 1023px)" srcset="img/m/icon-diplomacy.webp" width="70" height="70">
+              <img class="method__icon method__icon--2" src="img/method/icon-diplomacy.webp" width="74" height="72" alt="" loading="lazy">
+            </picture>
             <h3 class="method__item-title">Педагог-переводчик с&nbsp;опытом в&nbsp;дипломатии</h3>
             <p class="method__item-text method__item-text--2">Автор методики с&nbsp;китайским педагогическим образованием: объясняет грамматику, иероглифы и&nbsp;тоны на&nbsp;русском&nbsp;— до&nbsp;понимания, а&nbsp;не&nbsp;до&nbsp;заучивания.</p>
           </li>
           <li class="method__item">
-            <img class="method__icon" src="img/method/icon-native.webp" width="74" height="72" alt="" loading="lazy">
+            <picture>
+              <source media="(max-width: 1023px)" srcset="img/m/icon-native.webp" width="70" height="70">
+              <img class="method__icon" src="img/method/icon-native.webp" width="74" height="72" alt="" loading="lazy">
+            </picture>
             <h3 class="method__item-title">Носители — для практики</h3>
             <p class="method__item-text method__item-text--3">Сначала основатель объясняет систему языка по-русски. Когда база есть&nbsp;— подключаются китайские носители для разговорной практики.</p>
           </li>
@@ -240,6 +260,11 @@
       <div class="programs__inner">
         <h2 class="programs__title" id="programs-title">Выберите подходящую программу</h2>
 
+        <div class="slider-arrows programs__arrows">
+          <button class="slider-arrows__btn slider-arrows__btn--prev" type="button" aria-label="Предыдущая программа" data-tab-step="-1"></button>
+          <button class="slider-arrows__btn slider-arrows__btn--next" type="button" aria-label="Следующая программа" data-tab-step="1"></button>
+        </div>
+
         <div class="programs__tabs" role="tablist" aria-label="Форматы обучения">
           <button class="programs__tab" type="button" role="tab" id="tab-courses" aria-controls="panel-courses" aria-selected="true">Курс китайского языка онлайн</button>
           <button class="programs__tab" type="button" role="tab" id="tab-exams" aria-controls="panel-exams" aria-selected="false" tabindex="-1">Подготовка к экзаменам онлайн</button>
@@ -252,7 +277,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">少儿汉语</span>
               </div>
-              <h3 class="program-card__title">Общий китайский<br>для детей</h3>
+              <h3 class="program-card__title">Общий китайский <br>для детей</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/kids.webp" width="144" height="144" alt="Девочка-школьница" loading="lazy">
             </article>
@@ -261,7 +286,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">成人综合汉语</span>
               </div>
-              <h3 class="program-card__title">Общий китайский<br>для взрослых</h3>
+              <h3 class="program-card__title">Общий китайский <br>для взрослых</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/adults.webp" width="144" height="144" alt="Девушка с китайским фонариком" loading="lazy">
             </article>
@@ -270,7 +295,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">商务汉语</span>
               </div>
-              <h3 class="program-card__title">Деловой<br>китайский</h3>
+              <h3 class="program-card__title">Деловой <br>китайский</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/business.webp" width="144" height="144" alt="Мужчина в деловом костюме" loading="lazy">
             </article>
@@ -279,7 +304,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">时政汉语</span>
               </div>
-              <h3 class="program-card__title">Политический<br>китайский</h3>
+              <h3 class="program-card__title">Политический <br>китайский</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/politics.webp" width="144" height="144" alt="Женщина в деловом костюме" loading="lazy">
             </article>
@@ -288,7 +313,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">科技汉语</span>
               </div>
-              <h3 class="program-card__title">Технический<br>китайский</h3>
+              <h3 class="program-card__title">Технический <br>китайский</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/tech.webp" width="144" height="144" alt="Мужчина в рубашке" loading="lazy">
             </article>
@@ -297,7 +322,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">其他方向</span>
               </div>
-              <h3 class="program-card__title">Другое<br>направление</h3>
+              <h3 class="program-card__title">Другое <br>направление</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/other.webp" width="144" height="144" alt="Девушка с ноутбуком" loading="lazy">
             </article>
@@ -355,7 +380,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">旅游汉语</span>
               </div>
-              <h3 class="program-card__title">Китайский<br>для путешествий 40&nbsp;фраз.<br>С&nbsp;нами вы не пропадёте!</h3>
+              <h3 class="program-card__title">Китайский <br>для путешествий 40&nbsp;фраз. <br>С&nbsp;нами вы не пропадёте!</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/e-travel.webp" width="144" height="144" alt="Девушка на фоне пагоды" loading="lazy">
             </article>
@@ -364,7 +389,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">少儿汉语</span>
               </div>
-              <h3 class="program-card__title">Курс 80 слов и выражений для детей.<br>Соответствует YCT1</h3>
+              <h3 class="program-card__title">Курс 80 слов и выражений для детей. <br>Соответствует YCT1</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/e-kids.webp" width="144" height="144" alt="Мальчик-школьник" loading="lazy">
             </article>
@@ -373,7 +398,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">成人汉语</span>
               </div>
-              <h3 class="program-card__title">Курс 150 слов успешного<br>общения для взрослых.<br>Соответствует HSK1</h3>
+              <h3 class="program-card__title">Курс 150 слов успешного <br>общения для взрослых. <br>Соответствует HSK1</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/e-adults.webp" width="144" height="144" alt="Девушка в сером костюме" loading="lazy">
             </article>
@@ -382,7 +407,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">商务汉语入门</span>
               </div>
-              <h3 class="program-card__title">Курс деловой китайский.<br>Первые шаги</h3>
+              <h3 class="program-card__title">Курс деловой китайский. <br>Первые шаги</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/e-business.webp" width="144" height="144" alt="Мужчина в костюме с флагами России и Китая" loading="lazy">
             </article>
@@ -403,9 +428,9 @@
         <h3 class="founder__name">Варвара Тимофеева</h3>
 
         <ol class="founder__facts">
-          <li class="founder__fact">Дипломат и&nbsp;переводчик в&nbsp;Посольстве России в&nbsp;Китае и<br>Генконсульстве в&nbsp;Шэньяне. Переводила для мэров и&nbsp;министров.</li>
-          <li class="founder__fact">У&nbsp;меня 12+ лет жизни, учёбы и&nbsp;работы в&nbsp;Китае. Обучение в<br>Пекине полностью на&nbsp;китайском, HSK&nbsp;6.</li>
-          <li class="founder__fact">Окончила Столичный педагогический университет г.&nbsp;Пекин<br>(лучший вуз в&nbsp;КНР) и&nbsp;Университет международного бизнеса<br>и&nbsp;экономики г.&nbsp;Пекин, ныне аспирант российского вуза.</li>
+          <li class="founder__fact">Дипломат и&nbsp;переводчик в&nbsp;Посольстве России в&nbsp;Китае и <br>Генконсульстве в&nbsp;Шэньяне. Переводила для мэров и&nbsp;министров.</li>
+          <li class="founder__fact">У&nbsp;меня 12+ лет жизни, учёбы и&nbsp;работы в&nbsp;Китае. Обучение в <br>Пекине полностью на&nbsp;китайском, HSK&nbsp;6.</li>
+          <li class="founder__fact">Окончила Столичный педагогический университет г.&nbsp;Пекин <br>(лучший вуз в&nbsp;КНР) и&nbsp;Университет международного бизнеса <br>и&nbsp;экономики г.&nbsp;Пекин, ныне аспирант российского вуза.</li>
           <li class="founder__fact">Официально являюсь преподавателем китайского языка.</li>
         </ol>
 
@@ -414,18 +439,21 @@
         <a class="btn btn--white founder__more" href="#founder">Читать подробнее</a>
 
         <div class="founder__video">
-          <img class="founder__video-img" src="img/founder/video.webp" width="528" height="697" alt="Кадр из видео-презентации Варвары Тимофеевой" loading="lazy">
+          <picture>
+            <source media="(max-width: 1023px)" srcset="img/m/founder-video.webp" width="316" height="367">
+            <img class="founder__video-img" src="img/founder/video.webp" width="528" height="697" alt="Кадр из видео-презентации Варвары Тимофеевой" loading="lazy">
+          </picture>
           <button class="founder__play" type="button" aria-label="Смотреть видео-презентацию" aria-haspopup="dialog" aria-controls="video-modal" data-video-open><span class="founder__play-ring" aria-hidden="true"></span></button>
-          <p class="founder__video-caption">Посмотрите<br>видео-презентацию на&nbsp;2&nbsp;минуты</p>
+          <p class="founder__video-caption">Посмотрите <br>видео-презентацию на&nbsp;2&nbsp;минуты</p>
         </div>
       </div>
     </section>
     <section class="lessons" id="learning" aria-labelledby="lessons-title">
-      <h2 class="section-title lessons__title" id="lessons-title">Как проходят занятия в<br>онлайн-школе «Тысяча ли»</h2>
+      <h2 class="section-title lessons__title" id="lessons-title">Как проходят занятия в <br>онлайн-школе «Тысяча ли»</h2>
 
       <ol class="lessons__list">
         <li class="lesson lesson--goal">
-          <h3 class="lesson__title">Знакомство<br>и цель</h3>
+          <h3 class="lesson__title">Знакомство <br>и цель</h3>
           <p class="lesson__text"><b>Бесплатный урок 30 минут:</b> определим уровень и цель. Современные китайские учебники, которых нет в России.</p>
           <img class="lesson__img" src="img/lessons/goal.webp" width="232" height="163" alt="" loading="lazy">
         </li>
@@ -435,7 +463,7 @@
           <p class="lesson__text">Разбираем грамматику, тоны и иероглифы на русском. Не заучиваете фразы&nbsp;— понимаете, как язык устроен.</p>
         </li>
         <li class="lesson lesson--practice">
-          <h3 class="lesson__title">Практика с<br>носителем</h3>
+          <h3 class="lesson__title">Практика с <br>носителем</h3>
           <p class="lesson__text">С уровня HSK 3 каждое третье занятие ведёт китайский педагог. Говорите знакомыми словами и перестаёте бояться живой речи.</p>
           <img class="lesson__img" src="img/lessons/practice.webp" width="235" height="138" alt="" loading="lazy">
         </li>
@@ -446,36 +474,50 @@
         </li>
       </ol>
 
+      <div class="lessons__controls">
+        <div class="lessons__dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
+        <div class="slider-arrows">
+          <button class="slider-arrows__btn slider-arrows__btn--prev" type="button" aria-label="Предыдущий этап" data-slide-step="-1"></button>
+          <button class="slider-arrows__btn slider-arrows__btn--next" type="button" aria-label="Следующий этап" data-slide-step="1"></button>
+        </div>
+      </div>
+
       <div class="cta">
         <a class="btn btn--gold cta__btn" href="#lesson">Записаться на пробный урок</a>
         <span class="cta__badge">30 минут бесплатно</span>
       </div>
     </section>
     <section class="advantages" aria-labelledby="advantages-title">
-      <h2 class="section-title advantages__title" id="advantages-title">Преимущества онлайн-школы<br>китайского языка «Тысяча ли»</h2>
+      <h2 class="section-title advantages__title" id="advantages-title">Преимущества онлайн-школы <br>китайского языка «Тысяча ли»</h2>
 
       <div class="advantages__grid">
         <div class="adv-main">
           <p class="adv-main__lead">Все педагоги преподают <span class="adv-main__accent">по&nbsp;моей методике</span>, меняются в&nbsp;зависимости от достигнутого учеником уровня,</p>
           <p class="adv-main__text">все педагоги 5+ лет проживали/проживают в&nbsp;КНР и&nbsp;имеют педагогический опыт</p>
-          <img class="adv-main__img" src="img/advantages/flags.webp" width="318" height="308" alt="" loading="lazy">
+          <picture>
+            <source media="(max-width: 1023px)" srcset="img/m/adv-flags.webp" width="351" height="296">
+            <img class="adv-main__img" src="img/advantages/flags.webp" width="318" height="308" alt="" loading="lazy">
+          </picture>
         </div>
 
         <article class="adv-card adv-card--a">
-          <h3 class="adv-card__title">Объясняем<br>по-русски</h3>
+          <h3 class="adv-card__title">Объясняем <br>по-русски</h3>
           <p class="adv-card__text">Грамматику, конструкции и разницу между похожими словами разбираем на русском&nbsp;— до понимания. Носитель такого не даст.</p>
         </article>
-        <img class="adv-photo adv-photo--1" src="img/advantages/photo-1.webp" width="310" height="269" alt="Ученица на онлайн-уроке" loading="lazy">
+        <picture class="adv-photo adv-photo--1">
+          <source media="(max-width: 1023px)" srcset="img/m/adv-photo.webp" width="360" height="205">
+          <img src="img/advantages/photo-1.webp" width="310" height="269" alt="Ученица на онлайн-уроке" loading="lazy">
+        </picture>
         <article class="adv-card adv-card--c">
           <h3 class="adv-card__title">Контроль прогресса</h3>
           <p class="adv-card__text">Закрываем места, где спотыкаются студенты. Успеваемость контролирует основатель школы лично&nbsp;— преподаватель китайского с опытом перевода на уровне министров.</p>
         </article>
         <article class="adv-card adv-card--d">
-          <h3 class="adv-card__title">Практика и<br>обратная связь на<br>каждом уроке</h3>
+          <h3 class="adv-card__title">Практика и <br>обратная связь на <br>каждом уроке</h3>
           <p class="adv-card__text">Регулярные устные диалоги на китайском по пройденному материалу и тренировка скорости речи.</p>
         </article>
         <article class="adv-card adv-card--e">
-          <h3 class="adv-card__title">Носитель, когда<br>есть база</h3>
+          <h3 class="adv-card__title">Носитель, когда <br>есть база</h3>
           <p class="adv-card__text">Разговор с китайским педагогом на словах, которые вы уже знаете.</p>
         </article>
         <img class="adv-photo adv-photo--2" src="img/advantages/photo-2.webp" width="310" height="269" alt="Онлайн-лекция по китайскому языку" loading="lazy">
@@ -483,26 +525,40 @@
     </section>
     <section class="steps" aria-labelledby="steps-title">
       <div class="steps__inner">
-        <img class="steps__decor steps__decor--cat" src="img/steps/cat.webp" width="416" height="532" alt="" loading="lazy">
-        <img class="steps__decor steps__decor--lantern" src="img/steps/lantern.webp" width="225" height="218" alt="" loading="lazy">
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/steps-cat.webp" width="191" height="280">
+          <img class="steps__decor steps__decor--cat" src="img/steps/cat.webp" width="416" height="532" alt="" loading="lazy">
+        </picture>
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/steps-lantern.webp" width="141" height="141">
+          <img class="steps__decor steps__decor--lantern" src="img/steps/lantern.webp" width="225" height="218" alt="" loading="lazy">
+        </picture>
         <img class="steps__decor steps__decor--work" src="img/steps/sticker-work.webp" width="102" height="53" alt="" loading="lazy">
         <img class="steps__decor steps__decor--travel" src="img/steps/sticker-travel.webp" width="106" height="49" alt="" loading="lazy">
-        <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
-        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага<br>подберём программу<br>для ваших целей</h2>
+        <span class="steps__decor steps__decor--exam" lang="zh" aria-hidden="true">为了考试</span>
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/heart.svg" width="88" height="86">
+          <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
+        </picture>
+        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
         <a class="btn btn--gold steps__btn" href="#lesson">Подобрать программу</a>
       </div>
     </section>
     <section class="compare" aria-labelledby="compare-title">
-      <h2 class="section-title compare__title" id="compare-title"><span class="compare__accent">Что вы получите у нас</span> — и&nbsp;чего не<br>получите у других</h2>
+      <h2 class="section-title compare__title" id="compare-title"><span class="compare__accent">Что вы получите у нас</span> — и&nbsp;чего не <br>получите у других</h2>
 
-      <div class="compare__wrap">
+      <p class="compare__hint" aria-hidden="true">
+        <svg class="compare__hand" viewBox="0 0 48 48" width="40" height="40" focusable="false"><path d="M19.5 26V11.5a3 3 0 0 1 6 0V23l1.7-.4a3 3 0 0 1 3.6 2.9v.5l1.2-.3a3 3 0 0 1 3.7 2.9v.4l.6-.1a3 3 0 0 1 3.5 3V36c0 5.5-4.5 10-10 10h-3.6a9 9 0 0 1-7.2-3.6l-7.3-9.8a3 3 0 0 1 4.6-3.8z" fill="#fff" stroke="#004e34" stroke-width="2" stroke-linejoin="round"/><path d="M9 9h12M9 9l3-3M9 9l3 3M41 9H29M41 9l-3-3M41 9l-3 3" fill="none" stroke="#ce9351" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Листайте таблицу
+      </p>
+      <div class="compare__wrap" tabindex="0" aria-label="Таблица сравнения, прокручивается по горизонтали">
         <table class="compare__table">
           <thead>
             <tr>
               <td></td>
               <th scope="col" class="compare__us"><img loading="lazy" decoding="async" src="img/compare/logo.svg" width="254" height="58" alt="Онлайн-школа «Тысяча ли»"></th>
-              <th scope="col">Русскоязычный<br>преподаватель</th>
-              <th scope="col">Носитель<br>китайского</th>
+              <th scope="col">Русскоязычный <br>преподаватель</th>
+              <th scope="col">Носитель <br>китайского</th>
             </tr>
           </thead>
           <tbody>
@@ -525,13 +581,13 @@
               <td><span class="compare__no"><img loading="lazy" decoding="async" src="img/compare/no.webp" width="22" height="22" alt="Нет"></span></td>
             </tr>
             <tr>
-              <th scope="row">Понимает, где спотыкается<br>русскоязычный</th>
+              <th scope="row">Понимает, где спотыкается <br>русскоязычный</th>
               <td><img loading="lazy" decoding="async" class="compare__mark" src="img/compare/yes.webp" width="32" height="32" alt="Да"></td>
               <td><img loading="lazy" decoding="async" class="compare__mark" src="img/compare/yes.webp" width="32" height="32" alt="Да"></td>
               <td><span class="compare__no"><img loading="lazy" decoding="async" src="img/compare/no.webp" width="22" height="22" alt="Нет"></span></td>
             </tr>
             <tr>
-              <th scope="row">Разговорная практика с китайским<br>педагогом для тренировки речи</th>
+              <th scope="row">Разговорная практика с китайским <br>педагогом для тренировки речи</th>
               <td><img loading="lazy" decoding="async" class="compare__mark" src="img/compare/yes.webp" width="32" height="32" alt="Да"></td>
               <td><span class="compare__no"><img loading="lazy" decoding="async" src="img/compare/no.webp" width="22" height="22" alt="Нет"></span></td>
               <td><span class="compare__no"><img loading="lazy" decoding="async" src="img/compare/no.webp" width="22" height="22" alt="Нет"></span></td>
@@ -547,29 +603,35 @@
         <article class="plan plan--solo">
           <p class="plan__kicker">Абонементы</p>
           <h3 class="plan__title">Индивидуальные занятия</h3>
-          <p class="plan__info">У&nbsp;всех педагогов уровень HSK&nbsp;6. С&nbsp;уровня HSK&nbsp;3<br><b>каждое третье занятие</b> ведёт китайский педагог.<br>1 занятие 60 мин.</p>
+          <p class="plan__info">У&nbsp;всех педагогов уровень HSK&nbsp;6. С&nbsp;уровня HSK&nbsp;3 <br><b>каждое третье занятие</b> ведёт китайский педагог. <br>1 занятие 60 мин.</p>
           <ul class="plan__prices">
             <li class="plan__price">4 занятия — 14&nbsp;400&nbsp;₽ <span class="plan__per">(3&nbsp;600&nbsp;₽ за урок)</span></li>
             <li class="plan__price">16 занятий — 57&nbsp;600&nbsp;₽ <span class="plan__per">(3&nbsp;600&nbsp;₽ за урок)</span></li>
             <li class="plan__price plan__price--big">24 занятия — 86&nbsp;400&nbsp;₽
-              <span class="plan__note">*при первой покупке скидка 10%, то есть цена 77&nbsp;760&nbsp;₽<br>(цена за урок 60 мин. по скидке&nbsp;— 3&nbsp;240&nbsp;₽).</span></li>
+              <span class="plan__note">*при первой покупке скидка 10%, то есть цена 77&nbsp;760&nbsp;₽ <br>(цена за урок 60 мин. по скидке&nbsp;— 3&nbsp;240&nbsp;₽).</span></li>
           </ul>
-          <img class="plan__img" src="img/pricing/solo.webp" width="231" height="249" alt="" loading="lazy">
-          <a class="btn plan__btn" href="#lesson">Записаться на бесплатный пробный урок</a>
+          <picture>
+            <source media="(max-width: 1023px)" srcset="img/m/plan-solo.webp" width="151" height="199">
+            <img class="plan__img" src="img/pricing/solo.webp" width="231" height="249" alt="" loading="lazy">
+          </picture>
+          <a class="btn plan__btn" href="#lesson">Записаться на <span class="plan__btn-extra">бесплатный </span>пробный урок</a>
         </article>
 
         <article class="plan plan--group">
           <p class="plan__kicker">Абонементы</p>
           <h3 class="plan__title">Мини-группа, 2&nbsp;человека</h3>
-          <p class="plan__info">У&nbsp;всех педагогов уровень HSK&nbsp;6 и&nbsp;выше<br>1 занятие 60 мин.<br>2&nbsp;800&nbsp;₽ за одного обучающегося</p>
+          <p class="plan__info">У&nbsp;всех педагогов уровень HSK&nbsp;6 и&nbsp;выше <br>1 занятие 60 мин. <br>2&nbsp;800&nbsp;₽ за одного обучающегося</p>
           <ul class="plan__prices">
             <li class="plan__price">4 занятия — 11&nbsp;200&nbsp;₽ <span class="plan__per">(2&nbsp;800&nbsp;₽ за урок / 1&nbsp;чел.)</span></li>
             <li class="plan__price">16 занятий — 44&nbsp;800&nbsp;₽ <span class="plan__per">(2&nbsp;800&nbsp;₽ за урок / 1&nbsp;чел.)</span></li>
             <li class="plan__price plan__price--big">24 занятия — 67&nbsp;200&nbsp;₽
-              <span class="plan__note">*при первой покупке скидка 10%, то есть цена 60&nbsp;480&nbsp;₽ с&nbsp;чел.<br>(цена за урок 60 мин. по скидке&nbsp;— 2&nbsp;520&nbsp;₽ с&nbsp;чел.)</span></li>
+              <span class="plan__note">*при первой покупке скидка 10%, то есть цена 60&nbsp;480&nbsp;₽ с&nbsp;чел. <br>(цена за урок 60 мин. по скидке&nbsp;— 2&nbsp;520&nbsp;₽ с&nbsp;чел.)</span></li>
           </ul>
-          <img class="plan__img" src="img/pricing/group.webp" width="335" height="245" alt="" loading="lazy">
-          <a class="btn btn--gold plan__btn" href="#lesson">Записаться на бесплатный пробный урок</a>
+          <picture>
+            <source media="(max-width: 1023px)" srcset="img/m/plan-group.webp" width="248" height="266">
+            <img class="plan__img" src="img/pricing/group.webp" width="335" height="245" alt="" loading="lazy">
+          </picture>
+          <a class="btn btn--gold plan__btn" href="#lesson">Записаться на <span class="plan__btn-extra">бесплатный </span>пробный урок</a>
         </article>
       </div>
     </section>
@@ -577,10 +639,10 @@
       <img loading="lazy" decoding="async" class="reviews__ring reviews__ring--left" src="img/reviews/circle-text.svg" width="567" height="1137" alt="" aria-hidden="true">
       <div class="reviews__inner">
         <img loading="lazy" decoding="async" class="reviews__ring reviews__ring--right" src="img/reviews/star-ring.svg" width="246" height="278" alt="" aria-hidden="true">
-        <h2 class="reviews__title" id="reviews-title">Влюбляем в китайский<br>и <span class="reviews__accent">помогаем преодолеть</span> сложности<br>в изучении языка</h2>
+        <h2 class="reviews__title" id="reviews-title">Влюбляем в китайский <br>и <span class="reviews__accent">помогаем преодолеть</span> сложности <br>в изучении языка</h2>
 
         <article class="review review--a">
-          <h3 class="review__title">К нам идут<br>выпускники МГИМО</h3>
+          <h3 class="review__title">К нам идут <br>выпускники МГИМО</h3>
           <p class="review__text">Знал слова, читал иероглифы, сдавал экзамены&nbsp;— а&nbsp;свою фразу собрать не мог. Правила мне так и&nbsp;не объяснили. Здесь объяснили.</p>
           <img class="review__avatar" src="img/reviews/avatar-anton.webp" width="52" height="52" alt="" loading="lazy">
           <p class="review__name">Антон, 20 лет</p>
@@ -589,7 +651,7 @@
         <img class="reviews__photo" src="img/reviews/photo.webp" width="329" height="329" alt="Студентка с учебником китайского на улице Киото" loading="lazy">
 
         <article class="review review--b">
-          <h3 class="review__title">Интересная теория<br>и&nbsp;живая практика</h3>
+          <h3 class="review__title">Интересная теория <br>и&nbsp;живая практика</h3>
           <p class="review__text">Объясняют грамматику простым языком и&nbsp;сразу закрепляют её в живых диалогах</p>
           <img class="review__avatar" src="img/reviews/avatar-kristina.webp" width="50" height="50" alt="" loading="lazy">
           <p class="review__name">Кристина, 24 года</p>
@@ -612,7 +674,7 @@
       </div>
     </section>
     <section class="faq" id="faq" aria-labelledby="faq-title">
-      <h2 class="section-title faq__title" id="faq-title">Часто задаваемые вопросы об&nbsp;изучении<br>китайского языка в&nbsp;онлайн-школе «Тысяча ли»</h2>
+      <h2 class="section-title faq__title" id="faq-title">Часто задаваемые вопросы об&nbsp;изучении <br>китайского языка в&nbsp;онлайн-школе «Тысяча ли»</h2>
       <div class="faq__list">
         <details class="faq__item" name="faq" open>
           <summary class="faq__q">Не лучше ли заниматься с&nbsp;носителем-китайцем?<span class="faq__icon" aria-hidden="true"></span></summary>
@@ -643,7 +705,7 @@
         <img class="lead__stars" src="img/cta/stars.svg" width="61" height="65" alt="" aria-hidden="true" loading="lazy">
 
         <div class="lead__info">
-          <h2 class="lead__title" id="lead-title">Начните говорить<br>по-китайски свободно</h2>
+          <h2 class="lead__title" id="lead-title">Начните говорить <br>по-китайски свободно</h2>
           <p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
           <ul class="lead__list">
             <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Обучение с&nbsp;нуля и&nbsp;для продолжающих</li>
@@ -689,7 +751,10 @@
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__brand">
-        <a href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную"><img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy"></a>
+        <a href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную"><picture>
+          <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
+          <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
+        </picture></a>
         <ul class="header__socials footer__socials" aria-label="Мы в мессенджерах и соцсетях">
           <li><a class="header__social" href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
           <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
