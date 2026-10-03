@@ -1,0 +1,22 @@
+name: List hosting root
+
+# Ручной запуск: показывает, что лежит в корне сайта и в test/video на хостинге.
+on:
+  workflow_dispatch:
+
+jobs:
+  ls:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+    steps:
+      - run: |
+          for d in www/thousandli.ru/ www/thousandli.ru/test/video/; do
+            echo "== $d =="
+            curl -sS --ssl-reqd --insecure --max-time 30 -u "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_SERVER/$d" || true
+          done
+          echo "== https://thousandli.ru/ =="
+          curl -sS -o /dev/null -w "code=%{http_code}\n" https://thousandli.ru/ || true
+          curl -sS --max-time 20 https://thousandli.ru/ | head -c 600 || true
