@@ -3650,9 +3650,10 @@ body.is-drawer-open { overflow: hidden; }
 
   .lead__tel img { width: 17px; height: 17px; }
 
-  .lead__photo { top: auto; bottom: 0; left: -13px; width: 344px; height: 377px; }
-  .lead__clouds { top: auto; bottom: 45px; left: -125px; width: 692px; height: 300px; }
-  .lead__stars { top: auto; bottom: 178px; left: 277px; }
+  /* фото, облака и звёзды привязаны к центру карточки — на любой ширине стоят по центру */
+  .lead__photo { top: auto; bottom: 0; left: calc(50% - 193.5px); width: 344px; height: 377px; }
+  .lead__clouds { top: auto; bottom: 45px; left: calc(50% - 305.5px); width: 692px; height: 300px; }
+  .lead__stars { top: auto; bottom: 178px; left: calc(50% + 96.5px); }
 
   /* ----- Подвал: всё по одной вертикали 16 px ----- */
   .footer { margin-top: 50px; }
