@@ -41,12 +41,23 @@ function initTabArrows() {
 
 /* Ссылки «Программы» в подвале открывают нужный таб */
 function initTabLinks() {
+  const select = (name) => {
+    const tab = document.getElementById('tab-' + name);
+    if (tab) tab.click();
+    return Boolean(tab);
+  };
   document.querySelectorAll('a[data-tab]').forEach((link) => {
-    link.addEventListener('click', () => {
-      const tab = document.getElementById('tab-' + link.dataset.tab);
-      if (tab) tab.click();
+    link.addEventListener('click', (e) => {
+      // на главной — переключаем таб без перезагрузки; с других страниц ссылка ведёт на главную с ?tab=
+      if (select(link.dataset.tab)) {
+        e.preventDefault();
+        document.getElementById('programs').scrollIntoView({ behavior: 'smooth' });
+        history.replaceState(null, '', '#programs');
+      }
     });
   });
+  const fromUrl = new URLSearchParams(location.search).get('tab');
+  if (fromUrl) select(fromUrl);
 }
 
 /* Маска телефона: +7 (999) 000-00-00 */
@@ -120,21 +131,47 @@ function initLeadForm(form) {
   });
 }
 
-/* Мобильное меню (бургер) */
-function initBurger() {
-  const header = document.querySelector('.header');
-  const btn = header && header.querySelector('.header__burger');
-  if (!btn) return;
-  const set = (open) => {
-    header.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', String(open));
-    btn.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+/* Мобильное меню: панель справа */
+function initDrawer() {
+  const drawer = document.getElementById('drawer');
+  const btn = document.querySelector('.header__burger');
+  if (!drawer || !btn) return;
+  const panel = drawer.querySelector('.drawer__panel');
+  let closeTimer;
+
+  const open = () => {
+    clearTimeout(closeTimer);
+    drawer.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('is-open')));
+    document.body.classList.add('is-drawer-open');
+    btn.setAttribute('aria-expanded', 'true');
+    drawer.querySelector('.drawer__close').focus();
   };
-  btn.addEventListener('click', () => set(!header.classList.contains('is-open')));
-  // пункт меню выбран — закрываем
-  header.querySelectorAll('.header__menu a').forEach((a) => a.addEventListener('click', () => set(false)));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && header.classList.contains('is-open')) { set(false); btn.focus(); } });
-  document.addEventListener('click', (e) => { if (!header.contains(e.target)) set(false); });
+  const close = (returnFocus = true) => {
+    drawer.classList.remove('is-open');
+    document.body.classList.remove('is-drawer-open');
+    btn.setAttribute('aria-expanded', 'false');
+    closeTimer = setTimeout(() => { drawer.hidden = true; }, 400);
+    if (returnFocus) btn.focus();
+  };
+
+  btn.addEventListener('click', open);
+  drawer.querySelector('[data-drawer-close]').addEventListener('click', () => close());
+  // клик по затемнению слева
+  drawer.addEventListener('click', (e) => { if (!panel.contains(e.target)) close(); });
+  // выбран раздел — закрываем, переход по якорю выполнит браузер
+  drawer.querySelectorAll('a[href]').forEach((a) => a.addEventListener('click', () => close(false)));
+  document.addEventListener('keydown', (e) => {
+    if (drawer.hidden) return;
+    if (e.key === 'Escape') close();
+    // фокус не уходит за пределы панели
+    if (e.key === 'Tab') {
+      const f = [...panel.querySelectorAll('a[href], button')];
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches && !drawer.hidden) close(false); });
 }
 
 /* Слайдер «Как проходят занятия» на телефоне: прокрутка со snap + стрелки и точки */
@@ -291,7 +328,7 @@ function initVideoModal() {
 document.addEventListener('DOMContentLoaded', () => {
   initDesktopZoom();
   initHeader();
-  initBurger();
+  initDrawer();
   initVideoModal();
   initReveal();
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
@@ -300,6 +337,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabArrows();
   initLessonsSlider();
   initCompareHint();
-  const form = document.querySelector('.lead__form');
-  if (form) initLeadForm(form);
+  document.querySelectorAll('.lead__form').forEach(initLeadForm);
 });

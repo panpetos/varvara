@@ -55,6 +55,8 @@ jobs:
             deploy/**
             README.md
             CLAUDE.md
+            src/**
+            tools/**
 
       - name: Check site (DNS, HTTP, HTTPS)
         if: always()

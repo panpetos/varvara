@@ -1,0 +1,40 @@
+    <section class="lessons" id="learning" aria-labelledby="lessons-title">
+      <h2 class="section-title lessons__title" id="lessons-title">Как проходят занятия в <br>онлайн-школе «Тысяча ли»</h2>
+      {{#sub}}<p class="lessons__sub">{{sub}}</p>{{/sub}}
+
+      <ol class="lessons__list">
+        <li class="lesson lesson--goal">
+          <h3 class="lesson__title">Знакомство <br>и цель</h3>
+          <p class="lesson__text"><b>Бесплатный урок 30 минут:</b> определим уровень и цель. Современные китайские учебники, которых нет в России.</p>
+          <img class="lesson__img" src="img/lessons/goal.webp" width="232" height="163" alt="" loading="lazy">
+        </li>
+        <li class="lesson lesson--logic">
+          <img class="lesson__img" src="img/lessons/logic.webp" width="232" height="74" alt="" loading="lazy">
+          <h3 class="lesson__title">Логика языка</h3>
+          <p class="lesson__text">Разбираем грамматику, тоны и иероглифы на русском. Не заучиваете фразы&nbsp;— понимаете, как язык устроен.</p>
+        </li>
+        <li class="lesson lesson--practice">
+          <h3 class="lesson__title">Практика с <br>носителем</h3>
+          <p class="lesson__text">С уровня HSK 3 каждое третье занятие ведёт китайский педагог. Говорите знакомыми словами и перестаёте бояться живой речи.</p>
+          <img class="lesson__img" src="img/lessons/practice.webp" width="235" height="138" alt="" loading="lazy">
+        </li>
+        <li class="lesson lesson--result">
+          <img class="lesson__img" src="img/lessons/result.webp" width="289" height="134" alt="" loading="lazy">
+          <h3 class="lesson__title">Ваш результат</h3>
+          <p class="lesson__text">Через несколько месяцев&nbsp;— свободный разговор, сданный экзамен или рабочие переговоры. Зависит от цели, которую выбрали на первом уроке.</p>
+        </li>
+      </ol>
+
+      <div class="lessons__controls">
+        <div class="lessons__dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
+        <div class="slider-arrows">
+          <button class="slider-arrows__btn slider-arrows__btn--prev" type="button" aria-label="Предыдущий этап" data-slide-step="-1"></button>
+          <button class="slider-arrows__btn slider-arrows__btn--next" type="button" aria-label="Следующий этап" data-slide-step="1"></button>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn--gold cta__btn" href="#lesson">Записаться на пробный урок</a>
+        <span class="cta__badge">30 минут бесплатно</span>
+      </div>
+    </section>

@@ -1,0 +1,52 @@
+  <header class="header">
+    <div class="header__bar">
+      <a class="header__logo" href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную">
+        <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
+      </a>
+
+      <nav class="header__nav" aria-label="Основное меню">
+        <a class="header__link" href="{{home}}#programs">Программы</a>
+        <a class="header__link" href="{{home}}#founder">Об основателе</a>
+        <a class="header__link" href="{{home}}#prices">Стоимость</a>
+        <a class="header__link" href="#learning">Как проходит обучение</a>
+      </nav>
+
+      <ul class="header__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a class="header__social" href="#" aria-label="ВКонтакте"><img src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+        <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a class="header__social" href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+
+      <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+
+      <button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="drawer">
+        <span class="header__burger-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню: панель справа -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <a class="drawer__logo" href="./" aria-label="На главную"><img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли"></a>
+        <button class="drawer__close" type="button" aria-label="Закрыть меню" data-drawer-close></button>
+      </div>
+      <nav class="drawer__nav" aria-label="Разделы">
+        <a href="{{home}}#programs">Программы</a>
+        <a href="{{home}}#method">Авторская методика</a>
+        <a href="{{home}}#founder">Об основателе</a>
+        <a href="#learning">Как проходят занятия</a>
+        <a href="{{home}}#prices">Стоимость обучения</a>
+        <a href="{{home}}#compare">Что вы получите только у нас</a>
+        <a href="#faq">Часто задаваемые вопросы</a>
+      </nav>
+      <ul class="drawer__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a href="#" aria-label="ВКонтакте"><img class="drawer__vk" src="img/icon-vk-white.svg" width="26" height="26" alt=""></a></li>
+        <li><a href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+      <a class="drawer__tel" href="tel:+79531560685"><img src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+      <a class="btn btn--gold drawer__cta" href="#lesson">Записаться на урок</a>
+    </div>
+  </div>

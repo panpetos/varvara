@@ -1,0 +1,49 @@
+    <section class="lead" id="lesson{{sfx}}" aria-labelledby="lead-title{{sfx}}">
+      <div class="lead__inner">
+        <img class="lead__clouds" src="img/cta/clouds.webp" width="486" height="210" alt="" aria-hidden="true" loading="lazy">
+        <img class="lead__photo" src="img/cta/photo.webp" width="420" height="461" alt="Варвара Тимофеева, основатель школы" loading="lazy">
+        {{#caption}}<p class="lead__caption"><span class="lead__caption-dot" aria-hidden="true"></span>Основатель онлайн-школы <br>Варвара Тимофеева</p>{{/caption}}
+        <img class="lead__stars" src="img/cta/stars.svg" width="61" height="65" alt="" aria-hidden="true" loading="lazy">
+
+        <div class="lead__info">
+          <h2 class="lead__title" id="lead-title{{sfx}}">Начните говорить <br>по-китайски свободно</h2>
+          <p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
+          <ul class="lead__list">
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Обучение с&nbsp;нуля и&nbsp;для продолжающих</li>
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Подготовка к&nbsp;HSK, работе и&nbsp;учёбе в&nbsp;Китае</li>
+          </ul>
+        </div>
+
+        <form class="lead__form" action="send.php" method="post" novalidate>
+          <label class="visually-hidden" for="lead-name{{sfx}}">Ваше имя</label>
+          <input class="lead__input" id="lead-name{{sfx}}" name="name" type="text" placeholder="Ваше имя" autocomplete="name" required maxlength="80">
+
+          <div class="lead__phone">
+            <span class="lead__country" aria-hidden="true"><img loading="lazy" decoding="async" src="img/cta/flag-ru.webp" width="38" height="25" alt=""></span>
+            <label class="visually-hidden" for="lead-phone{{sfx}}">Телефон</label>
+            <input class="lead__input lead__input--phone" id="lead-phone{{sfx}}" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel" required>
+          </div>
+
+          <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="lead__consent">
+            <input type="checkbox" name="consent" value="1" required>
+            <span class="lead__check" aria-hidden="true"></span>
+            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          </label>
+
+          <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
+          <p class="lead__status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="lead__contacts">
+          <p class="lead__contacts-title">или напишите нам в мессенджер</p>
+          <ul class="lead__socials">
+            <li><a href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/cta/vk.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/cta/tg.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>
+          </ul>
+          <a class="lead__tel" href="tel:+79531560685"><img loading="lazy" decoding="async" src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+        </div>
+      </div>
+    </section>
