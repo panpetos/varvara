@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<!-- Собрано из src/pages/bct.html — правьте исходник и запускайте tools/build.py -->
+<html lang="ru">
+<head>
+  <!-- Сгенерировано tools/programs.py — правьте данные там -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подготовка к BCT онлайн — школа «Тысяча ли»</title>
+  <meta name="description" content="Подготовка к BCT онлайн — международному экзамену по деловому китайскому: уровни BCT (A), BCT (B) и BCT Speaking. Бесплатный пробный урок.">
+  <!-- Тестовая копия: индексация закрыта. При деплое в корень сайта строка удаляется автоматически (deploy.yml) -->
+  <meta name="robots" content="noindex, nofollow" data-env="test">
+  <link rel="canonical" href="https://thousandli.ru/bct.html">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Онлайн-школа «Тысяча ли»">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Подготовка к BCT">
+  <meta property="og:description" content="Международный экзамен по деловому китайскому для неносителей языка!">
+  <meta property="og:url" content="https://thousandli.ru/bct.html">
+  <meta property="og:image" content="https://thousandli.ru/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Онлайн-школа китайского языка «Тысяча ли»">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Подготовка к BCT">
+  <meta name="twitter:description" content="Международный экзамен по деловому китайскому для неносителей языка!">
+  <meta name="twitter:image" content="https://thousandli.ru/img/og-image.jpg">
+
+  <meta name="theme-color" content="#004e34">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "EducationalOrganization",
+   "@id": "https://thousandli.ru/#org",
+   "name": "Онлайн-школа китайского языка «Тысяча ли»",
+   "url": "https://thousandli.ru/",
+   "logo": "https://thousandli.ru/img/icons/icon-512.png",
+   "image": "https://thousandli.ru/img/og-image.jpg",
+   "description": "Онлайн-уроки китайского языка для детей и взрослых, подготовка к HSK, HSKK, YCT, BCT, CSCA.",
+   "telephone": "+7 953 156-06-85",
+   "founder": {
+    "@type": "Person",
+    "name": "Варвара Тимофеева"
+   },
+   "areaServed": "RU",
+   "knowsLanguage": [
+    "ru",
+    "zh"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://thousandli.ru/#site",
+   "url": "https://thousandli.ru/",
+   "name": "«Тысяча ли»",
+   "inLanguage": "ru",
+   "publisher": {
+    "@id": "https://thousandli.ru/#org"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Не лучше ли заниматься с носителем-китайцем?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Носитель хорош для разговорной практики, но объяснить правило он не может. Для него китайский родной, он не учил его как систему. На вопрос «почему здесь этот иероглиф, а не похожий» честный ответ носителя — «так говорят». Отсюда типичная история: год занятий, произношение есть, набор фраз есть, а собрать свою мысль человек не может. У нас преподаёт тот, кто сам прошёл путь от нуля до дипломатического уровня. Грамматика и разница между близкими словами разбираются на русском — до понимания. А китайская речь звучит на уровне носителя."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Что, если я пропущу урок?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Предупредите педагога заранее — перенесём занятие на удобное для вас время. Пройденный материал не потеряется: на следующем уроке повторим то, что нужно для продолжения."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Сколько занятий мне нужно?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Зависит от цели и стартового уровня. На бесплатном пробном уроке определим уровень и составим план: сколько занятий понадобится, чтобы заговорить, сдать HSK нужного уровня или вести рабочие переговоры."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Я уже учил китайский, но толком не говорю. Подойдёт?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Да, это частая ситуация: слова и иероглифы знакомы, а фраза не складывается. Разберём систему языка на русском, закроем пробелы в грамматике и добавим разговорную практику с китайским педагогом."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Что нужно для занятий?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Компьютер или планшет с камерой и микрофоном, стабильный интернет и 60 минут времени. Учебные материалы подбирает педагог."
+     }
+    }
+   ]
+  }
+ ]
+}
+  </script>
+  <!-- @jsonld {"breadcrumbs": [["Главная", ""], ["Подготовка к экзаменам онлайн", "?tab=exams#programs"], ["BCT", "bct.html"]], "course": {"name": "Подготовка к BCT", "description": "Подготовка к BCT онлайн — международному экзамену по деловому китайскому: уровни BCT (A), BCT (B) и BCT Speaking. Бесплатный пробный урок.", "url": "bct.html"}} -->
+</head>
+<body class="page-program">
+  <header class="header">
+    <div class="header__bar">
+      <a class="header__logo" href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную">
+        <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
+      </a>
+
+      <nav class="header__nav" aria-label="Основное меню">
+        <a class="header__link" href="./#programs">Программы</a>
+        <a class="header__link" href="./#founder">Об основателе</a>
+        <a class="header__link" href="./#prices">Стоимость</a>
+        <a class="header__link" href="#learning">Как проходит обучение</a>
+      </nav>
+
+      <ul class="header__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a class="header__social" href="#" aria-label="ВКонтакте"><img src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+        <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a class="header__social" href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+
+      <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+
+      <button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="drawer">
+        <span class="header__burger-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню: панель справа -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <a class="drawer__logo" href="./" aria-label="На главную"><img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли"></a>
+        <button class="drawer__close" type="button" aria-label="Закрыть меню" data-drawer-close></button>
+      </div>
+      <nav class="drawer__nav" aria-label="Разделы">
+        <a href="./#programs">Программы</a>
+        <a href="./#method">Авторская методика</a>
+        <a href="./#founder">Об основателе</a>
+        <a href="#learning">Как проходят занятия</a>
+        <a href="./#prices">Стоимость обучения</a>
+        <a href="./#compare">Что вы получите только у нас</a>
+        <a href="#faq">Часто задаваемые вопросы</a>
+      </nav>
+      <ul class="drawer__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a href="#" aria-label="ВКонтакте"><img class="drawer__vk" src="img/icon-vk-white.svg" width="26" height="26" alt=""></a></li>
+        <li><a href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+      <a class="drawer__tel" href="tel:+79531560685"><img src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+      <a class="btn btn--gold drawer__cta" href="#lesson">Записаться на урок</a>
+    </div>
+  </div>
+
+  <main>
+    <nav class="crumbs" aria-label="Навигационная цепочка">
+      <ol class="crumbs__list">
+        <li><a href="./">Главная</a></li>
+        <li><a href="./?tab=exams#programs">Подготовка к экзаменам онлайн</a></li>
+        <li aria-current="page">BCT</li>
+      </ol>
+    </nav>
+
+    <section class="phero" aria-labelledby="phero-title">
+      <div class="phero__inner">
+        <div class="phero__content">
+          <h1 class="phero__title" id="phero-title">Подготовка <br>к BCT</h1>
+          <p class="phero__lead">Международный экзамен по&nbsp;деловому китайскому для неносителей языка!</p>
+          <ul class="phero__list">
+            <li>Готовим к&nbsp;уровням BCT (A), BCT (B) и&nbsp;BCT Speaking.</li>
+            <li>Деловая лексика, переписка и&nbsp;устная речь.</li>
+          </ul>
+          <div class="phero__action">
+            <a class="btn btn--gold btn--lg phero__btn" href="#lesson">Записаться на урок</a>
+            <span class="phero__badge">30 минут бесплатно</span>
+          </div>
+        </div>
+
+        <picture class="phero__art">
+          <source media="(max-width: 1023px)" srcset="img/pages/bct/hero-m.webp" width="333" height="318">
+          <img src="img/pages/bct/hero.webp" width="328" height="393" alt="Женщина в белом костюме" fetchpriority="high">
+        </picture>
+
+        <ul class="stats stats--static">
+          <li class="stats__item stats__item--1">
+            <span class="stats__value">8 лет</span>
+            <span class="stats__label">Школа работает с детьми и&nbsp;взрослыми</span>
+          </li>
+          <li class="stats__item stats__item--2">
+            <span class="stats__value">600+</span>
+            <span class="stats__label">Учеников успешно окончили обучение</span>
+          </li>
+          <li class="stats__item stats__item--3">
+            <span class="stats__value">Любые экзамены</span>
+            <span class="stats__label">HSK, HSKK, YCT, BCT, CSCA — готовим к&nbsp;любому из&nbsp;международных</span>
+          </li>
+          <li class="stats__item stats__item--4">
+            <span class="stats__value">5+ лет в КНР</span>
+            <span class="stats__label stats__label--sm">Все преподаватели имеют педагогический опыт, жили или живут в&nbsp;Китае.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="approach approach--list" aria-labelledby="approach-title">
+      <h2 class="section-title approach__title" id="approach-title">Что такое BCT</h2>
+      <p class="approach__intro">BCT (Business Chinese Test)&nbsp;— международный экзамен, оценивающий владение китайским языком в&nbsp;деловых ситуациях для неносителей языка.</p>
+      <div class="approach__grid approach__grid--cards" style="--cols: 3">
+        <article class="approach-card">
+          <span class="approach-card__icon"><img src="img/icons/approach/square-rounded-letter-a.svg" width="36" height="36" alt="" loading="lazy" decoding="async"></span>
+          <h3 class="approach-card__title">BCT (A)</h3>
+          <p class="approach-card__text">базовый уровень. Соответствует HSK 3, около 600&nbsp;слов.</p>
+        </article>
+        <article class="approach-card">
+          <span class="approach-card__icon"><img src="img/icons/approach/square-rounded-letter-b.svg" width="36" height="36" alt="" loading="lazy" decoding="async"></span>
+          <h3 class="approach-card__title">BCT (B)</h3>
+          <p class="approach-card__text">продвинутый уровень. Соответствует HSK 5–6, около 4000&nbsp;слов.</p>
+        </article>
+        <article class="approach-card">
+          <span class="approach-card__icon"><img src="img/icons/approach/microphone.svg" width="36" height="36" alt="" loading="lazy" decoding="async"></span>
+          <h3 class="approach-card__title">BCT Speaking</h3>
+          <p class="approach-card__text">оценивает устную деловую речь.</p>
+        </article>
+        <article class="approach-card">
+          <span class="approach-card__icon"><img src="img/icons/approach/layout-list.svg" width="36" height="36" alt="" loading="lazy" decoding="async"></span>
+          <h3 class="approach-card__title">Структура</h3>
+          <p class="approach-card__text">две части: BCT (аудирование и&nbsp;чтение) и&nbsp;BCT Speaking (устная речь и&nbsp;письмо). Можно сдавать одну часть или обе.</p>
+        </article>
+        <article class="approach-card">
+          <span class="approach-card__icon"><img src="img/icons/approach/lock-open.svg" width="36" height="36" alt="" loading="lazy" decoding="async"></span>
+          <h3 class="approach-card__title">Без ограничений</h3>
+          <p class="approach-card__text">по&nbsp;возрасту, образованию или стажу изучения языка.</p>
+        </article>
+      </div>
+      <p class="approach__outro">Готовим к&nbsp;деловому экзамену на&nbsp;реальных рабочих ситуациях.</p>
+    </section>
+
+    <section class="steps" aria-labelledby="steps-title">
+      <div class="steps__inner">
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/steps-cat.webp" width="191" height="280">
+          <img class="steps__decor steps__decor--cat" src="img/steps/cat.webp" width="416" height="532" alt="" loading="lazy">
+        </picture>
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/steps-lantern.webp" width="141" height="141">
+          <img class="steps__decor steps__decor--lantern" src="img/steps/lantern.webp" width="225" height="218" alt="" loading="lazy">
+        </picture>
+        <img class="steps__decor steps__decor--work" src="img/steps/sticker-work.webp" width="102" height="53" alt="" loading="lazy">
+        <img class="steps__decor steps__decor--travel" src="img/steps/sticker-travel.webp" width="106" height="49" alt="" loading="lazy">
+        <span class="steps__decor steps__decor--exam" lang="zh" aria-hidden="true">为了考试</span>
+        <picture>
+          <source media="(max-width: 1023px)" srcset="img/m/heart.svg" width="88" height="86">
+          <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
+        </picture>
+        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
+        <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Подобрать программу</button>
+      </div>
+    </section>
+    <section class="results" aria-labelledby="results-title">
+      <h2 class="section-title results__title" id="results-title">Какие результаты вы получите</h2>
+      <ol class="results__list">
+        <li class="results__item">сдать BCT нужного уровня</li>
+        <li class="results__item">понимать деловую речь и&nbsp;документы</li>
+        <li class="results__item">вести деловую переписку</li>
+        <li class="results__item">уверенно говорить в&nbsp;рабочих ситуациях</li>
+      </ol>
+    </section>
+    <section class="lead" id="lesson" aria-labelledby="lead-title">
+      <div class="lead__inner">
+        <img class="lead__clouds" src="img/cta/clouds.webp" width="486" height="210" alt="" aria-hidden="true" loading="lazy">
+        <img class="lead__photo" src="img/cta/photo.webp" width="420" height="461" alt="Варвара Тимофеева, основатель школы" loading="lazy">
+        <p class="lead__caption"><span class="lead__caption-dot" aria-hidden="true"></span>Основатель онлайн-школы <br>Варвара Тимофеева</p>
+        <img class="lead__stars" src="img/cta/stars.svg" width="61" height="65" alt="" aria-hidden="true" loading="lazy">
+
+        <div class="lead__info">
+          <h2 class="lead__title" id="lead-title">Начните говорить <br>по-китайски свободно</h2>
+          <p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
+          <ul class="lead__list">
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Обучение с&nbsp;нуля и&nbsp;для продолжающих</li>
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Подготовка к&nbsp;HSK, работе и&nbsp;учёбе в&nbsp;Китае</li>
+          </ul>
+        </div>
+
+        <form class="lead__form" action="send.php" method="post" novalidate>
+          <label class="visually-hidden" for="lead-name">Ваше имя</label>
+          <input class="lead__input" id="lead-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" required maxlength="80">
+
+          <div class="lead__phone">
+            <span class="lead__country" aria-hidden="true"><img loading="lazy" decoding="async" src="img/cta/flag-ru.webp" width="38" height="25" alt=""></span>
+            <label class="visually-hidden" for="lead-phone">Телефон</label>
+            <input class="lead__input lead__input--phone" id="lead-phone" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel" required>
+          </div>
+
+          <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="lead__consent">
+            <input type="checkbox" name="consent" value="1" required>
+            <span class="lead__check" aria-hidden="true"></span>
+            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          </label>
+
+          <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
+          <p class="lead__status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="lead__contacts">
+          <p class="lead__contacts-title">или напишите нам в мессенджер</p>
+          <ul class="lead__socials">
+            <li><a href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/cta/vk.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/cta/tg.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>
+          </ul>
+          <a class="lead__tel" href="tel:+79531560685"><img loading="lazy" decoding="async" src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+        </div>
+      </div>
+    </section>
+    <section class="advantages" aria-labelledby="advantages-title">
+      <h2 class="section-title advantages__title" id="advantages-title">Преимущества онлайн-школы <br>китайского языка «Тысяча ли»</h2>
+
+      <div class="advantages__grid">
+        <div class="adv-main">
+          <p class="adv-main__lead">Все педагоги преподают <span class="adv-main__accent">по&nbsp;моей методике</span>, меняются в&nbsp;зависимости от достигнутого учеником уровня,</p>
+          <p class="adv-main__text">все педагоги 5+ лет проживали/проживают в&nbsp;КНР и&nbsp;имеют педагогический опыт</p>
+          <picture>
+            <source media="(max-width: 1023px)" srcset="img/m/adv-flags.webp" width="351" height="296">
+            <img class="adv-main__img" src="img/advantages/flags.webp" width="318" height="308" alt="" loading="lazy">
+          </picture>
+        </div>
+
+        <article class="adv-card adv-card--a">
+          <h3 class="adv-card__title">Объясняем <br>по-русски</h3>
+          <p class="adv-card__text">Грамматику, конструкции и разницу между похожими словами разбираем на русском&nbsp;— до понимания. Носитель такого не даст.</p>
+        </article>
+        <picture class="adv-photo adv-photo--1">
+          <source media="(max-width: 1023px)" srcset="img/m/adv-photo.webp" width="360" height="205">
+          <img src="img/advantages/photo-1.webp" width="310" height="269" alt="Ученица на онлайн-уроке" loading="lazy">
+        </picture>
+        <article class="adv-card adv-card--c">
+          <h3 class="adv-card__title">Контроль прогресса</h3>
+          <p class="adv-card__text">Закрываем места, где спотыкаются студенты. Успеваемость контролирует основатель школы лично&nbsp;— преподаватель китайского с опытом перевода на уровне министров.</p>
+        </article>
+        <article class="adv-card adv-card--d">
+          <h3 class="adv-card__title">Практика и <br>обратная связь на <br>каждом уроке</h3>
+          <p class="adv-card__text">Регулярные устные диалоги на китайском по пройденному материалу и тренировка скорости речи.</p>
+        </article>
+        <article class="adv-card adv-card--e">
+          <h3 class="adv-card__title">Носитель, когда <br>есть база</h3>
+          <p class="adv-card__text">Разговор с китайским педагогом на словах, которые вы уже знаете.</p>
+        </article>
+        <img class="adv-photo adv-photo--2" src="img/advantages/photo-2.webp" width="310" height="269" alt="Онлайн-лекция по китайскому языку" loading="lazy">
+      </div>
+    </section>
+    <section class="lessons" id="learning" aria-labelledby="lessons-title">
+      <h2 class="section-title lessons__title" id="lessons-title">Как проходят занятия в <br>онлайн-школе «Тысяча ли»</h2>
+      <p class="lessons__sub">Четыре шага от первого урока до момента, когда вы говорите с китайцем и понимаете его.</p>
+
+      <ol class="lessons__list">
+        <li class="lesson lesson--goal">
+          <h3 class="lesson__title">Знакомство <br>и цель</h3>
+          <p class="lesson__text"><b>Бесплатный урок 30 минут:</b> определим уровень и цель. Современные китайские учебники, которых нет в России.</p>
+          <img class="lesson__img" src="img/lessons/goal.webp" width="232" height="163" alt="" loading="lazy">
+        </li>
+        <li class="lesson lesson--logic">
+          <img class="lesson__img" src="img/lessons/logic.webp" width="232" height="74" alt="" loading="lazy">
+          <h3 class="lesson__title">Логика языка</h3>
+          <p class="lesson__text">Разбираем грамматику, тоны и иероглифы на русском. Не заучиваете фразы&nbsp;— понимаете, как язык устроен.</p>
+        </li>
+        <li class="lesson lesson--practice">
+          <h3 class="lesson__title">Практика с <br>носителем</h3>
+          <p class="lesson__text">С уровня HSK 3 каждое третье занятие ведёт китайский педагог. Говорите знакомыми словами и перестаёте бояться живой речи.</p>
+          <img class="lesson__img" src="img/lessons/practice.webp" width="235" height="138" alt="" loading="lazy">
+        </li>
+        <li class="lesson lesson--result">
+          <img class="lesson__img" src="img/lessons/result.webp" width="289" height="134" alt="" loading="lazy">
+          <h3 class="lesson__title">Ваш результат</h3>
+          <p class="lesson__text">Через несколько месяцев&nbsp;— свободный разговор, сданный экзамен или рабочие переговоры. Зависит от цели, которую выбрали на первом уроке.</p>
+        </li>
+      </ol>
+
+      <div class="lessons__controls">
+        <div class="lessons__dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
+        <div class="slider-arrows">
+          <button class="slider-arrows__btn slider-arrows__btn--prev" type="button" aria-label="Предыдущий этап" data-slide-step="-1"></button>
+          <button class="slider-arrows__btn slider-arrows__btn--next" type="button" aria-label="Следующий этап" data-slide-step="1"></button>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn--gold cta__btn" href="#lesson">Записаться на пробный урок</a>
+        <span class="cta__badge">30 минут бесплатно</span>
+      </div>
+    </section>
+    <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+      <img loading="lazy" decoding="async" class="reviews__ring reviews__ring--left" src="img/reviews/circle-text.svg" width="567" height="1137" alt="" aria-hidden="true">
+      <div class="reviews__inner">
+        <img loading="lazy" decoding="async" class="reviews__ring reviews__ring--right" src="img/reviews/star-ring.svg" width="246" height="278" alt="" aria-hidden="true">
+        <h2 class="reviews__title" id="reviews-title">Влюбляем в китайский <br>и <span class="reviews__accent">помогаем преодолеть</span> сложности <br>в изучении языка</h2>
+
+        <article class="review review--a">
+          <h3 class="review__title">К нам идут <br>выпускники МГИМО</h3>
+          <p class="review__text">Знал слова, читал иероглифы, сдавал экзамены&nbsp;— а&nbsp;свою фразу собрать не мог. Правила мне так и&nbsp;не объяснили. Здесь объяснили.</p>
+          <img class="review__avatar" src="img/reviews/avatar-anton.webp" width="52" height="52" alt="" loading="lazy">
+          <p class="review__name">Антон, 20 лет</p>
+        </article>
+
+        <img class="reviews__photo" src="img/reviews/photo.webp" width="329" height="329" alt="Студентка с учебником китайского на улице Киото" loading="lazy">
+
+        <article class="review review--b">
+          <h3 class="review__title">Интересная теория <br>и&nbsp;живая практика</h3>
+          <p class="review__text">Объясняют грамматику простым языком и&nbsp;сразу закрепляют её в живых диалогах</p>
+          <img class="review__avatar" src="img/reviews/avatar-kristina.webp" width="50" height="50" alt="" loading="lazy">
+          <p class="review__name">Кристина, 24 года</p>
+        </article>
+
+        <article class="review review--d">
+          <h3 class="review__title">Сдала HSK&nbsp;3</h3>
+          <p class="review__text">Пришла в&nbsp;онлайн-школу «Тысяча ли» почти с&nbsp;нуля и&nbsp;боялась тонов. Произношение поставили с&nbsp;первых уроков, иероглифы объясняли через образы, а&nbsp;перед экзаменом разбирали реальные задания. HSK&nbsp;3 сдала с&nbsp;первой попытки, теперь готовлюсь к&nbsp;HSK&nbsp;4.</p>
+          <img class="review__avatar" src="img/reviews/avatar-anna.webp" width="54" height="54" alt="" loading="lazy">
+          <p class="review__name">Анна, 16 лет</p>
+        </article>
+
+        <div class="reviews__note">
+          <img class="reviews__note-hanzi" src="img/reviews/note-hanzi.webp" width="167" height="186" alt="" aria-hidden="true" loading="lazy">
+          <p class="reviews__note-text">Взрослые ведут переговоры без переводчика, дети сдают YCT и&nbsp;HSK</p>
+          <a class="reviews__note-link" href="#lesson">Записаться</a>
+        </div>
+        <img loading="lazy" decoding="async" class="reviews__note-strokes" src="img/reviews/note-strokes.svg" width="23" height="22" alt="" aria-hidden="true">
+        <img loading="lazy" decoding="async" class="reviews__note-underline" src="img/reviews/note-underline.svg" width="227" height="38" alt="" aria-hidden="true">
+      </div>
+    </section>
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <h2 class="section-title faq__title" id="faq-title">Часто задаваемые вопросы об&nbsp;изучении <br>китайского языка в&nbsp;онлайн-школе «Тысяча ли»</h2>
+      <div class="faq__list">
+        <details class="faq__item" name="faq" open>
+          <summary class="faq__q">Не лучше ли заниматься с&nbsp;носителем-китайцем?<span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Носитель хорош для разговорной практики, но объяснить правило он не может. Для него китайский родной, он не учил его как систему. На вопрос «почему здесь этот иероглиф, а не похожий» честный ответ носителя&nbsp;— «так говорят». Отсюда типичная история: год занятий, произношение есть, набор фраз есть, а собрать свою мысль человек не может.</p><p>У нас преподаёт тот, кто сам прошёл путь от нуля до дипломатического уровня. Грамматика и разница между близкими словами разбираются на русском&nbsp;— до понимания. А китайская речь звучит на уровне носителя.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary class="faq__q">Что, если я&nbsp;пропущу урок?<span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Предупредите педагога заранее&nbsp;— перенесём занятие на&nbsp;удобное для вас время. Пройденный материал не&nbsp;потеряется: на&nbsp;следующем уроке повторим то, что нужно для продолжения.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary class="faq__q">Сколько занятий мне нужно?<span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Зависит от&nbsp;цели и&nbsp;стартового уровня. На&nbsp;бесплатном пробном уроке определим уровень и&nbsp;составим план: сколько занятий понадобится, чтобы заговорить, сдать HSK нужного уровня или вести рабочие переговоры.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary class="faq__q">Я&nbsp;уже учил китайский, но&nbsp;толком не&nbsp;говорю. Подойдёт?<span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Да, это частая ситуация: слова и&nbsp;иероглифы знакомы, а&nbsp;фраза не&nbsp;складывается. Разберём систему языка на&nbsp;русском, закроем пробелы в&nbsp;грамматике и&nbsp;добавим разговорную практику с&nbsp;китайским педагогом.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary class="faq__q">Что нужно для занятий?<span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Компьютер или планшет с&nbsp;камерой и&nbsp;микрофоном, стабильный интернет и&nbsp;60&nbsp;минут времени. Учебные материалы подбирает педагог.</p></div>
+        </details>
+      </div>
+    </section>
+    <section class="lead" id="lesson-2" aria-labelledby="lead-title-2">
+      <div class="lead__inner">
+        <img class="lead__clouds" src="img/cta/clouds.webp" width="486" height="210" alt="" aria-hidden="true" loading="lazy">
+        <img class="lead__photo" src="img/cta/photo.webp" width="420" height="461" alt="Варвара Тимофеева, основатель школы" loading="lazy">
+        <p class="lead__caption"><span class="lead__caption-dot" aria-hidden="true"></span>Основатель онлайн-школы <br>Варвара Тимофеева</p>
+        <img class="lead__stars" src="img/cta/stars.svg" width="61" height="65" alt="" aria-hidden="true" loading="lazy">
+
+        <div class="lead__info">
+          <h2 class="lead__title" id="lead-title-2">Начните говорить <br>по-китайски свободно</h2>
+          <p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
+          <ul class="lead__list">
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Обучение с&nbsp;нуля и&nbsp;для продолжающих</li>
+            <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Подготовка к&nbsp;HSK, работе и&nbsp;учёбе в&nbsp;Китае</li>
+          </ul>
+        </div>
+
+        <form class="lead__form" action="send.php" method="post" novalidate>
+          <label class="visually-hidden" for="lead-name-2">Ваше имя</label>
+          <input class="lead__input" id="lead-name-2" name="name" type="text" placeholder="Ваше имя" autocomplete="name" required maxlength="80">
+
+          <div class="lead__phone">
+            <span class="lead__country" aria-hidden="true"><img loading="lazy" decoding="async" src="img/cta/flag-ru.webp" width="38" height="25" alt=""></span>
+            <label class="visually-hidden" for="lead-phone-2">Телефон</label>
+            <input class="lead__input lead__input--phone" id="lead-phone-2" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel" required>
+          </div>
+
+          <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="lead__consent">
+            <input type="checkbox" name="consent" value="1" required>
+            <span class="lead__check" aria-hidden="true"></span>
+            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          </label>
+
+          <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
+          <p class="lead__status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="lead__contacts">
+          <p class="lead__contacts-title">или напишите нам в мессенджер</p>
+          <ul class="lead__socials">
+            <li><a href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/cta/vk.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/cta/tg.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>
+          </ul>
+          <a class="lead__tel" href="tel:+79531560685"><img loading="lazy" decoding="async" src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную"><picture>
+          <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
+          <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
+        </picture></a>
+        <ul class="header__socials footer__socials" aria-label="Мы в мессенджерах и соцсетях">
+          <li><a class="header__social" href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+          <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+          <li><a class="header__social" href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+        </ul>
+        <a class="btn btn--gold footer__cta" href="#lesson">Бесплатный пробный урок</a>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-programs">
+        <p class="footer__heading" id="footer-programs">Программы</p>
+        <ul class="footer__list">
+          <li><a href="./?tab=courses#programs" data-tab="courses">Курс китайского языка онлайн</a></li>
+          <li><a href="./?tab=exams#programs" data-tab="exams">Подготовка к экзаменам онлайн</a></li>
+          <li><a href="./?tab=ecourses#programs" data-tab="ecourses">Электронные курсы онлайн</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-menu">
+        <p class="footer__heading" id="footer-menu">Разделы</p>
+        <ul class="footer__list">
+          <li><a href="./#founder">Об основателе</a></li>
+          <li><a href="#learning">Как проходит занятие</a></li>
+          <li><a href="./#prices">Стоимость обучения</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#faq">Вопрос-ответ</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-docs">
+        <p class="footer__heading" id="footer-docs">Документы</p>
+        <ul class="footer__list">
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Согласие на обработку персональных данных</a></li>
+          <li><a href="#">Договор оферты</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Онлайн-школа китайского языка «Тысяча ли»</span>
+        <a href="tel:+79531560685">8 (953) 156-06-85</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Квиз «Подобрать программу»: 4 вопроса + контакты -->
+  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title">
+    <form class="quiz__box" action="send.php" method="post" novalidate>
+      <button class="quiz__close" type="button" aria-label="Закрыть" data-quiz-close></button>
+      <input type="hidden" name="source" value="Квиз «Подобрать программу»">
+      <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="quiz__head">
+        <p class="quiz__kicker" id="quiz-title">Подберём программу за&nbsp;4&nbsp;шага</p>
+        <p class="quiz__count" aria-live="polite"><span data-quiz-num>1</span> из 4</p>
+      </div>
+      <div class="quiz__bar" aria-hidden="true"><span data-quiz-progress></span></div>
+
+      <fieldset class="quiz__step" data-step="1">
+        <legend class="quiz__q">Для кого обучение?</legend>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для школьника 11–15 лет"><span>Для школьника 11–15&nbsp;лет</span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для ребёнка 7–10 лет (экзамен YCT)"><span>Для ребёнка 7–10&nbsp;лет <small class="quiz__hint">только подготовка к&nbsp;YCT</small></span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для себя (взрослый)"><span>Для себя (взрослый)</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="2" hidden>
+        <legend class="quiz__q">Какая главная цель?</legend>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Заговорить: общение и путешествия"><span>Заговорить: общение и&nbsp;путешествия</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Сдать экзамен (HSK, HSKK, YCT, BCT, CSCA)"><span>Сдать экзамен (HSK, HSKK, YCT, BCT, CSCA)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Работа и бизнес с Китаем"><span>Работа и&nbsp;бизнес с&nbsp;Китаем</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Учёба в Китае"><span>Учёба в&nbsp;Китае</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="3" hidden>
+        <legend class="quiz__q">Какой сейчас уровень?</legend>
+        <label class="quiz__opt"><input type="radio" name="q3" value="С нуля"><span>С&nbsp;нуля</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Знаю основы (HSK 1–2)"><span>Знаю основы (HSK&nbsp;1–2)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Средний (HSK 3–4)"><span>Средний (HSK&nbsp;3–4)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Продвинутый (HSK 5–6)"><span>Продвинутый (HSK&nbsp;5–6)</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="4" hidden>
+        <legend class="quiz__q">Какой формат удобнее?</legend>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Индивидуально"><span>Индивидуально с&nbsp;педагогом</span></label>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Мини-группа, 2 человека"><span>Мини-группа, 2&nbsp;человека</span></label>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Пока не знаю — посоветуйте"><span>Пока не&nbsp;знаю&nbsp;— посоветуйте</span></label>
+      </fieldset>
+
+      <div class="quiz__step quiz__final" data-step="5" hidden>
+        <p class="quiz__q">Ваша программа: <a class="quiz__result" data-quiz-result href="#"></a></p>
+        <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
+        <label class="visually-hidden" for="quiz-name">Ваше имя</label>
+        <input class="lead__input quiz__input" id="quiz-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" maxlength="80">
+        <div class="lead__phone">
+          <span class="lead__country" aria-hidden="true"><img src="img/cta/flag-ru.webp" width="38" height="25" alt="" loading="lazy" decoding="async"></span>
+          <label class="visually-hidden" for="quiz-phone">Телефон</label>
+          <input class="lead__input lead__input--phone quiz__input" id="quiz-phone" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel">
+        </div>
+        <label class="lead__consent quiz__consent">
+          <input type="checkbox" name="consent" value="1">
+          <span class="lead__check" aria-hidden="true"></span>
+          <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+        </label>
+      </div>
+
+      <div class="quiz__done" data-step="6" hidden>
+        <p class="quiz__q">Спасибо!</p>
+        <p class="quiz__note">Мы свяжемся с&nbsp;вами в&nbsp;ближайшее время и&nbsp;подберём удобное время пробного урока.</p>
+      </div>
+
+      <div class="quiz__nav">
+        <button class="quiz__back" type="button" data-quiz-back hidden>Назад</button>
+        <button class="btn btn--gold quiz__next" type="button" data-quiz-next disabled>Далее</button>
+        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>Получить программу</button>
+      </div>
+      <p class="lead__status quiz__status" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

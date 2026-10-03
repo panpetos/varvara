@@ -13,8 +13,8 @@
 
       <fieldset class="quiz__step" data-step="1">
         <legend class="quiz__q">Для кого обучение?</legend>
-        <label class="quiz__opt"><input type="radio" name="q1" value="Для ребёнка 7–10 лет"><span>Для ребёнка 7–10&nbsp;лет</span></label>
-        <label class="quiz__opt"><input type="radio" name="q1" value="Для подростка 11–15 лет"><span>Для подростка 11–15&nbsp;лет</span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для школьника 11–15 лет"><span>Для школьника 11–15&nbsp;лет</span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для ребёнка 7–10 лет (экзамен YCT)"><span>Для ребёнка 7–10&nbsp;лет <small class="quiz__hint">только подготовка к&nbsp;YCT</small></span></label>
         <label class="quiz__opt"><input type="radio" name="q1" value="Для себя (взрослый)"><span>Для себя (взрослый)</span></label>
       </fieldset>
 
@@ -42,7 +42,7 @@
       </fieldset>
 
       <div class="quiz__step quiz__final" data-step="5" hidden>
-        <p class="quiz__q">Ваша программа: <span class="quiz__result" data-quiz-result></span></p>
+        <p class="quiz__q">Ваша программа: <a class="quiz__result" data-quiz-result href="#"></a></p>
         <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
         <label class="visually-hidden" for="quiz-name">Ваше имя</label>
         <input class="lead__input quiz__input" id="quiz-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" maxlength="80">

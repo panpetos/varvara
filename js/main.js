@@ -295,6 +295,48 @@ function initReveal() {
   items.forEach((el) => io.observe(el));
 }
 
+/* «Об основателе»: выделенные слова в тексте открывают фото справа (на телефоне — окном) */
+function initStory() {
+  const viewer = document.getElementById('story-viewer');
+  if (!viewer) return;
+  const img = viewer.querySelector('.story__img');
+  const caption = viewer.querySelector('.story__caption');
+  const thumbs = [...document.querySelectorAll('.story__thumb')];
+  const marks = [...document.querySelectorAll('.story__mark')];
+  const modal = document.getElementById('story-modal');
+  const narrow = window.matchMedia('(max-width: 599.98px)');
+
+  const select = (id, fromMark) => {
+    const t = thumbs.find((b) => b.dataset.photo === id);
+    if (!t) return;
+    thumbs.forEach((b) => { const on = b === t; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+    marks.forEach((m) => m.classList.toggle('is-active', m.dataset.photo === id));
+    if (fromMark && narrow.matches && modal && typeof modal.showModal === 'function') {
+      const mi = modal.querySelector('.story-modal__img');
+      mi.src = t.dataset.src; mi.alt = t.dataset.alt;
+      modal.querySelector('.story-modal__caption').innerHTML = t.dataset.caption;
+      modal.showModal();
+      document.body.classList.add('is-modal-open');
+      return;
+    }
+    if (img.getAttribute('src') !== t.dataset.src) {
+      img.classList.add('is-loading');
+      const next = new Image();
+      next.onload = () => { img.src = t.dataset.src; img.width = t.dataset.w; img.height = t.dataset.h; img.alt = t.dataset.alt; img.classList.remove('is-loading'); };
+      next.src = t.dataset.src;
+    }
+    caption.innerHTML = t.dataset.caption;
+  };
+
+  marks.forEach((m) => m.addEventListener('click', () => select(m.dataset.photo, true)));
+  thumbs.forEach((b) => b.addEventListener('click', () => select(b.dataset.photo, false)));
+  if (modal) {
+    modal.querySelector('[data-story-close]').addEventListener('click', () => modal.close());
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+    modal.addEventListener('close', () => document.body.classList.remove('is-modal-open'));
+  }
+}
+
 /* Карточка программы кликабельна целиком — как ссылка «Подробнее» внутри неё */
 function initProgramCards() {
   document.querySelectorAll('.program-card').forEach((card) => {
@@ -324,18 +366,20 @@ function initQuiz() {
   const head = quiz.querySelector('.quiz__head');
   let step = 1;
 
-  // рекомендация по ответам — только существующие программы школы
+  // рекомендация по ответам — только существующие программы школы (страницы программ)
   const recommend = () => {
     const v = (n) => (form.elements[n] ? form.elements[n].value : '');
     const who = v('q1'), goal = v('q2'), level = v('q3');
+    const kid = who.includes('7–10'), teen = who.includes('11–15');
+    if (kid) return ['подготовка к YCT', 'yct.html'];
     if (goal.startsWith('Сдать')) {
-      if (who.includes('ребёнка')) return 'подготовка к YCT';
-      return level.includes('5–6') ? 'подготовка к HSK 5–6 и HSKK' : 'подготовка к HSK';
+      if (teen) return ['подготовка к YCT', 'yct.html'];
+      return level.includes('5–6') ? ['подготовка к HSK и HSKK', 'hsk.html'] : ['подготовка к HSK', 'hsk.html'];
     }
-    if (goal.startsWith('Работа')) return 'деловой китайский';
-    if (goal.startsWith('Учёба')) return 'подготовка к CSCA и HSK для поступления';
-    if (who.includes('ребёнка') || who.includes('подростка')) return 'общий китайский для детей';
-    return 'общий китайский для взрослых';
+    if (goal.startsWith('Работа')) return ['деловой китайский', 'business.html'];
+    if (goal.startsWith('Учёба')) return teen ? ['подготовка к HSK', 'hsk.html'] : ['подготовка к CSCA', 'csca.html'];
+    if (teen) return ['общий китайский для детей 11–15 лет', 'kids.html'];
+    return ['общий китайский для взрослых', 'adults.html'];
   };
 
   const show = (n) => {
@@ -350,7 +394,12 @@ function initQuiz() {
     next.hidden = n >= 5;
     submit.hidden = n !== 5;
     if (n <= 4) next.disabled = !steps[n - 1].querySelector('input:checked');
-    if (n === 5) quiz.querySelector('[data-quiz-result]').textContent = recommend();
+    if (n === 5) {
+      const [name, url] = recommend();
+      const link = quiz.querySelector('[data-quiz-result]');
+      link.textContent = name;
+      link.href = url;
+    }
     status.textContent = '';
   };
 
@@ -384,7 +433,7 @@ function initQuiz() {
     status.textContent = 'Отправляем…';
     try {
       const data = new FormData(form);
-      data.append('result', recommend());
+      data.append('result', recommend()[0]);
       const res = await fetch(form.action, { method: 'POST', body: data });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.ok) throw new Error(json.error || 'send failed');
@@ -448,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoModal();
   initQuiz();
   initProgramCards();
+  initStory();
   initReveal();
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   document.querySelectorAll('[role="tablist"]').forEach(initTabs);
