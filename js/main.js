@@ -245,7 +245,9 @@ function initReveal() {
     ['.founder__fact', 'left', 80],
     ['.founder__collage, .founder__more', '', 100],
     ['.founder__video', 'right', 0],
-    ['.lesson', '', 110],
+    // на телефоне карточки занятий — горизонтальный слайдер: появляется весь ряд целиком,
+    // иначе карточки «подпрыгивают» при первом пролистывании
+    [window.matchMedia('(max-width: 1023.98px)').matches ? '.lessons__list' : '.lesson', '', 110],
     ['.cta', '', 0],
     ['.adv-main', 'left', 0],
     ['.adv-card, .adv-photo', '', 80],
@@ -293,6 +295,120 @@ function initReveal() {
   items.forEach((el) => io.observe(el));
 }
 
+/* Карточка программы кликабельна целиком — как ссылка «Подробнее» внутри неё */
+function initProgramCards() {
+  document.querySelectorAll('.program-card').forEach((card) => {
+    const link = card.querySelector('.program-card__more');
+    if (!link) return;
+    card.classList.add('is-link');
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;            // по самой ссылке — обычный переход
+      if (window.getSelection().toString()) return; // выделяли текст — не переходим
+      link.click();
+    });
+  });
+}
+
+/* Квиз «Подобрать программу»: 4 вопроса → рекомендация + контакты → send.php */
+function initQuiz() {
+  const quiz = document.getElementById('quiz');
+  if (!quiz || typeof quiz.showModal !== 'function') return;
+  const form = quiz.querySelector('form');
+  const steps = [...quiz.querySelectorAll('[data-step]')];
+  const next = quiz.querySelector('[data-quiz-next]');
+  const back = quiz.querySelector('[data-quiz-back]');
+  const submit = quiz.querySelector('[data-quiz-submit]');
+  const num = quiz.querySelector('[data-quiz-num]');
+  const bar = quiz.querySelector('[data-quiz-progress]');
+  const status = quiz.querySelector('.quiz__status');
+  const head = quiz.querySelector('.quiz__head');
+  let step = 1;
+
+  // рекомендация по ответам — только существующие программы школы
+  const recommend = () => {
+    const v = (n) => (form.elements[n] ? form.elements[n].value : '');
+    const who = v('q1'), goal = v('q2'), level = v('q3');
+    if (goal.startsWith('Сдать')) {
+      if (who.includes('ребёнка')) return 'подготовка к YCT';
+      return level.includes('5–6') ? 'подготовка к HSK 5–6 и HSKK' : 'подготовка к HSK';
+    }
+    if (goal.startsWith('Работа')) return 'деловой китайский';
+    if (goal.startsWith('Учёба')) return 'подготовка к CSCA и HSK для поступления';
+    if (who.includes('ребёнка') || who.includes('подростка')) return 'общий китайский для детей';
+    return 'общий китайский для взрослых';
+  };
+
+  const show = (n) => {
+    step = n;
+    steps.forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
+    const q = Math.min(n, 4);
+    num.textContent = q;
+    bar.style.width = (n >= 5 ? 100 : (n - 1) * 25) + '%';
+    head.hidden = n === 6;
+    quiz.querySelector('.quiz__bar').hidden = n === 6;
+    back.hidden = n === 1 || n === 6;
+    next.hidden = n >= 5;
+    submit.hidden = n !== 5;
+    if (n <= 4) next.disabled = !steps[n - 1].querySelector('input:checked');
+    if (n === 5) quiz.querySelector('[data-quiz-result]').textContent = recommend();
+    status.textContent = '';
+  };
+
+  quiz.addEventListener('change', (e) => {
+    if (e.target.type !== 'radio') return;
+    next.disabled = false;
+    // выбор ответа сразу ведёт к следующему вопросу
+    setTimeout(() => { if (step <= 4 && e.target.closest('[data-step]').dataset.step == step) show(step + 1); }, 260);
+  });
+  next.addEventListener('click', () => show(step + 1));
+  back.addEventListener('click', () => show(step - 1));
+
+  const phone = form.elements.phone;
+  initPhoneMask(phone);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = form.elements.name;
+    const okName = name.value.trim().length >= 2;
+    const okPhone = phone.value.replace(/\D/g, '').length === 11;
+    const okConsent = form.elements.consent.checked;
+    name.classList.toggle('is-invalid', !okName);
+    phone.classList.toggle('is-invalid', !okPhone);
+    form.elements.consent.closest('.lead__consent').classList.toggle('is-invalid', !okConsent);
+    if (!okName || !okPhone || !okConsent) {
+      status.textContent = !okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон';
+      status.classList.add('is-error');
+      return;
+    }
+    submit.disabled = true;
+    status.classList.remove('is-error');
+    status.textContent = 'Отправляем…';
+    try {
+      const data = new FormData(form);
+      data.append('result', recommend());
+      const res = await fetch(form.action, { method: 'POST', body: data });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.ok) throw new Error(json.error || 'send failed');
+      show(6);
+    } catch (err) {
+      status.textContent = 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
+      status.classList.add('is-error');
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  const open = () => {
+    if (step === 6) { form.reset(); show(1); }
+    quiz.showModal();
+    document.body.classList.add('is-modal-open');
+  };
+  document.querySelectorAll('[data-quiz-open]').forEach((b) => b.addEventListener('click', open));
+  quiz.querySelector('[data-quiz-close]').addEventListener('click', () => quiz.close());
+  quiz.addEventListener('click', (e) => { if (e.target === quiz) quiz.close(); });
+  quiz.addEventListener('close', () => document.body.classList.remove('is-modal-open'));
+  show(1);
+}
+
 /* Видео-презентация в модальном окне */
 function initVideoModal() {
   const modal = document.getElementById('video-modal');
@@ -330,6 +446,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initDrawer();
   initVideoModal();
+  initQuiz();
+  initProgramCards();
   initReveal();
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   document.querySelectorAll('[role="tablist"]').forEach(initTabs);

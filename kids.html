@@ -276,7 +276,7 @@
           <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
         </picture>
         <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
-        <a class="btn btn--gold steps__btn" href="#lesson">Подобрать программу</a>
+        <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Подобрать программу</button>
       </div>
     </section>
     <section class="results" aria-labelledby="results-title">
@@ -577,6 +577,80 @@
       </div>
     </div>
   </footer>
+
+  <!-- Квиз «Подобрать программу»: 4 вопроса + контакты -->
+  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title">
+    <form class="quiz__box" action="send.php" method="post" novalidate>
+      <button class="quiz__close" type="button" aria-label="Закрыть" data-quiz-close></button>
+      <input type="hidden" name="source" value="Квиз «Подобрать программу»">
+      <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="quiz__head">
+        <p class="quiz__kicker" id="quiz-title">Подберём программу за&nbsp;4&nbsp;шага</p>
+        <p class="quiz__count" aria-live="polite"><span data-quiz-num>1</span> из 4</p>
+      </div>
+      <div class="quiz__bar" aria-hidden="true"><span data-quiz-progress></span></div>
+
+      <fieldset class="quiz__step" data-step="1">
+        <legend class="quiz__q">Для кого обучение?</legend>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для ребёнка 7–10 лет"><span>Для ребёнка 7–10&nbsp;лет</span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для подростка 11–15 лет"><span>Для подростка 11–15&nbsp;лет</span></label>
+        <label class="quiz__opt"><input type="radio" name="q1" value="Для себя (взрослый)"><span>Для себя (взрослый)</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="2" hidden>
+        <legend class="quiz__q">Какая главная цель?</legend>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Заговорить: общение и путешествия"><span>Заговорить: общение и&nbsp;путешествия</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Сдать экзамен (HSK, HSKK, YCT, BCT, CSCA)"><span>Сдать экзамен (HSK, HSKK, YCT, BCT, CSCA)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Работа и бизнес с Китаем"><span>Работа и&nbsp;бизнес с&nbsp;Китаем</span></label>
+        <label class="quiz__opt"><input type="radio" name="q2" value="Учёба в Китае"><span>Учёба в&nbsp;Китае</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="3" hidden>
+        <legend class="quiz__q">Какой сейчас уровень?</legend>
+        <label class="quiz__opt"><input type="radio" name="q3" value="С нуля"><span>С&nbsp;нуля</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Знаю основы (HSK 1–2)"><span>Знаю основы (HSK&nbsp;1–2)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Средний (HSK 3–4)"><span>Средний (HSK&nbsp;3–4)</span></label>
+        <label class="quiz__opt"><input type="radio" name="q3" value="Продвинутый (HSK 5–6)"><span>Продвинутый (HSK&nbsp;5–6)</span></label>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="4" hidden>
+        <legend class="quiz__q">Какой формат удобнее?</legend>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Индивидуально"><span>Индивидуально с&nbsp;педагогом</span></label>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Мини-группа, 2 человека"><span>Мини-группа, 2&nbsp;человека</span></label>
+        <label class="quiz__opt"><input type="radio" name="q4" value="Пока не знаю — посоветуйте"><span>Пока не&nbsp;знаю&nbsp;— посоветуйте</span></label>
+      </fieldset>
+
+      <div class="quiz__step quiz__final" data-step="5" hidden>
+        <p class="quiz__q">Ваша программа: <span class="quiz__result" data-quiz-result></span></p>
+        <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
+        <label class="visually-hidden" for="quiz-name">Ваше имя</label>
+        <input class="lead__input quiz__input" id="quiz-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" maxlength="80">
+        <div class="lead__phone">
+          <span class="lead__country" aria-hidden="true"><img src="img/cta/flag-ru.webp" width="38" height="25" alt="" loading="lazy" decoding="async"></span>
+          <label class="visually-hidden" for="quiz-phone">Телефон</label>
+          <input class="lead__input lead__input--phone quiz__input" id="quiz-phone" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel">
+        </div>
+        <label class="lead__consent quiz__consent">
+          <input type="checkbox" name="consent" value="1">
+          <span class="lead__check" aria-hidden="true"></span>
+          <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+        </label>
+      </div>
+
+      <div class="quiz__done" data-step="6" hidden>
+        <p class="quiz__q">Спасибо!</p>
+        <p class="quiz__note">Мы свяжемся с&nbsp;вами в&nbsp;ближайшее время и&nbsp;подберём удобное время пробного урока.</p>
+      </div>
+
+      <div class="quiz__nav">
+        <button class="quiz__back" type="button" data-quiz-back hidden>Назад</button>
+        <button class="btn btn--gold quiz__next" type="button" data-quiz-next disabled>Далее</button>
+        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>Получить программу</button>
+      </div>
+      <p class="lead__status quiz__status" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
 
   <script src="js/main.js" defer></script>
 </body>

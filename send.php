@@ -39,8 +39,24 @@ if (mb_strlen($name) < 2)   reply(false, 'name', 422);
 if (strlen($digits) !== 11) reply(false, 'phone', 422);
 if (!$consent)              reply(false, 'consent', 422);
 
-$subject = '=?UTF-8?B?' . base64_encode('Заявка на пробный урок — thousandli.ru') . '?=';
-$body = "Новая заявка на бесплатный пробный урок\n\n"
+// Квиз «Подобрать программу»: ответы на 4 вопроса и рекомендация
+$quizQuestions = [
+    'q1' => 'Для кого обучение',
+    'q2' => 'Главная цель',
+    'q3' => 'Текущий уровень',
+    'q4' => 'Формат',
+];
+$quiz = '';
+foreach ($quizQuestions as $key => $label) {
+    $answer = $clean((string)($_POST[$key] ?? ''), 120);
+    if ($answer !== '') $quiz .= "{$label}: {$answer}\n";
+}
+$result = $clean((string)($_POST['result'] ?? ''), 120);
+if ($result !== '') $quiz .= "Рекомендация: {$result}\n";
+$isQuiz = $quiz !== '';
+
+$subject = '=?UTF-8?B?' . base64_encode(($isQuiz ? 'Заявка из квиза' : 'Заявка на пробный урок') . ' — thousandli.ru') . '?=';
+$body = ($isQuiz ? "Новая заявка из квиза «Подобрать программу»\n\n" . $quiz . "\n" : "Новая заявка на бесплатный пробный урок\n\n")
       . "Имя: {$name}\n"
       . "Телефон: {$phone}\n"
       . "Согласие на обработку ПДн: да\n"
