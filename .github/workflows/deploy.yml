@@ -1,7 +1,9 @@
 name: Deploy to reg.ru
 
 # Автодеплой сайта thousandli.ru на хостинг Рег.ру по FTP.
-# Срабатывает на каждый пуш в рабочую ветку + можно запустить вручную.
+# Каждый пуш выкладывает сайт в две папки:
+#   prod — www/thousandli.ru/       → https://thousandli.ru/       (индексация открыта)
+#   test — www/thousandli.ru/test/  → https://thousandli.ru/test/  (копия, закрыта от поиска)
 
 on:
   push:
@@ -17,23 +19,32 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+          - target: prod
+            dir: www/thousandli.ru/
+            url: https://thousandli.ru/
+          - target: test
+            dir: www/thousandli.ru/test/
+            url: https://thousandli.ru/test/
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Индексация открывается только при деплое в корень сайта (не в /test/):
-      # убираем meta robots noindex и заголовок X-Robots-Tag
+      # На проде убираем запрет индексации: meta robots на всех страницах и X-Robots-Tag в .htaccess
       - name: Open indexing for production
-        env:
-          TARGET: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/test/' }}
+        if: matrix.target == 'prod'
         run: |
-          if [[ "$TARGET" == */test/ ]]; then
-            echo "Тестовая копия ($TARGET): индексация закрыта"; exit 0
-          fi
-          sed -i '/data-env="test"/d; /Тестовая копия: индексация закрыта/d' index.html
+          sed -i '/data-env="test"/d; /Тестовая копия: индексация закрыта/d' ./*.html
           sed -i '/# test-noindex:start/,/# test-noindex:end/d' .htaccess
-          ! grep -q noindex index.html .htaccess
-          echo "Прод ($TARGET): индексация открыта"
+          ! grep -l noindex ./*.html .htaccess
+          echo "Прод: индексация открыта"
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -41,13 +52,10 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # FTPS (шифрование). Если Рег.ру не примет — поменять на ftp.
           protocol: ftps
-          # Корневая папка сайта на хостинге. Задаётся переменной репозитория
-          # FTP_SERVER_DIR; по умолчанию www/thousandli.ru/test/ (тестовая копия, пока заказчик не видит)
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'www/thousandli.ru/test/' }}
+          server-dir: ${{ matrix.dir }}
           local-dir: ./
-          # что НЕ заливать на хостинг
+          # что НЕ заливать на хостинг (папки test/ и video/ на сервере не трогаются)
           exclude: |
             **/.git*
             **/.git*/**
@@ -58,34 +66,39 @@ jobs:
             src/**
             tools/**
 
-      - name: Check site (DNS, HTTP, HTTPS)
+      # Видео лежит только на хостинге (в git его нет): на прод копируем сжатые файлы из test/video
+      - name: Copy founder video to production
+        if: matrix.target == 'prod'
+        run: |
+          for f in founder-ru.mp4 founder-ru-poster.webp; do
+            if curl -sS --ssl-reqd --insecure -I -u "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_SERVER/www/thousandli.ru/video/$f" >/dev/null 2>&1; then
+              echo "уже есть: video/$f"; continue
+            fi
+            curl -sS --ssl-reqd --insecure -u "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_SERVER/www/thousandli.ru/test/video/$f" -o "$f"
+            curl -sS --ssl-reqd --insecure --ftp-create-dirs -u "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "ftp://$FTP_SERVER/www/thousandli.ru/video/$f"
+            echo "скопировано: video/$f"
+          done
+
+      - name: Check site
         if: always()
         continue-on-error: true
         env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          URL: ${{ matrix.url }}
         run: |
-          echo "== Файлы на хостинге: test/video (загружены вручную) =="
-          curl -sS --ssl-reqd --insecure --max-time 30 -u "$FTP_USERNAME:$FTP_PASSWORD" \
-            "ftp://$FTP_SERVER/www/thousandli.ru/test/video/" || echo "не удалось получить список"
-          echo "== DNS A thousandli.ru ==";  dig +short A thousandli.ru
-          echo "== DNS A www ==";            dig +short A www.thousandli.ru
-          echo "== DNS NS ==";               dig +short NS thousandli.ru
-          echo "(сервер хостинга: 31.31.198.27)"
-          for u in http://thousandli.ru/test/ https://thousandli.ru/test/ https://www.thousandli.ru/test/; do
-            echo "== $u =="
-            curl -sS -o /dev/null --max-time 20 \
-              -w "code=%{http_code} redirect=%{redirect_url} ip=%{remote_ip}\n" "$u" || true
-            curl -sS -o /dev/null --max-time 20 -L --max-redirs 5 \
-              -w "  итог: code=%{http_code} url=%{url_effective} редиректов=%{num_redirects}\n" "$u" || true
+          echo "== $URL =="
+          curl -sS -o /dev/null --max-time 20 -L -w "code=%{http_code} url=%{url_effective}\n" "$URL" || true
+          for page in kids.html founder.html robots.txt sitemap.xml video/founder-ru.mp4; do
+            curl -sS -o /dev/null -I --max-time 20 -w "$page: %{http_code}\n" "$URL$page" || true
           done
-          echo "== send.php (запрос-ловушка для ботов: письмо не отправляется) =="
-          curl -sS --max-time 20 -X POST -d "website=bot&name=Test&phone=79990000000&consent=1" \
-            -w "\n  code=%{http_code}\n" https://thousandli.ru/test/send.php || true
-          echo "== Индексация тестовой копии (ожидается noindex) =="
-          curl -sSI --max-time 20 https://thousandli.ru/test/ | grep -i "x-robots-tag" || echo "X-Robots-Tag нет"
-          curl -sS --max-time 20 https://thousandli.ru/test/ | grep -o '<meta name="robots"[^>]*>' || echo "meta robots нет"
-          echo "== SSL-сертификат =="
+          echo "== редиректы =="
+          curl -sS -o /dev/null --max-time 20 -w "http → %{redirect_url}\n" "http://thousandli.ru/" || true
+          curl -sS -o /dev/null --max-time 20 -w "www → %{redirect_url}\n" "https://www.thousandli.ru/" || true
+          echo "== индексация (prod — открыта, test — noindex) =="
+          curl -sSI --max-time 20 "$URL" | grep -i "x-robots-tag" || echo "X-Robots-Tag нет"
+          curl -sS --max-time 20 "$URL" | grep -o '<meta name="robots"[^>]*>' || echo "meta robots нет"
+          curl -sS --max-time 20 "$URL" | grep -o '<title>[^<]*' || true
+          echo "== send.php (запрос-ловушка: письмо не отправляется) =="
+          curl -sS --max-time 20 -X POST -d "website=bot&name=Test&phone=79990000000&consent=1" "${URL}send.php" || true
+          echo
           echo | openssl s_client -connect thousandli.ru:443 -servername thousandli.ru 2>/dev/null \
-            | openssl x509 -noout -subject -issuer -dates 2>/dev/null || echo "сертификата нет"
+            | openssl x509 -noout -subject -dates 2>/dev/null || echo "сертификата нет"

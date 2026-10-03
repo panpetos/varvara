@@ -4,9 +4,10 @@
 Статика: HTML + CSS (БЭМ, токены в `:root`) + ванильный JS. Без сборки.
 
 ## Деплой
-- Любой пуш в `main` / `claude/**` → GitHub Actions заливает сайт по FTPS в
-  `www/thousandli.ru/test/` → https://thousandli.ru/test/ (заказчик пока не видит).
-- Выкладка на главную: переменная репозитория `FTP_SERVER_DIR=www/thousandli.ru/`.
+- Любой пуш в `main` / `claude/**` → GitHub Actions заливает сайт по FTPS в две папки:
+  - **прод** `www/thousandli.ru/` → https://thousandli.ru/ (индексация открыта);
+  - **копия** `www/thousandli.ru/test/` → https://thousandli.ru/test/ (закрыта от поиска).
+- Видео в git нет: на прод workflow копирует `founder-ru.mp4` и постер из `test/video/` в `video/`.
 - Пароли — только в GitHub Secrets и `deploy/.env` (в .gitignore). Не коммитить.
 
 ## Картинки — всегда WebP
@@ -23,9 +24,9 @@
 ## SEO
 - Сайт готов к индексации: title/description, canonical, OG/Twitter, JSON-LD
   (EducationalOrganization, WebSite, FAQPage), `robots.txt`, `sitemap.xml`, manifest, иконки.
-- **Тестовая копия закрыта** от поиска: `<meta name="robots" … data-env="test">` в index.html
-  и блок `test-noindex` в `.htaccess` (X-Robots-Tag). При деплое в корень (не `/test/`)
-  deploy.yml удаляет их автоматически — руками ничего делать не нужно.
+- **Копия /test закрыта** от поиска: `<meta name="robots" … data-env="test">` в страницах
+  и блок `test-noindex` в `.htaccess` (X-Robots-Tag). При деплое на прод deploy.yml
+  удаляет их автоматически — руками ничего делать не нужно.
 - Меняешь FAQ на странице — обнови JSON-LD FAQPage в `<head>`. Меняешь содержание — обнови `lastmod` в sitemap.xml.
 
 ## Страницы и сборка
