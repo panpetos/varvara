@@ -7,11 +7,14 @@
 
         <div class="lead__info">
           <h2 class="lead__title" id="lead-title{{sfx}}">Начните говорить <br>по-китайски свободно</h2>
-          <p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
+          {{^founder}}<p class="lead__text">Первый урок бесплатно: 30 минут, чтобы определить уровень, разобрать вашу цель и&nbsp;собрать программу.</p>
           <ul class="lead__list">
             <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Обучение с&nbsp;нуля и&nbsp;для продолжающих</li>
             <li><img loading="lazy" decoding="async" src="img/cta/check.svg" width="28" height="28" alt="">Подготовка к&nbsp;HSK, работе и&nbsp;учёбе в&nbsp;Китае</li>
-          </ul>
+          </ul>{{/founder}}{{#founder}}<div class="lead__text lead__text--founder">
+            <p>Не&nbsp;общий курс для&nbsp;всех, а&nbsp;язык вашей деятельности: переговоры, учёба, профессиональная лексика.</p>
+            <p>Чтобы каждый студент нашёл свой уникальный путь длиной в&nbsp;«Тысячу ли»!</p>
+          </div>{{/founder}}
         </div>
 
         <form class="lead__form" action="send.php" method="post" novalidate>

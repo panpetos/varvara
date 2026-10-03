@@ -4,6 +4,7 @@
   <!-- @include name key="value" -->   вставить src/partials/name.html
   {{key}} / {{key|по умолчанию}}        подстановка параметра в фрагменте
   {{#key}}...{{/key}}                   блок выводится, только если key задан
+  {{^key}}...{{/key}}                   блок выводится, только если key НЕ задан
   <!-- @jsonld {...} -->                JSON-LD: организация + сайт + FAQ со страницы
                                         (+ поля страницы: "breadcrumbs", "course")
 Запуск: python3 tools/build.py   (после любой правки в src/)."""
@@ -23,6 +24,7 @@ def render(text, params, depth=0):
     def cond(m):
         return m.group(2) if params.get(m.group(1)) else ''
     text = re.sub(r'\{\{#(\w+)\}\}(.*?)\{\{/\1\}\}', cond, text, flags=re.S)
+    text = re.sub(r'\{\{\^(\w+)\}\}(.*?)\{\{/\1\}\}', lambda m: '' if params.get(m.group(1)) else m.group(2), text, flags=re.S)
     text = re.sub(r'\{\{(\w+)(?:\|([^}]*))?\}\}', lambda m: params.get(m.group(1), m.group(2) or ''), text)
 
     def inc(m):
@@ -77,7 +79,7 @@ def build(page):
     out = ROOT / page.name
     banner = '<!-- Собрано из src/pages/%s — правьте исходник и запускайте tools/build.py -->\n' % page.name
     out.write_text(text.replace('<!DOCTYPE html>\n', '<!DOCTYPE html>\n' + banner, 1), encoding='utf-8')
-    left = re.findall(r'\{\{[#/]?\w+', text)
+    left = re.findall(r'\{\{[#/^]?\w+', text)
     print(f'{out.name}: ok' + (f'  (!) не подставлено: {left}' if left else ''))
 
 

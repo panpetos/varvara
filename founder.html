@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!-- Собрано из src/pages/founder.html — правьте исходник и запускайте tools/build.py -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Варвара Тимофеева — основатель онлайн-школы китайского языка «Тысяча ли»</title>
+  <meta name="description" content="Педагог-переводчик и дипломат: 12+ лет в Китае, HSK 6, два пекинских университета, переводы для министров и мэров. История основателя онлайн-школы «Тысяча ли».">
+  <!-- Тестовая копия: индексация закрыта. При деплое в корень сайта строка удаляется автоматически (deploy.yml) -->
+  <meta name="robots" content="noindex, nofollow" data-env="test">
+  <link rel="canonical" href="https://thousandli.ru/founder.html">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Онлайн-школа «Тысяча ли»">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Варвара Тимофеева — основатель онлайн-школы «Тысяча ли»">
+  <meta property="og:description" content="12+ лет в Китае, HSK 6, два пекинских университета, работа в Посольстве России в Китае.">
+  <meta property="og:url" content="https://thousandli.ru/founder.html">
+  <meta property="og:image" content="https://thousandli.ru/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Онлайн-школа китайского языка «Тысяча ли»">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Варвара Тимофеева — основатель онлайн-школы «Тысяча ли»">
+  <meta name="twitter:description" content="12+ лет в Китае, HSK 6, два пекинских университета, работа в Посольстве России в Китае.">
+  <meta name="twitter:image" content="https://thousandli.ru/img/og-image.jpg">
+
+  <meta name="theme-color" content="#004e34">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "EducationalOrganization",
+   "@id": "https://thousandli.ru/#org",
+   "name": "Онлайн-школа китайского языка «Тысяча ли»",
+   "url": "https://thousandli.ru/",
+   "logo": "https://thousandli.ru/img/icons/icon-512.png",
+   "image": "https://thousandli.ru/img/og-image.jpg",
+   "description": "Онлайн-уроки китайского языка для детей и взрослых, подготовка к HSK, HSKK, YCT, BCT, CSCA.",
+   "telephone": "+7 953 156-06-85",
+   "founder": {
+    "@type": "Person",
+    "name": "Варвара Тимофеева"
+   },
+   "areaServed": "RU",
+   "knowsLanguage": [
+    "ru",
+    "zh"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://thousandli.ru/#site",
+   "url": "https://thousandli.ru/",
+   "name": "«Тысяча ли»",
+   "inLanguage": "ru",
+   "publisher": {
+    "@id": "https://thousandli.ru/#org"
+   }
+  }
+ ]
+}
+  </script>
+  <!-- @jsonld {"breadcrumbs": [["Главная", ""], ["Об основателе", "founder.html"]]} -->
+</head>
+<body class="page-founder">
+  <header class="header">
+    <div class="header__bar">
+      <a class="header__logo" href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную">
+        <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
+      </a>
+
+      <nav class="header__nav" aria-label="Основное меню">
+        <a class="header__link" href="./#programs">Программы</a>
+        <a class="header__link" href="./#founder">Об основателе</a>
+        <a class="header__link" href="./#prices">Стоимость</a>
+        <a class="header__link" href="#learning">Как проходит обучение</a>
+      </nav>
+
+      <ul class="header__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a class="header__social" href="#" aria-label="ВКонтакте"><img src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+        <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a class="header__social" href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+
+      <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+
+      <button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="drawer">
+        <span class="header__burger-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню: панель справа -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <a class="drawer__logo" href="./" aria-label="На главную"><img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли"></a>
+        <button class="drawer__close" type="button" aria-label="Закрыть меню" data-drawer-close></button>
+      </div>
+      <nav class="drawer__nav" aria-label="Разделы">
+        <a href="./#programs">Программы</a>
+        <a href="./#method">Авторская методика</a>
+        <a href="./#founder">Об основателе</a>
+        <a href="#learning">Как проходят занятия</a>
+        <a href="./#prices">Стоимость обучения</a>
+        <a href="./#compare">Что вы получите только у нас</a>
+        <a href="#faq">Часто задаваемые вопросы</a>
+      </nav>
+      <ul class="drawer__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a href="#" aria-label="ВКонтакте"><img class="drawer__vk" src="img/icon-vk-white.svg" width="26" height="26" alt=""></a></li>
+        <li><a href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+      <a class="drawer__tel" href="tel:+79531560685"><img src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+      <a class="btn btn--gold drawer__cta" href="#lesson">Записаться на урок</a>
+    </div>
+  </div>
+
+  <main>
+    <nav class="crumbs" aria-label="Навигационная цепочка">
+      <ol class="crumbs__list">
+        <li><a href="./">Главная</a></li>
+        <li aria-current="page">Об основателе</li>
+      </ol>
+    </nav>
+
+    <section class="fhero" aria-labelledby="fhero-title">
+      <div class="fhero__inner">
+        <div class="fhero__card">
+          <h1 class="fhero__title" id="fhero-title">Основатель <br>онлайн-школы</h1>
+          <p>Здравствуйте! Меня зовут Варвара, и&nbsp;я&nbsp;рада приветствовать вас в&nbsp;школе китайского языка «Тысяча ли»!</p>
+          <p>Я&nbsp;хочу поделиться с&nbsp;вами историей, которая легла в&nbsp;основу нашей школы,&nbsp;— историей моего личного «Пути длиной в&nbsp;тысячу ли», который начался много лет назад в&nbsp;самом сердце Китая, в&nbsp;Пекине.</p>
+        </div>
+        <figure class="fhero__photo">
+          <img src="img/founder-page/portrait.webp" width="443" height="402" alt="Варвара Тимофеева, основатель онлайн-школы «Тысяча ли»" fetchpriority="high">
+          <figcaption lang="zh">在线学校创始人</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="path" aria-label="Мой путь">
+      <ol class="path__list">
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Столичный педагогический университет, г.&nbsp;Пекин</h2>
+            <p class="milestone__text">Там я&nbsp;окончила Столичный педагогический университет, получив диплом бакалавра по&nbsp;специальности «Китайский язык». Обучение проходило полностью на&nbsp;китайском языке, по&nbsp;диплому имею право официально его преподавать.</p>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/diploma1.webp" width="942" height="664" alt="Диплом бакалавра Столичного педагогического университета" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone milestone--doc">
+          <div class="milestone__body">
+            <h2 class="milestone__title">HSK&nbsp;6 <br>(получен ещё в&nbsp;2018&nbsp;г.)</h2>
+            <p class="milestone__text">Сдала HSK&nbsp;6&nbsp;— высший уровень экзамена по&nbsp;китайскому языку на&nbsp;тот момент.</p>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/hsk.webp" width="432" height="620" alt="Сертификат HSK 6" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Университет международного бизнеса и&nbsp;экономики, г.&nbsp;Пекин</h2>
+            <p class="milestone__text">Мой путь продолжился в&nbsp;Университете международного бизнеса и&nbsp;экономики в&nbsp;Пекине, где я&nbsp;получила степень магистра по&nbsp;специальности «Международная торговля», обучаясь также на&nbsp;китайском языке.</p>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/diploma2.webp" width="942" height="672" alt="Диплом магистра Университета международного бизнеса и экономики" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Генконсульство России в&nbsp;Шэньяне</h2>
+            <p class="milestone__text">Перевожу для Генерального консула России в&nbsp;Шэньяне и&nbsp;зампредседателя Постоянного комитета Собрания народных представителей провинции Ляонин.</p>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/consul.webp" width="942" height="636" alt="Варвара переводит на встрече в Генконсульстве России в Шэньяне" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone milestone--accent">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Посольство Российской Федерации в&nbsp;Китае</h2>
+            <div class="milestone__text">
+              <p>Мой опыт не&nbsp;ограничился стенами университетов. Я&nbsp;работала в&nbsp;китайских компаниях в&nbsp;сфере торговли и&nbsp;IT, где получила возможность применить знания на&nbsp;практике.</p>
+              <p>Я&nbsp;работала в&nbsp;Посольстве России в&nbsp;Китае и&nbsp;Генконсульстве России в&nbsp;Шэньяне. Там моя роль дипломата и&nbsp;переводчика позволяла мне переводить для мэров и&nbsp;министров нашей страны.</p>
+              <p>Я&nbsp;также занималась протоколом, организуя и&nbsp;проводя крупные мероприятия для сотен человек на&nbsp;китайском языке, включая различные образовательные проекты, что позволило мне быть на&nbsp;передовой межкультурных коммуникаций.</p>
+            </div>
+          </div>
+          <img class="milestone__img milestone__img--portrait" src="img/founder-page/embassy.webp" width="297" height="318" alt="Варвара в Посольстве России в Китае" loading="lazy" decoding="async">
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Перевожу для Министра внутренних дел России В.&nbsp;А.&nbsp;Колокольцева</h2>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/minister.webp" width="830" height="554" alt="Переговоры с участием Министра внутренних дел России" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Перевожу для мэра г.&nbsp;Курска</h2>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/kursk.webp" width="942" height="628" alt="Встреча с мэром Курска" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Студенческий форум в&nbsp;Цзилиньском университете иностранных языков</h2>
+            <p class="milestone__text">Студенты МГИМО и&nbsp;ЦУИЯ представили доклады.</p>
+            <span class="milestone__tag">образовательные проекты</span>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/forum.webp" width="942" height="628" alt="Студенческий форум в зале университета" loading="lazy" decoding="async"></div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__body">
+            <h2 class="milestone__title">Масленица для более чем 300&nbsp;китайских гостей</h2>
+            <p class="milestone__text">Организация и&nbsp;ведение мероприятия на&nbsp;китайском языке.</p>
+            <span class="milestone__tag">для сотен человек</span>
+          </div>
+          <div class="milestone__media"><img class="milestone__img" src="img/founder-page/maslenitsa.webp" width="942" height="622" alt="Празднование Масленицы с китайскими гостями" loading="lazy" decoding="async"></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="mission" aria-labelledby="mission-title">
+      <div class="mission__inner">
+        <h2 class="mission__title" id="mission-title">«Тысяча ли»&nbsp;— школа, в&nbsp;которой я&nbsp;делюсь своим богатым опытом с&nbsp;вами.</h2>
+        <div class="mission__paper">
+          <p class="mission__label">Миссия школы&nbsp;—</p>
+          <p class="mission__text">дать не&nbsp;только язык, но&nbsp;и&nbsp;понимание того, как думают и&nbsp;работают китайцы. Чтобы вы&nbsp;могли вести дела, учиться и&nbsp;жить в&nbsp;Китае на&nbsp;равных.</p>
+        </div>
+    <section class="lead" id="lesson" aria-labelledby="lead-title">
+      <div class="lead__inner">
+        <img class="lead__clouds" src="img/cta/clouds.webp" width="486" height="210" alt="" aria-hidden="true" loading="lazy">
+        <img class="lead__photo" src="img/cta/photo.webp" width="420" height="461" alt="Варвара Тимофеева, основатель школы" loading="lazy">
+        
+        <img class="lead__stars" src="img/cta/stars.svg" width="61" height="65" alt="" aria-hidden="true" loading="lazy">
+
+        <div class="lead__info">
+          <h2 class="lead__title" id="lead-title">Начните говорить <br>по-китайски свободно</h2>
+          <div class="lead__text lead__text--founder">
+            <p>Не&nbsp;общий курс для&nbsp;всех, а&nbsp;язык вашей деятельности: переговоры, учёба, профессиональная лексика.</p>
+            <p>Чтобы каждый студент нашёл свой уникальный путь длиной в&nbsp;«Тысячу ли»!</p>
+          </div>
+        </div>
+
+        <form class="lead__form" action="send.php" method="post" novalidate>
+          <label class="visually-hidden" for="lead-name">Ваше имя</label>
+          <input class="lead__input" id="lead-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" required maxlength="80">
+
+          <div class="lead__phone">
+            <span class="lead__country" aria-hidden="true"><img loading="lazy" decoding="async" src="img/cta/flag-ru.webp" width="38" height="25" alt=""></span>
+            <label class="visually-hidden" for="lead-phone">Телефон</label>
+            <input class="lead__input lead__input--phone" id="lead-phone" name="phone" type="tel" placeholder="+7 (999) 000-00-00" autocomplete="tel" inputmode="tel" required>
+          </div>
+
+          <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="lead__consent">
+            <input type="checkbox" name="consent" value="1" required>
+            <span class="lead__check" aria-hidden="true"></span>
+            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          </label>
+
+          <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
+          <p class="lead__status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="lead__contacts">
+          <p class="lead__contacts-title">или напишите нам в мессенджер</p>
+          <ul class="lead__socials">
+            <li><a href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/cta/vk.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/cta/tg.svg" width="44" height="44" alt=""></a></li>
+            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>
+          </ul>
+          <a class="lead__tel" href="tel:+79531560685"><img loading="lazy" decoding="async" src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+        </div>
+      </div>
+    </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную"><picture>
+          <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
+          <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
+        </picture></a>
+        <ul class="header__socials footer__socials" aria-label="Мы в мессенджерах и соцсетях">
+          <li><a class="header__social" href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+          <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+          <li><a class="header__social" href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+        </ul>
+        <a class="btn btn--gold footer__cta" href="#lesson">Бесплатный пробный урок</a>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-programs">
+        <p class="footer__heading" id="footer-programs">Программы</p>
+        <ul class="footer__list">
+          <li><a href="./?tab=courses#programs" data-tab="courses">Курс китайского языка онлайн</a></li>
+          <li><a href="./?tab=exams#programs" data-tab="exams">Подготовка к экзаменам онлайн</a></li>
+          <li><a href="./?tab=ecourses#programs" data-tab="ecourses">Электронные курсы онлайн</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-menu">
+        <p class="footer__heading" id="footer-menu">Разделы</p>
+        <ul class="footer__list">
+          <li><a href="./#founder">Об основателе</a></li>
+          <li><a href="#learning">Как проходит занятие</a></li>
+          <li><a href="./#prices">Стоимость обучения</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#faq">Вопрос-ответ</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-docs">
+        <p class="footer__heading" id="footer-docs">Документы</p>
+        <ul class="footer__list">
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Согласие на обработку персональных данных</a></li>
+          <li><a href="#">Договор оферты</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Онлайн-школа китайского языка «Тысяча ли»</span>
+        <a href="tel:+79531560685">8 (953) 156-06-85</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
