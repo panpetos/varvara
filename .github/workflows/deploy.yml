@@ -116,5 +116,11 @@ jobs:
           echo "== send.php (запрос-ловушка: письмо не отправляется) =="
           curl -sS --max-time 20 -X POST -d "website=bot&name=Test&phone=79990000000&consent=1" "${URL}send.php" || true
           echo
+          echo "== капча =="
+          curl -sS --max-time 20 "${URL}js/main.js" | grep -q "^const CAPTCHA_SITEKEY = '.\+';" && echo "ключ клиента в main.js есть" || echo "капча выключена (ключа нет)"
+          curl -sS -o /dev/null --max-time 20 -w "captcha-secret.php снаружи: %{http_code}\n" "${URL}captcha-secret.php" || true
+          if curl -sS --max-time 20 "${URL}js/main.js" | grep -q "^const CAPTCHA_SITEKEY = '.\+';"; then
+            echo -n "заявка без галочки: "; curl -sS --max-time 20 -X POST -d "name=Test&phone=79990000000&consent=1" "${URL}send.php" || true; echo
+          fi
           echo | openssl s_client -connect thousandli.ru:443 -servername thousandli.ru 2>/dev/null \
             | openssl x509 -noout -subject -dates 2>/dev/null || echo "сертификата нет"
