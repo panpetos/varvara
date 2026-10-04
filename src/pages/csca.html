@@ -32,9 +32,8 @@
           </div>
         </div>
 
-        <picture class="phero__art">
-          <source media="(max-width: 1023px)" srcset="img/pages/csca/hero-m.webp" width="333" height="318">
-          <img src="img/pages/csca/hero.webp" width="328" height="393" alt="Выпускница в академической шапочке" fetchpriority="high">
+        <picture class="phero__art phero__art--card">
+          <img src="img/pages/csca/hero.webp" width="720" height="720" alt="Выпускница в академической шапочке" fetchpriority="high">
         </picture>
 
         <!-- @include stats mod=" stats--static" -->
@@ -69,7 +68,7 @@
       <p class="approach__outro">Учащимся школы предлагаем пробные варианты на&nbsp;китайском языке по&nbsp;4&nbsp;предметам.</p>
     </section>
 
-    <!-- @include steps -->
+    <!-- @include steps summary="1" -->
     <!-- @include results r1="сдать экзамен по&nbsp;специализированному китайскому" r2="понимать задания по&nbsp;математике, физике и&nbsp;химии на&nbsp;китайском" r3="уверенно работать в&nbsp;формате экзамена" r4="подготовиться к&nbsp;поступлению в&nbsp;вуз КНР" -->
     <!-- @include lead caption="1" -->
     <!-- @include advantages -->
@@ -81,7 +80,7 @@
 
   <!-- @include footer home="./" -->
 
-  <!-- @include quiz -->
+  <!-- @include quiz program="Подготовка к CSCA" program_url="csca.html" -->
 
   <script src="js/main.js" defer></script>
 </body>

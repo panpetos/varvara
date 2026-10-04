@@ -46,6 +46,22 @@ jobs:
           ! grep -l noindex ./*.html .htaccess
           echo "Прод: индексация открыта"
 
+      # Яндекс SmartCaptcha «Я не робот»: ключи из GitHub Secrets.
+      # Нет обоих ключей — капча выключена, формы работают как раньше.
+      - name: Configure SmartCaptcha
+        env:
+          CAPTCHA_CLIENT: ${{ secrets.SMARTCAPTCHA_CLIENT_KEY }}
+          CAPTCHA_SERVER: ${{ secrets.SMARTCAPTCHA_SERVER_KEY }}
+        run: |
+          if [ -n "$CAPTCHA_CLIENT" ] && [ -n "$CAPTCHA_SERVER" ]; then
+            sed -i "s|^const CAPTCHA_SITEKEY = '';|const CAPTCHA_SITEKEY = '$CAPTCHA_CLIENT';|" js/main.js
+            grep -q "^const CAPTCHA_SITEKEY = '.\+';" js/main.js
+            printf "<?php\nreturn '%s';\n" "$CAPTCHA_SERVER" > captcha-secret.php
+            echo "Капча включена"
+          else
+            echo "Ключей SmartCaptcha нет — капча выключена"
+          fi
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

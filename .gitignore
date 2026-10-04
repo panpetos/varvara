@@ -9,3 +9,6 @@ secrets/
 .DS_Store
 Thumbs.db
 node_modules/
+
+# ключ капчи — создаёт деплой
+captcha-secret.php

@@ -15,7 +15,10 @@
           <source media="(max-width: 1023px)" srcset="img/m/heart.svg" width="88" height="86">
           <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
         </picture>
-        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
+        {{^summary}}        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
         <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Подобрать программу</button>
+{{/summary}}{{#summary}}        <h2 class="steps__title" id="steps-title">подведём итог: <br>4&nbsp;вопроса&nbsp;— <br>и&nbsp;ваш план готов</h2>
+        <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Составить план</button>
+{{/summary}}
       </div>
     </section>

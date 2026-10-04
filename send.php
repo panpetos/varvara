@@ -39,7 +39,28 @@ if (mb_strlen($name) < 2)   reply(false, 'name', 422);
 if (strlen($digits) !== 11) reply(false, 'phone', 422);
 if (!$consent)              reply(false, 'consent', 422);
 
-// Квиз «Подобрать программу»: ответы на 4 вопроса и рекомендация
+// Яндекс SmartCaptcha: серверный ключ записывает деплой из GitHub Secrets в captcha-secret.php (в git его нет)
+function captcha_ok(string $secret, string $token): bool {
+    if ($token === '') return false;
+    $ctx = stream_context_create(['http' => [
+        'method'        => 'POST',
+        'timeout'       => 5,
+        'ignore_errors' => true,
+        'header'        => 'Content-Type: application/x-www-form-urlencoded',
+        'content'       => http_build_query(['secret' => $secret, 'token' => $token, 'ip' => $_SERVER['REMOTE_ADDR'] ?? '']),
+    ]]);
+    $res = @file_get_contents('https://smartcaptcha.yandexcloud.net/validate', false, $ctx);
+    // сервис капчи недоступен — заявку не теряем (так советует документация Яндекса)
+    if ($res === false || !preg_match('/\s200\s/', $http_response_header[0] ?? '')) return true;
+    return (json_decode($res, true)['status'] ?? '') === 'ok';
+}
+$captchaFile   = __DIR__ . '/captcha-secret.php';
+$captchaSecret = is_file($captchaFile) ? (string)(require $captchaFile) : '';
+if ($captchaSecret !== '' && !captcha_ok($captchaSecret, (string)($_POST['smart-token'] ?? ''))) {
+    reply(false, 'captcha', 422);
+}
+
+// Квиз: ответы на 4 вопроса + рекомендация (главная) или итог по программе (страницы программ)
 $quizQuestions = [
     'q1' => 'Для кого обучение',
     'q2' => 'Главная цель',
@@ -54,9 +75,11 @@ foreach ($quizQuestions as $key => $label) {
 $result = $clean((string)($_POST['result'] ?? ''), 120);
 if ($result !== '') $quiz .= "Рекомендация: {$result}\n";
 $isQuiz = $quiz !== '';
+$program = $clean((string)($_POST['program'] ?? ''), 120);
+$quizTitle = $program !== '' ? "Новая заявка из квиза на странице программы «{$program}»" : 'Новая заявка из квиза «Подобрать программу»';
 
 $subject = '=?UTF-8?B?' . base64_encode(($isQuiz ? 'Заявка из квиза' : 'Заявка на пробный урок') . ' — thousandli.ru') . '?=';
-$body = ($isQuiz ? "Новая заявка из квиза «Подобрать программу»\n\n" . $quiz . "\n" : "Новая заявка на бесплатный пробный урок\n\n")
+$body = ($isQuiz ? "{$quizTitle}\n\n" . $quiz . "\n" : "Новая заявка на бесплатный пробный урок\n\n")
       . "Имя: {$name}\n"
       . "Телефон: {$phone}\n"
       . "Согласие на обработку ПДн: да\n"

@@ -25,6 +25,11 @@
 </IfModule>
 # test-noindex:end
 
+# ключ капчи (создаёт деплой) — снаружи недоступен
+<Files "captcha-secret.php">
+  Require all denied
+</Files>
+
 # --- типы файлов ---
 AddType image/webp .webp
 AddType video/mp4 .mp4

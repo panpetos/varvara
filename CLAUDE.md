@@ -10,6 +10,14 @@
 - Видео в git нет: на прод workflow копирует `founder-ru.mp4` и постер из `test/video/` в `video/`.
 - Пароли — только в GitHub Secrets и `deploy/.env` (в .gitignore). Не коммитить.
 
+## Формы и капча
+- Все формы (заявка, квиз) → `send.php` (mail на LEAD_TO, honeypot `website`).
+- Яндекс SmartCaptcha «Я не робот»: ключи в GitHub Secrets `SMARTCAPTCHA_CLIENT_KEY` и `SMARTCAPTCHA_SERVER_KEY`.
+  Деплой подставляет клиентский ключ в `CAPTCHA_SITEKEY` (js/main.js) и пишет `captcha-secret.php` (в git его нет).
+  Нет ключей — капча выключена. Контейнер в разметке — `<div class="captcha" data-captcha hidden>`.
+- Квиз: на главной — «Подобрать программу»; на страницах программ (`@include quiz program="…"`, `steps summary="1"`) —
+  итоговый «Подведём итог»: сводка ответов + подсказка, если по ответам лучше подходит другая программа.
+
 ## Картинки — всегда WebP
 - Все растровые картинки (фото, текстуры) — только `.webp` (cwebp / Pillow, q≈80–85),
   с реальными `width`/`height`. Ниже первого экрана — `loading="lazy" decoding="async"`.
@@ -35,7 +43,7 @@
 - Страницы программ: `kids.html` — вручную (`src/pages/kids.html`), остальные 10 (adults, business,
   politics, tech, other, hsk, hskk, yct, bct, csca) генерирует `tools/programs.py` из данных →
   `src/pages/<slug>.html`. Правка текстов: данные в programs.py → `python3 tools/programs.py && python3 tools/build.py`.
-  Меняются только блоки 1–2 и результаты, остальное — общие фрагменты. Картинки первого экрана — `img/pages/<slug>/hero(-m).webp`.
+  Меняются только блоки 1–2 и результаты, остальное — общие фрагменты. Картинка первого экрана — `img/pages/<slug>/hero.webp`: превью из карточки программы в Figma (квадрат 720 px, рендер узла карточки ×5); у kids — своя из макета шаблона.
   Новая программа: добавить в PROGRAMS, картинку, ссылку с карточки на главной, строку в sitemap.xml.
 - Страница «Об основателе» — `src/pages/founder.html`: история (текст №1 заказчицы) с выделенными словами —
   наведение увеличивает, нажатие открывает фото справа (на телефоне — окном), подписи из ТЗ.

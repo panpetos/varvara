@@ -2243,6 +2243,17 @@ body.is-modal-open { overflow: hidden; }
 
 .phero__art img { width: 100%; height: 100%; }
 
+/* превью программы из карточки на главной — квадрат в полном размере */
+.phero__art--card {
+  top: 52px;
+  left: auto;
+  right: 46px;
+  width: 380px;
+  height: 380px;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+}
+
 /* ----- Наш подход ----- */
 .approach {
   width: min(var(--container), 100% - 2 * var(--gutter));
@@ -3965,6 +3976,7 @@ body.is-drawer-open { overflow: hidden; }
   }
 
   .phero__art img { object-fit: cover; }
+  .phero__art--card { aspect-ratio: 1; border-radius: var(--r-md); }
 
   .stats.stats--static {
     position: static;
@@ -4568,6 +4580,25 @@ body.is-drawer-open { overflow: hidden; }
 @media (hover: hover) {
   .quiz__opt:hover { border-color: rgba(0, 78, 52, 0.4); }
 }
+
+.quiz__summary {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  list-style: none;
+  border-radius: var(--r-sm);
+  background: #f4efe6;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.quiz__summary b { font-weight: 600; }
+.quiz__alt { margin-bottom: 12px; font-size: 15px; line-height: 1.35; }
+
+/* Яндекс SmartCaptcha «Я не робот» */
+.captcha { min-height: 102px; margin-top: 14px; }
+.captcha[hidden] { display: none; }
 
 .quiz__note { margin-bottom: 18px; font-size: 16px; line-height: 1.35; color: #3a3a3a; }
 .quiz__done .quiz__note { margin-bottom: 0; }

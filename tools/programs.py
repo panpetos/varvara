@@ -215,6 +215,7 @@ def card(icon, title, text, i, compact=False):
 
 def page(p):
     tab = TABS[p['tab']]
+    p['quiz_name'] = p['title'] if p['tab'] == 'courses' else f"Подготовка к {p['title']}"
     head = dict(title=f"{p['title']} — онлайн-школа «Тысяча ли»" if p['tab'] == 'courses' else f"Подготовка к {p['title']} онлайн — школа «Тысяча ли»",
                 description=p['desc'], path=f"{p['slug']}.html", og_title=html.unescape(re.sub('<br>', '', p['h1'])),
                 og_description=p['lead'])
@@ -262,9 +263,8 @@ def page(p):
           </div>
         </div>
 
-        <picture class="phero__art">
-          <source media="(max-width: 1023px)" srcset="img/pages/{p['slug']}/hero-m.webp" width="333" height="318">
-          <img src="img/pages/{p['slug']}/hero.webp" width="328" height="393" alt="{p['alt']}" fetchpriority="high">
+        <picture class="phero__art phero__art--card">
+          <img src="img/pages/{p['slug']}/hero.webp" width="720" height="720" alt="{p['alt']}" fetchpriority="high">
         </picture>
 
         <!-- @include stats mod=" stats--static" -->
@@ -278,7 +278,7 @@ def page(p):
       </div>{outro}
     </section>
 
-    <!-- @include steps -->
+    <!-- @include steps summary="1" -->
     <!-- @include results {res} -->
     <!-- @include lead caption="1" -->
     <!-- @include advantages -->
@@ -290,7 +290,7 @@ def page(p):
 
   <!-- @include footer home="./" -->
 
-  <!-- @include quiz -->
+  <!-- @include quiz program="{p['quiz_name']}" program_url="{p['slug']}.html" -->
 
   <script src="js/main.js" defer></script>
 </body>

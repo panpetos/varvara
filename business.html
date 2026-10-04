@@ -197,9 +197,8 @@
           </div>
         </div>
 
-        <picture class="phero__art">
-          <source media="(max-width: 1023px)" srcset="img/pages/business/hero-m.webp" width="333" height="318">
-          <img src="img/pages/business/hero.webp" width="328" height="393" alt="Мужчина в деловом костюме" fetchpriority="high">
+        <picture class="phero__art phero__art--card">
+          <img src="img/pages/business/hero.webp" width="720" height="720" alt="Мужчина в деловом костюме" fetchpriority="high">
         </picture>
 
         <ul class="stats stats--static">
@@ -267,8 +266,9 @@
           <source media="(max-width: 1023px)" srcset="img/m/heart.svg" width="88" height="86">
           <img class="steps__decor steps__decor--heart" src="img/steps/heart.webp" width="118" height="111" alt="" loading="lazy">
         </picture>
-        <h2 class="steps__title" id="steps-title">за&nbsp;4&nbsp;шага <br>подберём программу <br>для ваших целей</h2>
-        <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Подобрать программу</button>
+                <h2 class="steps__title" id="steps-title">подведём итог: <br>4&nbsp;вопроса&nbsp;— <br>и&nbsp;ваш план готов</h2>
+        <button class="btn btn--gold steps__btn" type="button" data-quiz-open aria-haspopup="dialog" aria-controls="quiz">Составить план</button>
+
       </div>
     </section>
     <section class="results" aria-labelledby="results-title">
@@ -313,6 +313,8 @@
             <span class="lead__check" aria-hidden="true"></span>
             <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
           </label>
+
+          <div class="captcha" data-captcha hidden></div>
 
           <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
           <p class="lead__status" role="status" aria-live="polite"></p>
@@ -502,6 +504,8 @@
             <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
           </label>
 
+          <div class="captcha" data-captcha hidden></div>
+
           <button class="btn lead__submit" type="submit">Записаться на пробный урок</button>
           <p class="lead__status" role="status" aria-live="polite"></p>
         </form>
@@ -570,15 +574,17 @@
     </div>
   </footer>
 
-  <!-- Квиз «Подобрать программу»: 4 вопроса + контакты -->
-  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title">
+  <!-- Квиз: на главной «Подобрать программу», на страницах программ (program="…") — итоговый: план по этой программе -->
+  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title" data-program="Деловой китайский" data-program-url="business.html">
     <form class="quiz__box" action="send.php" method="post" novalidate>
       <button class="quiz__close" type="button" aria-label="Закрыть" data-quiz-close></button>
-      <input type="hidden" name="source" value="Квиз «Подобрать программу»">
+      <input type="hidden" name="source" value="Итоговый квиз на странице программы">
+      <input type="hidden" name="program" value="Деловой китайский">
+
       <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <div class="quiz__head">
-        <p class="quiz__kicker" id="quiz-title">Подберём программу за&nbsp;4&nbsp;шага</p>
+        <p class="quiz__kicker" id="quiz-title">Подведём итог: ваш план за&nbsp;4&nbsp;шага</p>
         <p class="quiz__count" aria-live="polite"><span data-quiz-num>1</span> из 4</p>
       </div>
       <div class="quiz__bar" aria-hidden="true"><span data-quiz-progress></span></div>
@@ -614,7 +620,9 @@
       </fieldset>
 
       <div class="quiz__step quiz__final" data-step="5" hidden>
-        <p class="quiz__q">Ваша программа: <a class="quiz__result" data-quiz-result href="#"></a></p>
+        <p class="quiz__q">Ваш план по&nbsp;программе «Деловой китайский»</p>
+        <ul class="quiz__summary" data-quiz-summary></ul>
+        <p class="quiz__alt" data-quiz-alt hidden>По&nbsp;ответам вам также подойдёт <a class="quiz__result" data-quiz-result href="#"></a>&nbsp;— педагог поможет выбрать.</p>
         <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
         <label class="visually-hidden" for="quiz-name">Ваше имя</label>
         <input class="lead__input quiz__input" id="quiz-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" maxlength="80">
@@ -628,6 +636,7 @@
           <span class="lead__check" aria-hidden="true"></span>
           <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
         </label>
+        <div class="captcha" data-captcha hidden></div>
       </div>
 
       <div class="quiz__done" data-step="6" hidden>
@@ -638,7 +647,7 @@
       <div class="quiz__nav">
         <button class="quiz__back" type="button" data-quiz-back hidden>Назад</button>
         <button class="btn btn--gold quiz__next" type="button" data-quiz-next disabled>Далее</button>
-        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>Получить программу</button>
+        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>Получить план</button>
       </div>
       <p class="lead__status quiz__status" role="status" aria-live="polite"></p>
     </form>

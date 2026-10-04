@@ -1,12 +1,15 @@
-  <!-- Квиз «Подобрать программу»: 4 вопроса + контакты -->
-  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title">
+  <!-- Квиз: на главной «Подобрать программу», на страницах программ (program="…") — итоговый: план по этой программе -->
+  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title"{{#program}} data-program="{{program}}" data-program-url="{{program_url}}"{{/program}}>
     <form class="quiz__box" action="send.php" method="post" novalidate>
       <button class="quiz__close" type="button" aria-label="Закрыть" data-quiz-close></button>
-      <input type="hidden" name="source" value="Квиз «Подобрать программу»">
+{{^program}}      <input type="hidden" name="source" value="Квиз «Подобрать программу»">
+{{/program}}{{#program}}      <input type="hidden" name="source" value="Итоговый квиз на странице программы">
+      <input type="hidden" name="program" value="{{program}}">
+{{/program}}
       <input class="lead__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <div class="quiz__head">
-        <p class="quiz__kicker" id="quiz-title">Подберём программу за&nbsp;4&nbsp;шага</p>
+        <p class="quiz__kicker" id="quiz-title">{{^program}}Подберём программу за&nbsp;4&nbsp;шага{{/program}}{{#program}}Подведём итог: ваш план за&nbsp;4&nbsp;шага{{/program}}</p>
         <p class="quiz__count" aria-live="polite"><span data-quiz-num>1</span> из 4</p>
       </div>
       <div class="quiz__bar" aria-hidden="true"><span data-quiz-progress></span></div>
@@ -42,8 +45,11 @@
       </fieldset>
 
       <div class="quiz__step quiz__final" data-step="5" hidden>
-        <p class="quiz__q">Ваша программа: <a class="quiz__result" data-quiz-result href="#"></a></p>
-        <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
+{{^program}}        <p class="quiz__q">Ваша программа: <a class="quiz__result" data-quiz-result href="#"></a></p>
+{{/program}}{{#program}}        <p class="quiz__q">Ваш план по&nbsp;программе «{{program}}»</p>
+        <ul class="quiz__summary" data-quiz-summary></ul>
+        <p class="quiz__alt" data-quiz-alt hidden>По&nbsp;ответам вам также подойдёт <a class="quiz__result" data-quiz-result href="#"></a>&nbsp;— педагог поможет выбрать.</p>
+{{/program}}        <p class="quiz__note">Оставьте контакты&nbsp;— педагог позвонит, уточнит детали и&nbsp;запишет на&nbsp;бесплатный пробный урок 30&nbsp;минут.</p>
         <label class="visually-hidden" for="quiz-name">Ваше имя</label>
         <input class="lead__input quiz__input" id="quiz-name" name="name" type="text" placeholder="Ваше имя" autocomplete="name" maxlength="80">
         <div class="lead__phone">
@@ -56,6 +62,7 @@
           <span class="lead__check" aria-hidden="true"></span>
           <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
         </label>
+        <div class="captcha" data-captcha hidden></div>
       </div>
 
       <div class="quiz__done" data-step="6" hidden>
@@ -66,7 +73,7 @@
       <div class="quiz__nav">
         <button class="quiz__back" type="button" data-quiz-back hidden>Назад</button>
         <button class="btn btn--gold quiz__next" type="button" data-quiz-next disabled>Далее</button>
-        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>Получить программу</button>
+        <button class="btn btn--gold quiz__next" type="submit" data-quiz-submit hidden>{{^program}}Получить программу{{/program}}{{#program}}Получить план{{/program}}</button>
       </div>
       <p class="lead__status quiz__status" role="status" aria-live="polite"></p>
     </form>

@@ -32,9 +32,8 @@
           </div>
         </div>
 
-        <picture class="phero__art">
-          <source media="(max-width: 1023px)" srcset="img/pages/other/hero-m.webp" width="333" height="318">
-          <img src="img/pages/other/hero.webp" width="328" height="393" alt="Девушка с ноутбуком" fetchpriority="high">
+        <picture class="phero__art phero__art--card">
+          <img src="img/pages/other/hero.webp" width="720" height="720" alt="Девушка с ноутбуком" fetchpriority="high">
         </picture>
 
         <!-- @include stats mod=" stats--static" -->
@@ -102,7 +101,7 @@
       <p class="approach__outro">Сообщите нам о&nbsp;вашей учёбе или работе, и&nbsp;мы&nbsp;построим эффективный план обучения индивидуально для вас!</p>
     </section>
 
-    <!-- @include steps -->
+    <!-- @include steps summary="1" -->
     <!-- @include results r1="говорить о&nbsp;своей работе или учёбе на&nbsp;китайском" r2="понимать профессиональные тексты по&nbsp;вашей теме" r3="общаться с&nbsp;китайскими коллегами и&nbsp;партнёрами" r4="свободно пользоваться лексикой вашей специальности" -->
     <!-- @include lead caption="1" -->
     <!-- @include advantages -->
@@ -114,7 +113,7 @@
 
   <!-- @include footer home="./" -->
 
-  <!-- @include quiz -->
+  <!-- @include quiz program="Другое направление" program_url="other.html" -->
 
   <script src="js/main.js" defer></script>
 </body>

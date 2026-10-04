@@ -89,12 +89,54 @@ function initPhoneMask(input) {
 }
 
 /* Отправка формы заявки без перезагрузки */
+/* Яндекс SmartCaptcha «Я не робот».
+   Ключ клиента подставляет деплой из GitHub Secrets (SMARTCAPTCHA_CLIENT_KEY); пусто — капча выключена.
+   Скрипт капчи грузится только когда человек начал заполнять форму. */
+const CAPTCHA_SITEKEY = '';
+let captchaLoading;
+function loadCaptcha() {
+  captchaLoading = captchaLoading || new Promise((resolve, reject) => {
+    window.onSmartCaptchaLoad = () => resolve(window.smartCaptcha);
+    const s = document.createElement('script');
+    s.src = 'https://smartcaptcha.yandexcloud.net/captcha.js?render=onload&onload=onSmartCaptchaLoad';
+    s.defer = true;
+    s.onerror = reject;
+    document.head.append(s);
+  });
+  return captchaLoading;
+}
+
+function initCaptcha(form, { lazy = true } = {}) {
+  const box = form.querySelector('[data-captcha]');
+  const off = { start() {}, ok: () => true, reset() {} };
+  if (!CAPTCHA_SITEKEY || !box) return off;
+  let id;
+  const start = () => {
+    if (id !== undefined) return;
+    loadCaptcha().then((sc) => {
+      if (id !== undefined) return;
+      box.hidden = false;
+      id = sc.render(box, { sitekey: CAPTCHA_SITEKEY, hl: 'ru' });
+    }).catch(() => {});
+  };
+  if (lazy) {
+    form.addEventListener('focusin', start, { once: true });
+    form.addEventListener('pointerdown', start, { once: true });
+  }
+  return {
+    start,
+    ok: () => id !== undefined && Boolean(window.smartCaptcha.getResponse(id)),
+    reset: () => { if (id !== undefined) window.smartCaptcha.reset(id); },
+  };
+}
+
 function initLeadForm(form) {
   const name = form.elements.name;
   const phone = form.elements.phone;
   const consent = form.elements.consent;
   const status = form.querySelector('.lead__status');
   const submit = form.querySelector('[type="submit"]');
+  const captcha = initCaptcha(form);
   initPhoneMask(phone);
 
   const setStatus = (text, isError) => {
@@ -114,6 +156,11 @@ function initLeadForm(form) {
       setStatus(!okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон', true);
       return;
     }
+    if (!captcha.ok()) {
+      captcha.start();
+      setStatus('Отметьте «Я не робот»', true);
+      return;
+    }
 
     submit.disabled = true;
     setStatus('Отправляем…');
@@ -124,8 +171,9 @@ function initLeadForm(form) {
       form.reset();
       setStatus('Спасибо! Мы свяжемся с вами в ближайшее время.');
     } catch (err) {
-      setStatus('Не удалось отправить. Позвоните нам: 8 (953) 156-06-85', true);
+      setStatus(err.message === 'captcha' ? 'Отметьте «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85', true);
     } finally {
+      captcha.reset();
       submit.disabled = false;
     }
   });
@@ -364,6 +412,11 @@ function initQuiz() {
   const bar = quiz.querySelector('[data-quiz-progress]');
   const status = quiz.querySelector('.quiz__status');
   const head = quiz.querySelector('.quiz__head');
+  const captcha = initCaptcha(form, { lazy: false });
+  // на странице программы квиз итоговый: сводка ответов по этой программе
+  const program = quiz.dataset.program;
+  const summary = quiz.querySelector('[data-quiz-summary]');
+  const alt = quiz.querySelector('[data-quiz-alt]');
   let step = 1;
 
   // рекомендация по ответам — только существующие программы школы (страницы программ)
@@ -399,6 +452,18 @@ function initQuiz() {
       const link = quiz.querySelector('[data-quiz-result]');
       link.textContent = name;
       link.href = url;
+      if (program) {
+        const labels = { q1: 'Для кого', q2: 'Цель', q3: 'Уровень', q4: 'Формат' };
+        summary.replaceChildren(...Object.entries(labels).map(([k, label]) => {
+          const li = document.createElement('li');
+          const b = document.createElement('b');
+          b.textContent = label + ': ';
+          li.append(b, form.elements[k].value);
+          return li;
+        }));
+        alt.hidden = url === quiz.dataset.programUrl;
+      }
+      captcha.start();
     }
     status.textContent = '';
   };
@@ -428,20 +493,27 @@ function initQuiz() {
       status.classList.add('is-error');
       return;
     }
+    if (!captcha.ok()) {
+      status.textContent = 'Отметьте «Я не робот»';
+      status.classList.add('is-error');
+      return;
+    }
     submit.disabled = true;
     status.classList.remove('is-error');
     status.textContent = 'Отправляем…';
     try {
       const data = new FormData(form);
-      data.append('result', recommend()[0]);
+      const rec = recommend()[0];
+      data.append('result', !program ? rec : alt.hidden ? program : `${program} (по ответам также подходит: ${rec})`);
       const res = await fetch(form.action, { method: 'POST', body: data });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.ok) throw new Error(json.error || 'send failed');
       show(6);
     } catch (err) {
-      status.textContent = 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
+      status.textContent = err.message === 'captcha' ? 'Отметьте «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
       status.classList.add('is-error');
     } finally {
+      captcha.reset();
       submit.disabled = false;
     }
   });
