@@ -130,6 +130,21 @@ function initCaptcha(form, { lazy = true } = {}) {
   };
 }
 
+/* Ошибка поля снимается, как только его исправили */
+function clearErrorsOnFix(form, status) {
+  const fix = (e) => {
+    const box = e.target.closest('.lead__consent') || e.target;
+    if (!box.classList.contains('is-invalid')) return;
+    box.classList.remove('is-invalid');
+    if (!form.querySelector('.is-invalid')) {
+      status.textContent = '';
+      status.classList.remove('is-error');
+    }
+  };
+  form.addEventListener('input', fix);
+  form.addEventListener('change', fix);
+}
+
 function initLeadForm(form) {
   const name = form.elements.name;
   const phone = form.elements.phone;
@@ -138,6 +153,7 @@ function initLeadForm(form) {
   const submit = form.querySelector('[type="submit"]');
   const captcha = initCaptcha(form);
   initPhoneMask(phone);
+  clearErrorsOnFix(form, status);
 
   const setStatus = (text, isError) => {
     status.textContent = text;
@@ -479,6 +495,7 @@ function initQuiz() {
 
   const phone = form.elements.phone;
   initPhoneMask(phone);
+  clearErrorsOnFix(form, status);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = form.elements.name;
