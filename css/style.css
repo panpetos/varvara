@@ -4690,6 +4690,7 @@ body.is-drawer-open { overflow: hidden; }
 .approach-card--compact .approach-card__title { margin: 0; font-size: 18px; line-height: 1.25; }
 
 .approach-card--wide { grid-column: 1 / -1; }
+.approach__grid--cards .approach-card--wide { min-height: 0; }
 
 .approach__outro {
   margin-top: 24px;
@@ -4908,4 +4909,46 @@ body.is-drawer-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .story__mark, .story__img { transition: none; }
+}
+
+/* ---------- Капча в блоке заявки на ПК: блок вырастает вниз, фото и декор едут вместе с низом ---------- */
+@media (min-width: 1024px) {
+  .lead__inner { --grow: 0px; height: calc(461px + var(--grow)); transition: height .35s ease; }
+  .lead__inner:has(.captcha:not([hidden])) { --grow: 116px; }
+  .lead__photo { top: var(--grow); }
+  .lead__clouds { top: calc(307px + var(--grow)); }
+  .lead__stars { top: calc(324.8px + var(--grow)); }
+  .lead__caption { top: calc(405px + var(--grow)); }
+  .lead__contacts { top: calc(331px + var(--grow)); }
+  .mission .lead__photo { top: calc(-10px + var(--grow)); }
+  .mission .lead__stars { top: calc(318px + var(--grow)); }
+  .mission .lead__clouds { top: calc(307px + var(--grow)); }
+
+  .lead__photo,
+  .lead__clouds,
+  .lead__stars,
+  .lead__caption,
+  .lead__contacts { transition: top .35s ease; }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .lead__inner,
+  .lead__photo,
+  .lead__clouds,
+  .lead__stars,
+  .lead__caption,
+  .lead__contacts { transition: none; }
+}
+
+/* мобильные и планшет: подсказка формы — обычной строкой под кнопкой, не поверх контактов */
+@media (max-width: 1023.98px) {
+  .lead__status { position: static; margin-top: 6px; }
+  .lead__status:empty { display: none; }
+}
+
+/* узкий экран (Fold снаружи ~344): номер телефона целиком */
+@media (max-width: 379.98px) {
+  .lead__input { padding-right: 12px; }
+  .lead__input--phone { padding-left: 62px; letter-spacing: -.02em; }
+  .lead__country { left: 14px; }
 }
