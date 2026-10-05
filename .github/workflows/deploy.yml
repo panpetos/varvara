@@ -1,9 +1,9 @@
 name: Deploy to reg.ru
 
 # Автодеплой сайта thousandli.ru на хостинг Рег.ру по FTP.
-# Каждый пуш выкладывает сайт в две папки:
-#   prod — www/thousandli.ru/       → https://thousandli.ru/       (индексация открыта)
-#   test — www/thousandli.ru/test/  → https://thousandli.ru/test/  (копия, закрыта от поиска)
+# Каждый пуш выкладывает изменения только на основной сайт:
+#   www/thousandli.ru/ → https://thousandli.ru/
+# Папка /test/ этим workflow больше не изменяется.
 
 on:
   push:
@@ -19,17 +19,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        include:
-          - target: prod
-            dir: www/thousandli.ru/
-            url: https://thousandli.ru/
-          - target: test
-            dir: www/thousandli.ru/test/
-            url: https://thousandli.ru/test/
     env:
+      SERVER_DIR: www/thousandli.ru/
+      URL: https://thousandli.ru/
       FTP_SERVER: ${{ secrets.FTP_SERVER }}
       FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
       FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
@@ -45,9 +37,8 @@ jobs:
           test "$(grep -l 'ТЫСЯЧА ЛИ' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
           test "$(grep -l 'mailto:school@thousandli.ru' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
 
-      # На проде убираем запрет индексации: meta robots на всех страницах и X-Robots-Tag в .htaccess
+      # На основном сайте убираем запрет индексации: meta robots на всех страницах и X-Robots-Tag в .htaccess
       - name: Open indexing for production
-        if: matrix.target == 'prod'
         run: |
           sed -i '/data-env="test"/d; /Тестовая копия: индексация закрыта/d' ./*.html
           sed -i '/# test-noindex:start/,/# test-noindex:end/d' .htaccess
@@ -77,7 +68,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
-          server-dir: ${{ matrix.dir }}
+          server-dir: ${{ env.SERVER_DIR }}
           local-dir: ./
           # что НЕ заливать на хостинг (папки test/ и video/ на сервере не трогаются)
           exclude: |
@@ -90,9 +81,8 @@ jobs:
             src/**
             tools/**
 
-      # Видео лежит только на хостинге (в git его нет): на прод копируем сжатые файлы из test/video
+      # Видео лежит только на хостинге (в git его нет): при необходимости копируем его из test/video
       - name: Copy founder video to production
-        if: matrix.target == 'prod'
         run: |
           for f in founder-ru.mp4 founder-ru-poster.webp; do
             if curl -sS --ssl-reqd --insecure -I -u "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_SERVER/www/thousandli.ru/video/$f" >/dev/null 2>&1; then
@@ -106,8 +96,6 @@ jobs:
       - name: Check site
         if: always()
         continue-on-error: true
-        env:
-          URL: ${{ matrix.url }}
         run: |
           echo "== $URL =="
           curl -sS -o /dev/null --max-time 20 -L -w "code=%{http_code} url=%{url_effective}\n" "$URL" || true
@@ -117,7 +105,7 @@ jobs:
           echo "== редиректы =="
           curl -sS -o /dev/null --max-time 20 -w "http → %{redirect_url}\n" "http://thousandli.ru/" || true
           curl -sS -o /dev/null --max-time 20 -w "www → %{redirect_url}\n" "https://www.thousandli.ru/" || true
-          echo "== индексация (prod — открыта, test — noindex) =="
+          echo "== индексация основного сайта =="
           curl -sSI --max-time 20 "$URL" | grep -i "x-robots-tag" || echo "X-Robots-Tag нет"
           curl -sS --max-time 20 "$URL" | grep -o '<meta name="robots"[^>]*>' || echo "meta robots нет"
           curl -sS --max-time 20 "$URL" | grep -o '<title>[^<]*' || true
