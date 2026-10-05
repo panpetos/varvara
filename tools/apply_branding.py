@@ -57,6 +57,8 @@ STYLE = f'''{MARKER}
       .lead__tel {{ top: 82px; left: 95px; }}
     }}
     @media (max-width: 1023.98px) {{
+      .header__bar {{ position: relative; justify-content: flex-end; }}
+      .header__logo {{ position: absolute; top: 50%; left: 50%; display: flex; align-items: center; justify-content: center; margin: 0; transform: translate(-50%, -50%); }}
       .brand-lockup--header .brand-lockup__copy {{ display: none; }}
     }}
   </style>'''
