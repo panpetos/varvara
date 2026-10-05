@@ -42,6 +42,7 @@ jobs:
         run: |
           python3 tools/apply_branding.py
           test "$(grep -l 'https://thousandli.ru/img/logo2.svg' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
+          test "$(grep -l 'ТЫСЯЧА ЛИ' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
           test "$(grep -l 'mailto:school@thousandli.ru' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
 
       # На проде убираем запрет индексации: meta robots на всех страницах и X-Robots-Tag в .htaccess
