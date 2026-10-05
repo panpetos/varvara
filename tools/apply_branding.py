@@ -37,6 +37,11 @@ STYLE = f'''{MARKER}
     .brand-lockup__copy {{ display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-family: var(--ff-display); line-height: 1; white-space: nowrap; }}
     .brand-lockup__eyebrow {{ font-size: 10px; font-weight: 400; letter-spacing: .01em; }}
     .brand-lockup__name {{ font-size: 16px; font-weight: 600; letter-spacing: -.02em; }}
+    .brand-lockup--header {{ gap: 6px; }}
+    .brand-lockup--header img {{ width: 48px !important; height: 48px !important; }}
+    .brand-lockup--header .brand-lockup__copy {{ gap: 2px; }}
+    .brand-lockup--header .brand-lockup__eyebrow {{ font-size: 7px; }}
+    .brand-lockup--header .brand-lockup__name {{ font-size: 11px; }}
     .header__social svg {{ width: 25px; height: 25px; fill: none; stroke: #004e34; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
     .drawer__socials svg {{ width: 25px; height: 25px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
     .drawer__email {{ display: flex; align-items: center; gap: 13px; margin-top: 12px; font-size: 16px; }}
@@ -47,7 +52,6 @@ STYLE = f'''{MARKER}
     .brand-lockup--footer {{ color: #fff; }}
     @media (min-width: 1024px) {{ .lead__tel {{ top: 82px; left: 95px; }} }}
     @media (max-width: 1023.98px) {{
-      .brand-lockup--header img {{ width: 48px !important; height: 48px !important; }}
       .brand-lockup--header .brand-lockup__copy {{ display: none; }}
     }}
   </style>'''
