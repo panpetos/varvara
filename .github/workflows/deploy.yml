@@ -29,11 +29,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Новый логотип и официальная почта применяются ко всем собранным страницам перед выкладкой.
-      - name: Apply logo and email
+      # Новый логотип, favicon и официальная почта применяются ко всем собранным страницам перед выкладкой.
+      - name: Apply logo, favicon and email
         run: |
           python3 tools/apply_branding.py
+          python3 tools/apply_favicon.py
           test "$(grep -l 'https://thousandli.ru/img/logo2.svg' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
+          test "$(grep -l 'https://thousandli.ru/img/logo2.svg?v=2' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
           test "$(grep -l 'ТЫСЯЧА ЛИ' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
           test "$(grep -l 'position: static; display: flex; align-items: center; justify-content: flex-start; margin: 0 auto 0 0; transform: none' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
           test "$(grep -l 'mailto:school@thousandli.ru' ./*.html | wc -l)" -eq "$(find . -maxdepth 1 -name '*.html' | wc -l)"
