@@ -8,16 +8,16 @@ MARKER = "<!-- branding: logo-email -->"
 
 HEADER_LOGO_OLD = '<img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">'
 HEADER_LOGO_NEW = '''<picture>
-          <source media="(max-width: 1023px)" srcset="https://thousandli.ru/img/logo.png" width="64" height="64">
-          <img src="https://thousandli.ru/img/full_logo.png" width="199" height="64" alt="Онлайн-школа Тысяча ли">
+          <source media="(max-width: 1023px)" srcset="https://thousandli.ru/img/logo.svg" width="64" height="64">
+          <img src="https://thousandli.ru/img/full_logo.svg" width="199" height="64" alt="Онлайн-школа Тысяча ли">
         </picture>'''
 DRAWER_LOGO_OLD = '<img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли">'
-DRAWER_LOGO_NEW = '<img src="https://thousandli.ru/img/logo.png" width="64" height="64" alt="Онлайн-школа Тысяча ли">'
+DRAWER_LOGO_NEW = '<img src="https://thousandli.ru/img/logo.svg" width="64" height="64" alt="Онлайн-школа Тысяча ли">'
 FOOTER_LOGO_OLD = '''<picture>
           <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
           <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
         </picture>'''
-FOOTER_LOGO_NEW = '<img class="footer__logo" src="https://thousandli.ru/img/full_logo.png" width="199" height="64" alt="Онлайн-школа Тысяча ли" loading="lazy">'
+FOOTER_LOGO_NEW = '<img class="footer__logo" src="https://thousandli.ru/img/full_logo.svg" width="199" height="64" alt="Онлайн-школа Тысяча ли" loading="lazy">'
 
 MAIL_HEADER = f'''        <li><a class="header__social" href="mailto:{EMAIL}" aria-label="Написать на {EMAIL}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></li>'''
 MAIL_DRAWER = f'''        <li><a href="mailto:{EMAIL}" aria-label="Написать на {EMAIL}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></li>'''
