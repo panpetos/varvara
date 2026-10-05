@@ -50,7 +50,12 @@ STYLE = f'''{MARKER}
     .lead__socials svg circle {{ fill: #004e34; }}
     .lead__socials svg rect, .lead__socials svg path {{ fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }}
     .brand-lockup--footer {{ color: #fff; }}
-    @media (min-width: 1024px) {{ .lead__tel {{ top: 82px; left: 95px; }} }}
+    @media (min-width: 1024px) {{
+      .header__bar {{ align-items: center; }}
+      .header__logo {{ display: flex; align-items: center; align-self: center; flex: 0 0 auto; margin-top: 0; margin-right: 24px; }}
+      .header__nav {{ align-items: center; flex: 0 1 auto; gap: 18px; min-width: 0; margin-left: 0; padding-top: 0; }}
+      .lead__tel {{ top: 82px; left: 95px; }}
+    }}
     @media (max-width: 1023.98px) {{
       .brand-lockup--header .brand-lockup__copy {{ display: none; }}
     }}
