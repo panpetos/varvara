@@ -58,7 +58,7 @@ STYLE = f'''{MARKER}
     }}
     @media (max-width: 1023.98px) {{
       .header__bar {{ position: relative; justify-content: flex-end; }}
-      .header__logo {{ position: absolute; top: 50%; left: 50%; display: flex; align-items: center; justify-content: center; margin: 0; transform: translate(-50%, -50%); }}
+      .header__logo {{ position: static; display: flex; align-items: center; justify-content: flex-start; margin: 0 auto 0 0; transform: none; }}
       .brand-lockup--header .brand-lockup__copy {{ display: none; }}
     }}
   </style>'''
