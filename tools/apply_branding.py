@@ -7,17 +7,24 @@ EMAIL = "school@thousandli.ru"
 MARKER = "<!-- branding: logo-email -->"
 
 HEADER_LOGO_OLD = '<img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">'
-HEADER_LOGO_NEW = '''<picture>
-          <source media="(max-width: 1023px)" srcset="https://thousandli.ru/img/logo.svg" width="64" height="64">
-          <img src="https://thousandli.ru/img/full_logo.svg" width="199" height="64" alt="Онлайн-школа Тысяча ли">
-        </picture>'''
+BRAND_COPY = """<span class="brand-lockup__copy" aria-hidden="true"><span class="brand-lockup__eyebrow">Онлайн школа</span><span class="brand-lockup__name">ТЫСЯЧА ЛИ</span></span>"""
+HEADER_LOGO_NEW = f'''<span class="brand-lockup brand-lockup--header">
+          <img src="https://thousandli.ru/img/logo2.svg" width="64" height="64" alt="">
+          {BRAND_COPY}
+        </span>'''
 DRAWER_LOGO_OLD = '<img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли">'
-DRAWER_LOGO_NEW = '<img src="https://thousandli.ru/img/logo.svg" width="64" height="64" alt="Онлайн-школа Тысяча ли">'
+DRAWER_LOGO_NEW = f'''<span class="brand-lockup brand-lockup--drawer">
+        <img src="https://thousandli.ru/img/logo2.svg" width="64" height="64" alt="">
+        {BRAND_COPY}
+      </span>'''
 FOOTER_LOGO_OLD = '''<picture>
           <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
           <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
         </picture>'''
-FOOTER_LOGO_NEW = '<img class="footer__logo" src="https://thousandli.ru/img/full_logo.svg" width="199" height="64" alt="Онлайн-школа Тысяча ли" loading="lazy">'
+FOOTER_LOGO_NEW = f'''<span class="brand-lockup brand-lockup--footer">
+          <img src="https://thousandli.ru/img/logo2.svg" width="64" height="64" alt="" loading="lazy">
+          {BRAND_COPY}
+        </span>'''
 
 MAIL_HEADER = f'''        <li><a class="header__social" href="mailto:{EMAIL}" aria-label="Написать на {EMAIL}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></li>'''
 MAIL_DRAWER = f'''        <li><a href="mailto:{EMAIL}" aria-label="Написать на {EMAIL}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></li>'''
@@ -25,21 +32,23 @@ MAIL_LEAD = f'''            <li><a href="mailto:{EMAIL}" aria-label="Напис�
 
 STYLE = f'''{MARKER}
   <style>
-    .header__logo picture {{ display: block; }}
-    .header__logo img {{ width: 199px !important; height: 64px !important; object-fit: contain; }}
+    .brand-lockup {{ display: inline-flex; align-items: center; gap: 10px; color: #004e34; }}
+    .brand-lockup img {{ display: block; flex: 0 0 auto; width: 64px !important; height: 64px !important; object-fit: contain; }}
+    .brand-lockup__copy {{ display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-family: var(--ff-display); line-height: 1; white-space: nowrap; }}
+    .brand-lockup__eyebrow {{ font-size: 10px; font-weight: 400; letter-spacing: .01em; }}
+    .brand-lockup__name {{ font-size: 16px; font-weight: 600; letter-spacing: -.02em; }}
     .header__social svg {{ width: 25px; height: 25px; fill: none; stroke: #004e34; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
-    .drawer__logo img {{ width: 64px !important; height: 64px !important; object-fit: contain; }}
     .drawer__socials svg {{ width: 25px; height: 25px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
     .drawer__email {{ display: flex; align-items: center; gap: 13px; margin-top: 12px; font-size: 16px; }}
     .drawer__email svg {{ width: 25px; height: 25px; fill: none; stroke: #004e34; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
     .lead__socials svg {{ display: block; width: 43.8px; height: 43.9px; }}
     .lead__socials svg circle {{ fill: #004e34; }}
     .lead__socials svg rect, .lead__socials svg path {{ fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }}
-    .footer__logo {{ width: 199px !important; height: auto !important; }}
+    .brand-lockup--footer {{ color: #fff; }}
     @media (min-width: 1024px) {{ .lead__tel {{ top: 82px; left: 95px; }} }}
     @media (max-width: 1023.98px) {{
-      .header__logo img {{ width: 48px !important; height: 48px !important; }}
-      .footer__logo {{ width: 199px !important; height: auto !important; margin-left: 0; }}
+      .brand-lockup--header img {{ width: 48px !important; height: 48px !important; }}
+      .brand-lockup--header .brand-lockup__copy {{ display: none; }}
     }}
   </style>'''
 
