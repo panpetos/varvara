@@ -47,14 +47,15 @@ STYLE = f'''{MARKER}
     .drawer__email {{ display: flex; align-items: center; gap: 13px; margin-top: 12px; font-size: 16px; }}
     .drawer__email svg {{ width: 25px; height: 25px; fill: none; stroke: #004e34; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
     .lead__socials svg {{ display: block; width: 43.8px; height: 43.9px; }}
-    .lead__socials svg circle {{ fill: #004e34; }}
-    .lead__socials svg rect, .lead__socials svg path {{ fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }}
+    .lead__socials svg circle {{ fill: #fff; }}
+    .lead__socials svg rect, .lead__socials svg path {{ fill: none; stroke: #000; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }}
     .brand-lockup--footer {{ color: #fff; }}
     @media (min-width: 1024px) {{
       .header__bar {{ align-items: center; }}
       .header__logo {{ display: flex; align-items: center; align-self: center; flex: 0 0 auto; margin-top: 0; margin-right: 24px; }}
       .header__nav {{ align-items: center; flex: 0 1 auto; gap: 18px; min-width: 0; margin-left: 0; padding-top: 0; }}
-      .lead__tel {{ top: 82px; left: 95px; }}
+      .lead__tel {{ top: 82px; left: 87px; }}
+      .lead__socials {{ left: 84px; }}
     }}
     @media (max-width: 1023.98px) {{
       .header__bar {{ position: relative; justify-content: flex-end; }}
