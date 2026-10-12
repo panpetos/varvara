@@ -2061,6 +2061,13 @@ body.is-modal-open { overflow: hidden; }
   color: rgba(255, 255, 255, 0.6);
 }
 
+.footer__legal {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @media (hover: hover) {
   .footer a:not(.btn) { transition: color .2s ease; }
   .footer a:not(.btn):hover { color: var(--c-gold); }
