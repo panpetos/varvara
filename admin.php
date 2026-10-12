@@ -11,7 +11,9 @@ declare(strict_types=1);
 // Одноразовый код первой настройки (хранится только хэш). Нужен, пока не задан пароль админки.
 const SETUP_CODE_SHA256 = '1fdc6cdf702690de17ddc51be878a29651718528db354e9d53fabefcf371c1ae';
 
-const PAGES = [
+// Названия известных страниц. Список страниц в админке строится по факту — по файлам *.html в корне сайта
+// (см. pages()), поэтому новая страница появляется в «Текстах» сама, без правки этого файла.
+const PAGE_TITLES = [
     'index'    => 'Главная',
     'kids'     => 'Дети',
     'adults'   => 'Взрослые',
@@ -28,6 +30,7 @@ const PAGES = [
     'privacy'  => 'Политика конфиденциальности',
     'consent'  => 'Согласие на обработку ПДн',
     'cookies'  => 'Политика cookie',
+    '404'      => 'Страница 404',
 ];
 
 const DATA_DIR = __DIR__ . '/data';
@@ -67,6 +70,32 @@ function html_parts(string $html): array {
 }
 
 function page_file(string $slug): string { return __DIR__ . '/' . $slug . '.html'; }
+
+/** Страницы сайта: slug => название. Все *.html в корне; известные — по PAGE_TITLES, новые — по <h1>/<title>. */
+function pages(): array {
+    static $list = null;
+    if ($list !== null) return $list;
+    $found = [];
+    foreach (glob(__DIR__ . '/*.html') ?: [] as $f) {
+        $slug = basename($f, '.html');
+        if (!preg_match('/^[A-Za-z0-9_-]+$/', $slug)) continue;
+        $found[$slug] = $f;
+    }
+    $list = [];
+    foreach (PAGE_TITLES as $slug => $title) {
+        if (isset($found[$slug])) { $list[$slug] = $title; unset($found[$slug]); }
+    }
+    ksort($found);
+    foreach ($found as $slug => $f) {
+        $head = (string)file_get_contents($f);
+        $t = $slug;
+        if (preg_match('~<h1[^>]*>(.*?)</h1>~is', $head, $m) || preg_match('~<title>(.*?)</title>~is', $head, $m)) {
+            $t = trim(html_entity_decode(strip_tags($m[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?: $slug;
+        }
+        $list[$slug] = mb_substr($t, 0, 80);
+    }
+    return $list;
+}
 
 /** Видимые текстовые фрагменты страницы (как в файле, без обрамляющих пробелов), без повторов. */
 function fragments(string $html): array {
@@ -109,15 +138,42 @@ function to_raw(string $plain): string {
 /** Возвращает правки, которые снова нужно внести в файлы (после деплоя страница снова «исходная»). */
 function reapply_all(): int {
     $changed = 0;
-    foreach (data_read('content') as $slug => $pairs) {
+    $content = data_read('content');
+    $known   = pages();
+    $stale   = [];
+    foreach ($content as $slug => $pairs) {
         $file = page_file((string)$slug);
-        if (!isset(PAGES[$slug]) || !is_file($file) || !is_array($pairs)) continue;
+        if (!isset($known[$slug]) || !is_file($file) || !is_array($pairs)) continue;
         $html = $orig = (string)file_get_contents($file);
+        $keep = [];
+        $frags = null;
         foreach ($pairs as $p) {
             if (!isset($p['o'], $p['n'])) continue;
-            [$html] = replace_fragment($html, (string)$p['o'], (string)$p['n']);
+            [$html, $n] = replace_fragment($html, (string)$p['o'], (string)$p['n']);
+            if ($n > 0) $frags = null;
+            // ни исходного, ни правленого текста на странице нет — текст в исходниках поменяли, правка устарела
+            if ($n === 0 && !in_array((string)$p['n'], $frags ??= fragments($html), true)) {
+                $stale[$slug][] = $p;
+                continue;
+            }
+            $keep[] = $p;
         }
         if ($html !== $orig && file_put_contents($file, $html, LOCK_EX) !== false) $changed++;
+        if (count($keep) !== count($pairs)) {
+            if ($keep) $content[$slug] = $keep; else unset($content[$slug]);
+        }
+    }
+    if ($stale) {
+        // устаревшие правки не теряем, а переносим в архив: админка покажет их на странице, чтобы внести заново
+        $arch = data_read('content_stale');
+        foreach ($stale as $slug => $list) {
+            foreach ($list as $p) {
+                $arch[$slug] = array_values(array_filter($arch[$slug] ?? [], static fn($a) => ($a['n'] ?? '') !== $p['n']));
+                $arch[$slug][] = ['o' => $p['o'], 'n' => $p['n'], 'at' => date('Y-m-d H:i')];
+            }
+        }
+        data_write_json('content_stale', $arch);
+        data_write_json('content', $content);
     }
     return $changed;
 }
@@ -242,7 +298,7 @@ if ($authed && $isPost) {
     if ($action === 'texts') {
         $tab  = 'texts';
         $slug = (string)($_POST['page'] ?? '');
-        if (!isset(PAGES[$slug]) || !is_file(page_file($slug))) {
+        if (!isset(pages()[$slug]) || !is_file(page_file($slug))) {
             $err = 'Страница не найдена.';
         } else {
             $content    = data_read('content');
@@ -272,7 +328,7 @@ if ($authed && $isPost) {
             }
 
             $done = 0;
-            $slugs = $everywhere ? array_keys(PAGES) : [$slug];
+            $slugs = $everywhere ? array_keys(pages()) : [$slug];
             foreach ($jobs as [$cur, $new]) {
                 if ($cur === $new) continue;
                 // исходный текст: если фрагмент уже правили — берём оригинал из списка правок
@@ -474,7 +530,7 @@ if ($tab === 'password') {
 
 // --- тексты ---
 $slug = (string)($_POST['page'] ?? $_GET['p'] ?? 'index');
-if (!isset(PAGES[$slug])) $slug = 'index';
+if (!isset(pages()[$slug])) $slug = 'index';
 $file    = page_file($slug);
 $html    = is_file($file) ? (string)file_get_contents($file) : '';
 $frags   = fragments($html);
@@ -490,7 +546,7 @@ notices($msg, $err);
 <input type="hidden" name="tab" value="texts">
 <div style="flex:1;min-width:220px"><label style="margin-top:0">Страница</label>
 <select name="p" onchange="this.form.submit()">
-<?php foreach (PAGES as $k => $title): ?>
+<?php foreach (pages() as $k => $title): ?>
 <option value="<?= h($k) ?>"<?= $k === $slug ? ' selected' : '' ?>><?= h($title) ?> (<?= h($k) ?>.html)</option>
 <?php endforeach; ?>
 </select></div>
@@ -498,6 +554,13 @@ notices($msg, $err);
 </form>
 <p class="muted">Поменяйте текст в нужном поле и нажмите «Сохранить» — страница обновится сразу. Менять можно только слова:
 картинки, ссылки и вёрстка остаются как есть.</p>
+<?php $lost = data_read('content_stale')[$slug] ?? []; if ($lost): ?>
+<p class="muted"><b>Не применились после обновления сайта</b> (исходный текст на странице изменили, ваша правка к нему уже не подходит). Найдите нужное место ниже и внесите правку заново:</p>
+<ul class="muted">
+<?php foreach ($lost as $p): ?><li>«<?= h(show_text((string)$p['n'])) ?>» <small>(было: «<?= h(show_text((string)$p['o'])) ?>»)</small></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
 <input type="text" id="q" placeholder="Найти текст на странице…" oninput="
 var v=this.value.toLowerCase();document.querySelectorAll('.frag').forEach(function(e){e.style.display=e.textContent.toLowerCase().indexOf(v)<0&&!(e.querySelector('textarea')&&e.querySelector('textarea').value.toLowerCase().indexOf(v)>=0)?'none':''})">
 </div>

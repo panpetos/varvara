@@ -113,7 +113,11 @@ jobs:
           # хостинг сначала отдаёт страницу-проверку с cookie RCPC и переходом ?attempt=1 — проходим её
           jar=$(mktemp)
           curl -sS --max-time 30 -c "$jar" -b "$jar" -o /dev/null "${URL}admin.php?reapply=1"
-          echo -n "admin.php?reapply=1 → "; curl -sS --max-time 30 -c "$jar" -b "$jar" "${URL}admin.php?reapply=1&attempt=1"; echo
+          echo -n "admin.php?reapply=1 → "
+          res=$(curl -sS --max-time 30 -c "$jar" -b "$jar" "${URL}admin.php?reapply=1&attempt=1")
+          echo "$res"
+          # ответ «ok N» — правки возвращены; иначе шаг краснеет (они всё равно вернутся при открытии вкладки «Тексты» в админке)
+          case "$res" in ok*) ;; *) echo "::warning::правки текстов из админки не возвращены — откройте admin.php → Тексты"; exit 1 ;; esac
 
       # Видео лежит только на хостинге (в git его нет): при необходимости копируем его из test/video
       - name: Copy founder video to production
