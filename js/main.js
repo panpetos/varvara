@@ -89,35 +89,40 @@ function initPhoneMask(input) {
 }
 
 /* Отправка формы заявки без перезагрузки */
-/* Яндекс SmartCaptcha «Я не робот».
-   Ключ клиента подставляет деплой из GitHub Secrets (SMARTCAPTCHA_CLIENT_KEY); пусто — капча выключена.
-   Скрипт капчи грузится только когда человек начал заполнять форму. */
+/* Stitex Captcha «Я не робот».
+   Ключ клиента (публичный) подставляет деплой, если в GitHub Secrets есть STITEX_SECRET_KEY; пусто — капча выключена.
+   Серверный ключ лежит только в captcha-secret.php на хостинге.
+   Виджет сам ищет на странице контейнер #stitex-captcha и после решения кладёт в форму скрытое поле
+   stitex-captcha-token, поэтому одновременно виджет отдаём одной форме, а скрипт подгружаем только когда человек
+   начал заполнять форму. */
 const CAPTCHA_SITEKEY = '';
-let captchaLoading;
-function loadCaptcha() {
-  captchaLoading = captchaLoading || new Promise((resolve, reject) => {
-    window.onSmartCaptchaLoad = () => resolve(window.smartCaptcha);
-    const s = document.createElement('script');
-    s.src = 'https://smartcaptcha.yandexcloud.net/captcha.js?render=onload&onload=onSmartCaptchaLoad';
-    s.defer = true;
-    s.onerror = reject;
-    document.head.append(s);
-  });
-  return captchaLoading;
-}
+const CAPTCHA_SRC = 'https://pulse.stitex.com/captcha/stitex-captcha.js';
+const CAPTCHA_FIELD = 'stitex-captcha-token';
 
 function initCaptcha(form, { lazy = true } = {}) {
   const box = form.querySelector('[data-captcha]');
   const off = { start() {}, ok: () => true, reset() {} };
   if (!CAPTCHA_SITEKEY || !box) return off;
-  let id;
+  let shown = false;
+  const field = () => form.elements[CAPTCHA_FIELD];
+  const render = () => {
+    document.querySelectorAll('#stitex-captcha').forEach((n) => n.removeAttribute('id'));
+    box.replaceChildren();
+    if (field()) field().remove();
+    window.stitexCaptchaToken = '';
+    box.id = 'stitex-captcha';
+    box.dataset.sitekey = CAPTCHA_SITEKEY;
+    box.dataset.theme = 'light';
+    box.hidden = false;
+    const s = document.createElement('script');
+    s.src = `${CAPTCHA_SRC}?_=${Date.now()}`;
+    s.onload = s.onerror = () => s.remove();
+    document.head.append(s);
+  };
   const start = () => {
-    if (id !== undefined) return;
-    loadCaptcha().then((sc) => {
-      if (id !== undefined) return;
-      box.hidden = false;
-      id = sc.render(box, { sitekey: CAPTCHA_SITEKEY, hl: 'ru' });
-    }).catch(() => {});
+    if (shown) return;
+    shown = true;
+    render();
   };
   if (lazy) {
     form.addEventListener('focusin', start, { once: true });
@@ -125,8 +130,8 @@ function initCaptcha(form, { lazy = true } = {}) {
   }
   return {
     start,
-    ok: () => id !== undefined && Boolean(window.smartCaptcha.getResponse(id)),
-    reset: () => { if (id !== undefined) window.smartCaptcha.reset(id); },
+    ok: () => shown && Boolean(field() && field().value),
+    reset: () => { if (shown) render(); },
   };
 }
 
@@ -174,7 +179,7 @@ function initLeadForm(form) {
     }
     if (!captcha.ok()) {
       captcha.start();
-      setStatus('Отметьте «Я не робот»', true);
+      setStatus('Пройдите проверку «Я не робот»', true);
       return;
     }
 
@@ -187,7 +192,7 @@ function initLeadForm(form) {
       form.reset();
       setStatus('Спасибо! Мы свяжемся с вами в ближайшее время.');
     } catch (err) {
-      setStatus(err.message === 'captcha' ? 'Отметьте «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85', true);
+      setStatus(err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85', true);
     } finally {
       captcha.reset();
       submit.disabled = false;
@@ -511,7 +516,7 @@ function initQuiz() {
       return;
     }
     if (!captcha.ok()) {
-      status.textContent = 'Отметьте «Я не робот»';
+      status.textContent = 'Пройдите проверку «Я не робот»';
       status.classList.add('is-error');
       return;
     }
@@ -527,7 +532,7 @@ function initQuiz() {
       if (!res.ok || !json.ok) throw new Error(json.error || 'send failed');
       show(6);
     } catch (err) {
-      status.textContent = err.message === 'captcha' ? 'Отметьте «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
+      status.textContent = err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
       status.classList.add('is-error');
     } finally {
       captcha.reset();
@@ -579,33 +584,34 @@ function initVideoModal() {
   });
 }
 
-/* Cookie: «Принять все» / «Только необходимые». Яндекс Метрика грузится только после согласия.
-   Номер счётчика — в METRIKA_ID (0 — счётчика нет, ничего не грузится). */
-const METRIKA_ID = 0;
+/* Cookie: «Принять все» / «Только необходимые». Счётчик VK (Top.Mail.Ru) грузится только после согласия.
+   Номер счётчика — в VK_COUNTER_ID (0 — счётчика нет, ничего не грузится). */
+const VK_COUNTER_ID = 0;
 const COOKIE_KEY = 'tl-cookie';
 
 function cookieChoice() {
   try { return localStorage.getItem(COOKIE_KEY); } catch (e) { return null; }
 }
 
-function loadMetrika() {
-  if (!METRIKA_ID || window.ym) return;
-  (function (m, e, t, r, i, k, a) {
-    m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
-    m[i].l = 1 * new Date();
-    k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
-  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-  window.ym(METRIKA_ID, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+function loadVkCounter() {
+  if (!VK_COUNTER_ID || document.getElementById('tmr-code')) return;
+  const tmr = window._tmr || (window._tmr = []);
+  tmr.push({ id: String(VK_COUNTER_ID), type: 'pageView', start: Date.now() });
+  const s = document.createElement('script');
+  s.async = true;
+  s.id = 'tmr-code';
+  s.src = 'https://top-fwz1.mail.ru/js/code.js';
+  document.head.append(s);
 }
 
 function initCookie() {
   const box = document.querySelector('[data-cookie]');
-  if (cookieChoice() === 'all') loadMetrika();
+  if (cookieChoice() === 'all') loadVkCounter();
   if (!box) return;
   const save = (v) => {
     try { localStorage.setItem(COOKIE_KEY, v); } catch (e) { /* приватный режим: просто закрываем баннер */ }
     box.hidden = true;
-    if (v === 'all') loadMetrika();
+    if (v === 'all') loadVkCounter();
   };
   box.hidden = cookieChoice() !== null;
   box.querySelector('[data-cookie-accept]').addEventListener('click', () => save('all'));

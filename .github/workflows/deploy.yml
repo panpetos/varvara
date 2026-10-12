@@ -48,20 +48,20 @@ jobs:
           ! grep -l noindex ./*.html .htaccess
           echo "Прод: индексация открыта"
 
-      # Яндекс SmartCaptcha «Я не робот»: ключи из GitHub Secrets.
-      # Нет обоих ключей — капча выключена, формы работают как раньше.
-      - name: Configure SmartCaptcha
+      # Stitex Captcha «Я не робот»: ключ клиента (публичный) ниже, серверный — из GitHub Secrets STITEX_SECRET_KEY.
+      # Нет серверного ключа — капча выключена, формы работают как раньше.
+      - name: Configure Stitex Captcha
         env:
-          CAPTCHA_CLIENT: ${{ secrets.SMARTCAPTCHA_CLIENT_KEY }}
-          CAPTCHA_SERVER: ${{ secrets.SMARTCAPTCHA_SERVER_KEY }}
+          CAPTCHA_CLIENT: sc_94e67282f8e726ecd2b37e1715f715fc
+          CAPTCHA_SERVER: ${{ secrets.STITEX_SECRET_KEY }}
         run: |
-          if [ -n "$CAPTCHA_CLIENT" ] && [ -n "$CAPTCHA_SERVER" ]; then
+          if [ -n "$CAPTCHA_SERVER" ]; then
             sed -i "s|^const CAPTCHA_SITEKEY = '';|const CAPTCHA_SITEKEY = '$CAPTCHA_CLIENT';|" js/main.js
             grep -q "^const CAPTCHA_SITEKEY = '.\+';" js/main.js
             printf "<?php\nreturn '%s';\n" "$CAPTCHA_SERVER" > captcha-secret.php
             echo "Капча включена"
           else
-            echo "Ключей SmartCaptcha нет — капча выключена"
+            echo "::warning::Нет секрета STITEX_SECRET_KEY — капча выключена"
           fi
 
       - name: Deploy via FTP

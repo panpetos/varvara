@@ -4608,8 +4608,8 @@ body.is-drawer-open { overflow: hidden; }
 .quiz__summary b { font-weight: 600; }
 .quiz__alt { margin-bottom: 12px; font-size: 15px; line-height: 1.35; }
 
-/* Яндекс SmartCaptcha «Я не робот» */
-.captcha { min-height: 102px; margin-top: 14px; }
+/* Stitex Captcha «Я не робот» */
+.captcha { min-height: 170px; margin-top: 14px; }
 .captcha[hidden] { display: none; }
 
 .quiz__note { margin-bottom: 18px; font-size: 16px; line-height: 1.35; color: #3a3a3a; }
@@ -4926,7 +4926,7 @@ body.is-drawer-open { overflow: hidden; }
 /* ---------- Капча в блоке заявки на ПК: блок вырастает вниз, фото и декор едут вместе с низом ---------- */
 @media (min-width: 1024px) {
   .lead__inner { --grow: 0px; height: calc(461px + var(--grow)); transition: height .35s ease; }
-  .lead__inner:has(.captcha:not([hidden])) { --grow: 116px; }
+  .lead__inner:has(.captcha:not([hidden])) { --grow: 184px; }
   .lead__photo { top: var(--grow); }
   .lead__clouds { top: calc(307px + var(--grow)); }
   .lead__stars { top: calc(324.8px + var(--grow)); }

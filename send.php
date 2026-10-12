@@ -39,24 +39,24 @@ if (mb_strlen($name) < 2)   reply(false, 'name', 422);
 if (strlen($digits) !== 11) reply(false, 'phone', 422);
 if (!$consent)              reply(false, 'consent', 422);
 
-// Яндекс SmartCaptcha: серверный ключ записывает деплой из GitHub Secrets в captcha-secret.php (в git его нет)
+// Stitex Captcha: серверный ключ записывает деплой из GitHub Secrets в captcha-secret.php (в git его нет)
 function captcha_ok(string $secret, string $token): bool {
     if ($token === '') return false;
     $ctx = stream_context_create(['http' => [
         'method'        => 'POST',
         'timeout'       => 5,
         'ignore_errors' => true,
-        'header'        => 'Content-Type: application/x-www-form-urlencoded',
-        'content'       => http_build_query(['secret' => $secret, 'token' => $token, 'ip' => $_SERVER['REMOTE_ADDR'] ?? '']),
+        'header'        => 'Content-Type: application/json',
+        'content'       => json_encode(['secretKey' => $secret, 'solveToken' => $token]),
     ]]);
-    $res = @file_get_contents('https://smartcaptcha.yandexcloud.net/validate', false, $ctx);
-    // сервис капчи недоступен — заявку не теряем (так советует документация Яндекса)
+    $res = @file_get_contents('https://pulse.stitex.com/api/captcha/verify', false, $ctx);
+    // сервис капчи недоступен — заявку не теряем
     if ($res === false || !preg_match('/\s200\s/', $http_response_header[0] ?? '')) return true;
-    return (json_decode($res, true)['status'] ?? '') === 'ok';
+    return (json_decode($res, true)['success'] ?? false) === true;
 }
 $captchaFile   = __DIR__ . '/captcha-secret.php';
 $captchaSecret = is_file($captchaFile) ? (string)(require $captchaFile) : '';
-if ($captchaSecret !== '' && !captcha_ok($captchaSecret, (string)($_POST['smart-token'] ?? ''))) {
+if ($captchaSecret !== '' && !captcha_ok($captchaSecret, (string)($_POST['stitex-captcha-token'] ?? ''))) {
     reply(false, 'captcha', 422);
 }
 
