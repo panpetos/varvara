@@ -90,7 +90,10 @@ jobs:
         continue-on-error: true
         run: |
           sleep 5
-          echo -n "admin.php?reapply=1 → "; curl -sS --max-time 30 "${URL}admin.php?reapply=1"; echo
+          # хостинг сначала отдаёт страницу-проверку с cookie RCPC и переходом ?attempt=1 — проходим её
+          jar=$(mktemp)
+          curl -sS --max-time 30 -c "$jar" -b "$jar" -o /dev/null "${URL}admin.php?reapply=1"
+          echo -n "admin.php?reapply=1 → "; curl -sS --max-time 30 -c "$jar" -b "$jar" "${URL}admin.php?reapply=1&attempt=1"; echo
 
       # Видео лежит только на хостинге (в git его нет): при необходимости копируем его из test/video
       - name: Copy founder video to production

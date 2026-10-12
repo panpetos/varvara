@@ -185,8 +185,8 @@ if ($auth === [] && $action === 'setup') {
     } elseif (!hash_equals(SETUP_CODE_SHA256, hash('sha256', $code))) {
         add_fail();
         $err = 'Неверный код настройки.';
-    } elseif ($login === '' || strlen($p1) < 10 || $p1 !== $p2) {
-        $err = 'Нужны логин и пароль не короче 10 символов (два раза одинаково).';
+    } elseif ($login === '' || strlen($p1) < 8 || $p1 !== $p2) {
+        $err = 'Нужны логин и пароль не короче 8 символов (два раза одинаково).';
     } else {
         data_write_json('auth', ['login' => mb_strtolower($login), 'hash' => password_hash($p1, PASSWORD_DEFAULT)]);
         $auth = data_read('auth');
@@ -231,8 +231,8 @@ if ($authed && $isPost) {
         $tab = 'password';
         if (!password_verify($cur, (string)$auth['hash'])) {
             $err = 'Текущий пароль указан неверно.';
-        } elseif (strlen($p1) < 10 || $p1 !== $p2) {
-            $err = 'Новый пароль — не короче 10 символов, два раза одинаково.';
+        } elseif (strlen($p1) < 8 || $p1 !== $p2) {
+            $err = 'Новый пароль — не короче 8 символов, два раза одинаково.';
         } else {
             data_write_json('auth', ['login' => $auth['login'], 'hash' => password_hash($p1, PASSWORD_DEFAULT)]);
             $msg = 'Пароль изменён.';
@@ -365,8 +365,8 @@ if (!$authed) {
 <input type="hidden" name="csrf" value="<?= h($csrf) ?>"><input type="hidden" name="action" value="setup">
 <label>Код настройки</label><input type="password" name="code" required>
 <label>Логин (почта)</label><input type="email" name="login" required>
-<label>Пароль (не короче 10 символов)</label><input type="password" name="pass1" required minlength="10">
-<label>Пароль ещё раз</label><input type="password" name="pass2" required minlength="10">
+<label>Пароль (не короче 8 символов)</label><input type="password" name="pass1" required minlength="8">
+<label>Пароль ещё раз</label><input type="password" name="pass2" required minlength="8">
 <p><button>Сохранить</button></p>
 </form></div>
 <?php
@@ -463,8 +463,8 @@ if ($tab === 'password') {
 <form method="post" autocomplete="off">
 <input type="hidden" name="csrf" value="<?= h($csrf) ?>"><input type="hidden" name="action" value="password">
 <label>Текущий пароль</label><input type="password" name="cur" required>
-<label>Новый пароль (не короче 10 символов)</label><input type="password" name="pass1" required minlength="10">
-<label>Новый пароль ещё раз</label><input type="password" name="pass2" required minlength="10">
+<label>Новый пароль (не короче 8 символов)</label><input type="password" name="pass1" required minlength="8">
+<label>Новый пароль ещё раз</label><input type="password" name="pass2" required minlength="8">
 <p><button>Сменить</button></p>
 </form></div>
 <?php
