@@ -52,15 +52,23 @@ STYLE = f'''{MARKER}
     .brand-lockup--footer {{ color: #fff; }}
     @media (min-width: 1024px) {{
       .header__bar {{ align-items: center; }}
-      .header__logo {{ display: flex; align-items: center; align-self: center; flex: 0 0 auto; margin-top: 0; margin-right: 24px; }}
-      .header__nav {{ align-items: center; flex: 0 1 auto; gap: 18px; min-width: 0; margin-left: 0; padding-top: 0; }}
+      .header__logo {{ display: flex; align-items: center; align-self: center; flex: 0 0 auto; margin-top: 0; margin-right: 0; }}
+      .header__nav {{ align-items: center; justify-content: center; flex: 1 1 auto; gap: 24px; min-width: 0; margin-left: 0; padding-top: 0; }}
       .lead__tel {{ top: 82px; left: 87px; }}
       .lead__socials {{ left: 84px; }}
     }}
     @media (max-width: 1023.98px) {{
       .header__bar {{ position: relative; justify-content: flex-end; }}
       .header__logo {{ position: static; display: flex; align-items: center; justify-content: flex-start; margin: 0 auto 0 0; transform: none; }}
-      .brand-lockup--header .brand-lockup__copy {{ display: none; }}
+      .brand-lockup--header {{ gap: 8px; }}
+      .brand-lockup--header img {{ width: 44px !important; height: 44px !important; }}
+      .brand-lockup--header .brand-lockup__copy {{ gap: 3px; }}
+      .brand-lockup--header .brand-lockup__eyebrow {{ font-size: 9px; }}
+      .brand-lockup--header .brand-lockup__name {{ font-size: 14px; }}
+    }}
+    @media (min-width: 600px) and (max-width: 1023.98px) {{
+      .header__cta {{ display: inline-flex; margin-left: auto; margin-right: 8px; }}
+      .header__burger {{ margin-left: 0; }}
     }}
   </style>'''
 

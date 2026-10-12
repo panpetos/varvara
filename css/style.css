@@ -151,6 +151,9 @@ img { display: block; max-width: 100%; height: auto; }
 
 a { color: inherit; text-decoration: none; }
 
+/* у кнопок нет «грубой» рамки браузера: внешний вид задают классы */
+button { border: 0; }
+
 ul { margin: 0; padding: 0; list-style: none; }
 
 h1, p { margin: 0; }
