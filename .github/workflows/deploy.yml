@@ -83,6 +83,14 @@ jobs:
             CLAUDE.md
             src/**
             tools/**
+            data/**
+
+      # Правки текстов из админки (admin.php) хранятся на хостинге: после выкладки страницы снова «исходные» — возвращаем правки
+      - name: Reapply admin text edits
+        continue-on-error: true
+        run: |
+          sleep 5
+          echo -n "admin.php?reapply=1 → "; curl -sS --max-time 30 "${URL}admin.php?reapply=1"; echo
 
       # Видео лежит только на хостинге (в git его нет): при необходимости копируем его из test/video
       - name: Copy founder video to production

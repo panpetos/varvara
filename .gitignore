@@ -12,3 +12,6 @@ node_modules/
 
 # ключ капчи — создаёт деплой
 captcha-secret.php
+
+# admin data (leads, password, text edits) live only on hosting
+data/

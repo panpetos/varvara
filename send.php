@@ -6,7 +6,7 @@
 declare(strict_types=1);
 
 // Куда отправлять заявки (при необходимости поменяйте / добавьте через запятую)
-const LEAD_TO   = 'panpetos2@gmail.com, school@thousandli.ru';
+const LEAD_TO   = 'school@thousandli.ru';
 const LEAD_FROM = 'noreply@thousandli.ru';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -68,9 +68,13 @@ $quizQuestions = [
     'q4' => 'Формат',
 ];
 $quiz = '';
+$quizAnswers = [];
 foreach ($quizQuestions as $key => $label) {
     $answer = $clean((string)($_POST[$key] ?? ''), 120);
-    if ($answer !== '') $quiz .= "{$label}: {$answer}\n";
+    if ($answer !== '') {
+        $quiz .= "{$label}: {$answer}\n";
+        $quizAnswers[$label] = $answer;
+    }
 }
 $result = $clean((string)($_POST['result'] ?? ''), 120);
 if ($result !== '') $quiz .= "Рекомендация: {$result}\n";
@@ -92,6 +96,24 @@ $headers = implode("\r\n", [
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: 8bit',
 ]);
+
+// Копия заявки для раздела «Заявки» в админке (admin.php). Файл data/leads.php снаружи отдаёт 404.
+// Пишем до отправки письма: если почта сбойнула, заявка всё равно остаётся в админке.
+$leadsFile = __DIR__ . '/data/leads.php';
+if (is_dir(dirname($leadsFile)) || @mkdir(dirname($leadsFile), 0755, true)) {
+    $line = json_encode([
+        'ts'      => date('c'),
+        'name'    => $name,
+        'phone'   => $phone,
+        'kind'    => $isQuiz ? 'quiz' : 'trial',
+        'program' => $program,
+        'quiz'    => $quizAnswers,
+        'result'  => $result,
+        'page'    => $clean((string)($_SERVER['HTTP_REFERER'] ?? ''), 200),
+    ], JSON_UNESCAPED_UNICODE) . "\n";
+    if (!is_file($leadsFile)) $line = "<?php http_response_code(404); exit; ?>\n" . $line;
+    @file_put_contents($leadsFile, $line, FILE_APPEND | LOCK_EX);
+}
 
 $sent = mail(LEAD_TO, $subject, $body, $headers, '-f' . LEAD_FROM);
 reply($sent, $sent ? '' : 'mail', $sent ? 200 : 500);
