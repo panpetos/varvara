@@ -4,9 +4,9 @@
 Статика: HTML + CSS (БЭМ, токены в `:root`) + ванильный JS. Без сборки.
 
 ## Деплой
-- Любой пуш в `main` / `claude/**` → GitHub Actions заливает сайт по FTPS в две папки:
-  - **прод** `www/thousandli.ru/` → https://thousandli.ru/ (индексация открыта);
-  - **копия** `www/thousandli.ru/test/` → https://thousandli.ru/test/ (закрыта от поиска).
+- Любой пуш в `main` / `claude/**` → GitHub Actions заливает сайт по FTPS в `www/thousandli.ru/` → https://thousandli.ru/ (индексация открыта).
+- Копия /test/ убрана 2026-10-13 (шаг «Remove /test copy» в deploy.yml); на хостинге осталась только `test/video/` — исходники видео.
+- Страница 404: `src/pages/404.html` (`<base href="/">`, чтобы стили грузились с любой глубины), подключена в `.htaccess` (ErrorDocument). Соцсети на ней — Telegram, MAX, почта, телефон; VK добавить, когда заказчица пришлёт ссылку.
 - Видео в git нет: на прод workflow копирует `founder-ru.mp4` и постер из `test/video/` в `video/`.
 - Пароли — только в GitHub Secrets и `deploy/.env` (в .gitignore). Не коммитить.
 

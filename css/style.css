@@ -4985,3 +4985,15 @@ body.is-drawer-open { overflow: hidden; }
   .cookie__actions { width: 100%; }
   .cookie__btn { flex: 1 1 100%; }
 }
+
+/* ----- Страница 404 ----- */
+.notfound { width: min(640px, 100% - 2 * var(--gutter)); margin: 48px auto 96px; text-align: center; }
+.notfound__code { font-family: var(--ff-display); font-weight: 500; font-size: clamp(88px, 22vw, 168px); line-height: 1; color: var(--c-gold); }
+.notfound__title { margin-top: 12px; font-family: var(--ff-display); font-weight: 500; font-size: clamp(24px, 4vw, 40px); line-height: 1.15; color: var(--c-green); }
+.notfound__text { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--c-text-dark); }
+.notfound__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+.notfound__btn { width: auto; min-height: 48px; padding: 0 24px; }
+.notfound__contacts-title { margin-top: 40px; font-size: 14px; color: #787878; }
+.notfound__socials { justify-content: center; margin: 12px 0 0; }
+.notfound__links { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--c-text-dark); }
+.notfound__links a { color: var(--c-green); text-decoration: underline; text-underline-offset: 3px; }

@@ -85,6 +85,26 @@ jobs:
             tools/**
             data/**
 
+      # Тестовая копия /test/ больше не нужна (2026-10-13, по просьбе заказчика): убираем всё, кроме test/video/
+      # (там исходники видео для workflow «Optimize video on hosting»). Если копии уже нет — шаг ничего не делает.
+      - name: Remove /test copy from hosting
+        continue-on-error: true
+        run: |
+          sudo apt-get install -y -qq lftp >/dev/null
+          LFTP="lftp -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER"
+          SET="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; set net:max-retries 2"
+          items=$($LFTP -e "$SET; cls -1 -F -a www/thousandli.ru/test/; bye" 2>/dev/null | sed 's|^.*/test/||' | grep -v '^$' || true)
+          echo "в test/: $(echo "$items" | tr '\n' ' ')"
+          for it in $items; do
+            case "$it" in video/|./|../|.|..) continue ;; esac
+            case "$it" in
+              */) $LFTP -e "$SET; rm -r 'www/thousandli.ru/test/$it'; bye" ;;
+              *)  $LFTP -e "$SET; rm 'www/thousandli.ru/test/$it'; bye" ;;
+            esac
+            echo "удалено: test/$it"
+          done
+          echo -n "${URL}test/index.html → "; curl -sS -o /dev/null -w "%{http_code}\n" --max-time 20 "${URL}test/index.html" || true
+
       # Правки текстов из админки (admin.php) хранятся на хостинге: после выкладки страницы снова «исходные» — возвращаем правки
       - name: Reapply admin text edits
         continue-on-error: true
@@ -113,7 +133,7 @@ jobs:
         run: |
           echo "== $URL =="
           curl -sS -o /dev/null --max-time 20 -L -w "code=%{http_code} url=%{url_effective}\n" "$URL" || true
-          for page in kids.html founder.html robots.txt sitemap.xml video/founder-ru.mp4; do
+          for page in kids.html founder.html 404.html robots.txt sitemap.xml video/founder-ru.mp4; do
             curl -sS -o /dev/null -I --max-time 20 -w "$page: %{http_code}\n" "$URL$page" || true
           done
           echo "== редиректы =="

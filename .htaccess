@@ -56,4 +56,4 @@ AddType application/manifest+json .webmanifest
   ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
-# ErrorDocument 404 /404.html
+ErrorDocument 404 /404.html
