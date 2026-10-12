@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!-- Собрано из src/pages/cookies.html — правьте исходник и запускайте tools/build.py -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Политика использования cookie — онлайн-школа «Тысяча ли»</title>
+  <meta name="description" content="Какие cookie использует сайт школы «Тысяча ли» и как управлять согласием на аналитику.">
+  <!-- Тестовая копия: индексация закрыта. При деплое в корень сайта строка удаляется автоматически (deploy.yml) -->
+  <meta name="robots" content="noindex, nofollow" data-env="test">
+  <link rel="canonical" href="https://thousandli.ru/cookies.html">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Онлайн-школа «Тысяча ли»">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Политика использования cookie — онлайн-школа «Тысяча ли»">
+  <meta property="og:description" content="Какие cookie использует сайт школы «Тысяча ли» и как управлять согласием на аналитику.">
+  <meta property="og:url" content="https://thousandli.ru/cookies.html">
+  <meta property="og:image" content="https://thousandli.ru/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Онлайн-школа китайского языка «Тысяча ли»">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Политика использования cookie — онлайн-школа «Тысяча ли»">
+  <meta name="twitter:description" content="Какие cookie использует сайт школы «Тысяча ли» и как управлять согласием на аналитику.">
+  <meta name="twitter:image" content="https://thousandli.ru/img/og-image.jpg">
+
+  <meta name="theme-color" content="#004e34">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "EducationalOrganization",
+   "@id": "https://thousandli.ru/#org",
+   "name": "Онлайн-школа китайского языка «Тысяча ли»",
+   "url": "https://thousandli.ru/",
+   "logo": "https://thousandli.ru/img/icons/icon-512.png",
+   "image": "https://thousandli.ru/img/og-image.jpg",
+   "description": "Онлайн-уроки китайского языка для детей и взрослых, подготовка к HSK, HSKK, YCT, BCT, CSCA.",
+   "telephone": "+7 953 156-06-85",
+   "founder": {
+    "@type": "Person",
+    "name": "Варвара Тимофеева"
+   },
+   "areaServed": "RU",
+   "knowsLanguage": [
+    "ru",
+    "zh"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://thousandli.ru/#site",
+   "url": "https://thousandli.ru/",
+   "name": "«Тысяча ли»",
+   "inLanguage": "ru",
+   "publisher": {
+    "@id": "https://thousandli.ru/#org"
+   }
+  }
+ ]
+}
+  </script>
+  <!-- @jsonld {"breadcrumbs": [["Главная", ""], ["Политика использования cookie", "cookies.html"]]} -->
+</head>
+<body class="page-doc">
+  <header class="header">
+    <div class="header__bar">
+      <a class="header__logo" href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную">
+        <img src="img/logo.svg" width="210" height="62" alt="Онлайн-школа Тысяча ли">
+      </a>
+
+      <nav class="header__nav" aria-label="Основное меню">
+        <a class="header__link" href="./#programs">Программы</a>
+        <a class="header__link" href="./#founder">Об основателе</a>
+        <a class="header__link" href="./#prices">Стоимость</a>
+        <a class="header__link" href="#learning">Как проходит обучение</a>
+      </nav>
+
+      <ul class="header__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a class="header__social" href="#" aria-label="ВКонтакте"><img src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+        <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a class="header__social" href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+
+      <a class="btn btn--gold header__cta" href="#lesson">Бесплатный пробный урок</a>
+
+      <button class="header__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="drawer">
+        <span class="header__burger-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню: панель справа -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <a class="drawer__logo" href="./" aria-label="На главную"><img src="img/logo-menu.svg" width="127" height="37" alt="Онлайн-школа Тысяча ли"></a>
+        <button class="drawer__close" type="button" aria-label="Закрыть меню" data-drawer-close></button>
+      </div>
+      <nav class="drawer__nav" aria-label="Разделы">
+        <a href="./#programs">Программы</a>
+        <a href="./#method">Авторская методика</a>
+        <a href="./#founder">Об основателе</a>
+        <a href="#learning">Как проходят занятия</a>
+        <a href="./#prices">Стоимость обучения</a>
+        <a href="./#compare">Что вы получите только у нас</a>
+        <a href="#faq">Часто задаваемые вопросы</a>
+      </nav>
+      <ul class="drawer__socials" aria-label="Мы в мессенджерах и соцсетях">
+        <li><a href="#" aria-label="ВКонтакте"><img class="drawer__vk" src="img/icon-vk-white.svg" width="26" height="26" alt=""></a></li>
+        <li><a href="#" aria-label="Telegram"><img src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+        <li><a href="#" aria-label="MAX"><img src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+      </ul>
+      <a class="drawer__tel" href="tel:+79531560685"><img src="img/cta/phone.svg" width="25" height="25" alt="">8 (953) 156-06-85</a>
+      <a class="btn btn--gold drawer__cta" href="#lesson">Записаться на урок</a>
+    </div>
+  </div>
+
+  <main>
+    <nav class="crumbs" aria-label="Навигационная цепочка">
+      <ol class="crumbs__list">
+        <li><a href="./">Главная</a></li>
+        <li aria-current="page">Политика использования cookie</li>
+      </ol>
+    </nav>
+
+    <article class="doc">
+      <div class="doc__inner">
+        <h1 class="doc__title">Политика использования cookie</h1>
+        <p class="doc__date">Действует с 12 октября 2026 г.</p>
+        <section class="doc__section">
+          <h2>1. Что такое cookie</h2>
+          <p>Cookie — небольшие файлы, которые Сайт сохраняет в вашем браузере. Они помогают запомнить ваш выбор и понять, как работает Сайт.</p>
+        </section>
+        <section class="doc__section">
+          <h2>2. Какие cookie мы используем</h2>
+          <ul><li><strong>Необходимые.</strong> Хранят ваш выбор по cookie и обеспечивают защиту форм от роботов (Яндекс SmartCaptcha). Работают всегда, без них Сайт или формы не будут корректно работать.</li><li><strong>Аналитические.</strong> «Яндекс Метрика» показывает, какие страницы посещают и откуда приходят, чтобы улучшать Сайт. Включаются <u>только после вашего согласия</u> в баннере внизу страницы.</li></ul>
+        </section>
+        <section class="doc__section">
+          <h2>3. Ваш выбор</h2>
+          <p>При первом посещении вы можете «Принять все» или «Только необходимые». Выбор сохраняется в вашем браузере. Изменить его можно в любой момент: <button type="button" class="doc__link" data-cookie-reset>изменить выбор по cookie</button>.</p>
+          <p>Также cookie можно удалить или запретить в настройках браузера — часть функций Сайта при этом может работать некорректно.</p>
+        </section>
+        <section class="doc__section">
+          <h2>4. Яндекс Метрика</h2>
+          <p>Сервис предоставляет ООО «Яндекс». Данные обрабатываются по правилам Яндекса: <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener noreferrer">yandex.ru/legal/confidential</a>. Отказаться от сбора статистики можно, выбрав «Только необходимые».</p>
+        </section>
+        <section class="doc__section">
+          <h2>5. Контакты</h2>
+          <p>Вопросы по cookie и персональным данным — <a href="mailto:school@thousandli.ru">school@thousandli.ru</a>. Подробнее об обработке данных — в <a href="privacy.html">политике конфиденциальности</a>.</p>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="./" aria-label="Онлайн-школа «Тысяча ли» — на главную"><picture>
+          <source media="(max-width: 1023px)" srcset="img/logo-footer-h.svg" width="210" height="62">
+          <img class="footer__logo" src="img/logo-footer.svg" width="208" height="138" alt="Онлайн-школа Тысяча ли" loading="lazy">
+        </picture></a>
+        <ul class="header__socials footer__socials" aria-label="Мы в мессенджерах и соцсетях">
+          <li><a class="header__social" href="#" aria-label="ВКонтакте"><img loading="lazy" decoding="async" src="img/icon-vk.svg" width="27" height="27" alt=""></a></li>
+          <li><a class="header__social header__social--tg" href="#" aria-label="Telegram"><img loading="lazy" decoding="async" src="img/icon-tg.svg" width="25" height="23" alt=""></a></li>
+          <li><a class="header__social" href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/icon-max.svg" width="25" height="25" alt=""></a></li>
+        </ul>
+        <a class="btn btn--gold footer__cta" href="#lesson">Бесплатный пробный урок</a>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-programs">
+        <p class="footer__heading" id="footer-programs">Программы</p>
+        <ul class="footer__list">
+          <li><a href="./?tab=courses#programs" data-tab="courses">Курс китайского языка онлайн</a></li>
+          <li><a href="./?tab=exams#programs" data-tab="exams">Подготовка к экзаменам онлайн</a></li>
+          <li><a href="./?tab=ecourses#programs" data-tab="ecourses">Электронные курсы онлайн</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-menu">
+        <p class="footer__heading" id="footer-menu">Разделы</p>
+        <ul class="footer__list">
+          <li><a href="./#founder">Об основателе</a></li>
+          <li><a href="#learning">Как проходит занятие</a></li>
+          <li><a href="./#prices">Стоимость обучения</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#faq">Вопрос-ответ</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-docs">
+        <p class="footer__heading" id="footer-docs">Документы</p>
+        <ul class="footer__list">
+          <li><a href="./privacy.html">Политика конфиденциальности</a></li>
+          <li><a href="./consent.html">Согласие на обработку персональных данных</a></li>
+          <li><a href="./cookies.html">Политика cookie</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Онлайн-школа китайского языка «Тысяча ли»</span>
+        <a href="tel:+79531560685">8 (953) 156-06-85</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie" data-cookie role="dialog" aria-label="Использование cookie" hidden>
+    <p class="cookie__text">Мы используем cookie, чтобы сайт работал и&nbsp;мы понимали, чем он полезен. Аналитику (Яндекс Метрика) включим только с&nbsp;вашего согласия. <a href="./cookies.html">Подробнее</a></p>
+    <div class="cookie__actions">
+      <button class="btn btn--gold cookie__btn" type="button" data-cookie-accept>Принять все</button>
+      <button class="btn btn--white cookie__btn" type="button" data-cookie-decline>Только необходимые</button>
+    </div>
+  </div>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

@@ -4952,3 +4952,35 @@ body.is-drawer-open { overflow: hidden; }
   .lead__input--phone { padding-left: 62px; letter-spacing: -.02em; }
   .lead__country { left: 14px; }
 }
+
+/* ----- Документы (политики, согласие) ----- */
+.doc { width: min(860px, 100% - 2 * var(--gutter)); margin: 24px auto 80px; }
+.doc__title { font-family: var(--ff-display); font-weight: 500; font-size: clamp(24px, 4vw, 40px); line-height: 1.15; color: var(--c-green); }
+.doc__date { margin-top: 12px; color: #787878; font-size: 14px; }
+.doc__section { margin-top: 32px; }
+.doc__section h2 { font-family: var(--ff-display); font-weight: 500; font-size: clamp(17px, 2.4vw, 22px); line-height: 1.25; margin: 0 0 12px; }
+.doc__section p, .doc__section li { font-size: 16px; line-height: 1.55; color: var(--c-text-dark); }
+.doc__section p + p, .doc__section p + ul, .doc__section ul + p { margin-top: 12px; }
+.doc__section ul { list-style: disc; padding-left: 22px; }
+.doc__section li + li { margin-top: 6px; }
+.doc__section a, .doc__link { color: var(--c-green); text-decoration: underline; text-underline-offset: 3px; }
+.doc__link { padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+
+/* ----- Баннер cookie ----- */
+.cookie {
+  position: fixed; z-index: 90; left: 16px; right: 16px; bottom: 16px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  width: min(920px, 100% - 32px); margin: 0 auto; padding: 16px 20px;
+  background: var(--c-green); color: var(--c-white);
+  border-radius: var(--r-md); box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
+}
+.cookie[hidden] { display: none; }
+.cookie__text { flex: 1 1 320px; font-size: 14px; line-height: 1.45; }
+.cookie__text a { text-decoration: underline; text-underline-offset: 3px; }
+.cookie__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.cookie__btn { margin: 0; width: auto; min-height: 44px; padding: 0 20px; font-size: 14px; }
+@media (max-width: 599.98px) {
+  .cookie { padding: 14px; gap: 12px; }
+  .cookie__actions { width: 100%; }
+  .cookie__btn { flex: 1 1 100%; }
+}

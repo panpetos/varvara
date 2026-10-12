@@ -311,7 +311,7 @@
           <label class="lead__consent">
             <input type="checkbox" name="consent" value="1" required>
             <span class="lead__check" aria-hidden="true"></span>
-            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+            <span>Я соглашаюсь на <a href="consent.html" class="lead__policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
           </label>
 
           <div class="captcha" data-captcha hidden></div>
@@ -501,7 +501,7 @@
           <label class="lead__consent">
             <input type="checkbox" name="consent" value="1" required>
             <span class="lead__check" aria-hidden="true"></span>
-            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+            <span>Я соглашаюсь на <a href="consent.html" class="lead__policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
           </label>
 
           <div class="captcha" data-captcha hidden></div>
@@ -561,9 +561,9 @@
       <nav class="footer__col" aria-labelledby="footer-docs">
         <p class="footer__heading" id="footer-docs">Документы</p>
         <ul class="footer__list">
-          <li><a href="#">Политика конфиденциальности</a></li>
-          <li><a href="#">Согласие на обработку персональных данных</a></li>
-          <li><a href="#">Договор оферты</a></li>
+          <li><a href="./privacy.html">Политика конфиденциальности</a></li>
+          <li><a href="./consent.html">Согласие на обработку персональных данных</a></li>
+          <li><a href="./cookies.html">Политика cookie</a></li>
         </ul>
       </nav>
 
@@ -573,6 +573,14 @@
       </div>
     </div>
   </footer>
+
+  <div class="cookie" data-cookie role="dialog" aria-label="Использование cookie" hidden>
+    <p class="cookie__text">Мы используем cookie, чтобы сайт работал и&nbsp;мы понимали, чем он полезен. Аналитику (Яндекс Метрика) включим только с&nbsp;вашего согласия. <a href="./cookies.html">Подробнее</a></p>
+    <div class="cookie__actions">
+      <button class="btn btn--gold cookie__btn" type="button" data-cookie-accept>Принять все</button>
+      <button class="btn btn--white cookie__btn" type="button" data-cookie-decline>Только необходимые</button>
+    </div>
+  </div>
 
   <!-- Квиз: на главной «Подобрать программу», на страницах программ (program="…") — итоговый: план по этой программе -->
   <dialog class="quiz" id="quiz" aria-labelledby="quiz-title" data-program="Деловой китайский" data-program-url="business.html">
@@ -634,7 +642,7 @@
         <label class="lead__consent quiz__consent">
           <input type="checkbox" name="consent" value="1">
           <span class="lead__check" aria-hidden="true"></span>
-          <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          <span>Я соглашаюсь на <a href="consent.html" class="lead__policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
         </label>
         <div class="captcha" data-captcha hidden></div>
       </div>

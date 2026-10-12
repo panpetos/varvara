@@ -579,7 +579,44 @@ function initVideoModal() {
   });
 }
 
+/* Cookie: «Принять все» / «Только необходимые». Яндекс Метрика грузится только после согласия.
+   Номер счётчика — в METRIKA_ID (0 — счётчика нет, ничего не грузится). */
+const METRIKA_ID = 0;
+const COOKIE_KEY = 'tl-cookie';
+
+function cookieChoice() {
+  try { return localStorage.getItem(COOKIE_KEY); } catch (e) { return null; }
+}
+
+function loadMetrika() {
+  if (!METRIKA_ID || window.ym) return;
+  (function (m, e, t, r, i, k, a) {
+    m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+    m[i].l = 1 * new Date();
+    k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+  })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+  window.ym(METRIKA_ID, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+}
+
+function initCookie() {
+  const box = document.querySelector('[data-cookie]');
+  if (cookieChoice() === 'all') loadMetrika();
+  if (!box) return;
+  const save = (v) => {
+    try { localStorage.setItem(COOKIE_KEY, v); } catch (e) { /* приватный режим: просто закрываем баннер */ }
+    box.hidden = true;
+    if (v === 'all') loadMetrika();
+  };
+  box.hidden = cookieChoice() !== null;
+  box.querySelector('[data-cookie-accept]').addEventListener('click', () => save('all'));
+  box.querySelector('[data-cookie-decline]').addEventListener('click', () => save('necessary'));
+  document.querySelectorAll('[data-cookie-reset]').forEach((b) => b.addEventListener('click', () => {
+    try { localStorage.removeItem(COOKIE_KEY); } catch (e) { /* ничего */ }
+    box.hidden = false;
+  }));
+}
 document.addEventListener('DOMContentLoaded', () => {
+  initCookie();
   initDesktopZoom();
   initHeader();
   initDrawer();

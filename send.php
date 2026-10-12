@@ -6,7 +6,7 @@
 declare(strict_types=1);
 
 // Куда отправлять заявки (при необходимости поменяйте / добавьте через запятую)
-const LEAD_TO   = 'panpetos2@gmail.com';
+const LEAD_TO   = 'panpetos2@gmail.com, school@thousandli.ru';
 const LEAD_FROM = 'noreply@thousandli.ru';
 
 header('Content-Type: application/json; charset=utf-8');

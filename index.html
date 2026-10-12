@@ -402,7 +402,7 @@
                 <img class="program-card__flag" src="img/programs/flag-cn.webp" width="44" height="24" alt="" loading="lazy">
                 <span class="program-card__label" lang="zh">旅游汉语</span>
               </div>
-              <h3 class="program-card__title">Китайский <br>для путешествий 40&nbsp;фраз. <br>С&nbsp;нами вы не пропадёте!</h3>
+              <h3 class="program-card__title">Китайский <br>для путешествий из&nbsp;12&nbsp;уроков. <br>С&nbsp;нами вы не пропадёте!</h3>
               <a class="program-card__more" href="#lesson">Подробнее<img loading="lazy" decoding="async" src="img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="img/programs/e-travel.webp" width="144" height="144" alt="Девушка на фоне пагоды" loading="lazy">
             </article>
@@ -753,7 +753,7 @@
           <label class="lead__consent">
             <input type="checkbox" name="consent" value="1" required>
             <span class="lead__check" aria-hidden="true"></span>
-            <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+            <span>Я соглашаюсь на <a href="consent.html" class="lead__policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
           </label>
 
           <div class="captcha" data-captcha hidden></div>
@@ -813,9 +813,9 @@
       <nav class="footer__col" aria-labelledby="footer-docs">
         <p class="footer__heading" id="footer-docs">Документы</p>
         <ul class="footer__list">
-          <li><a href="#">Политика конфиденциальности</a></li>
-          <li><a href="#">Согласие на обработку персональных данных</a></li>
-          <li><a href="#">Договор оферты</a></li>
+          <li><a href="privacy.html">Политика конфиденциальности</a></li>
+          <li><a href="consent.html">Согласие на обработку персональных данных</a></li>
+          <li><a href="cookies.html">Политика cookie</a></li>
         </ul>
       </nav>
 
@@ -825,6 +825,14 @@
       </div>
     </div>
   </footer>
+
+  <div class="cookie" data-cookie role="dialog" aria-label="Использование cookie" hidden>
+    <p class="cookie__text">Мы используем cookie, чтобы сайт работал и&nbsp;мы понимали, чем он полезен. Аналитику (Яндекс Метрика) включим только с&nbsp;вашего согласия. <a href="cookies.html">Подробнее</a></p>
+    <div class="cookie__actions">
+      <button class="btn btn--gold cookie__btn" type="button" data-cookie-accept>Принять все</button>
+      <button class="btn btn--white cookie__btn" type="button" data-cookie-decline>Только необходимые</button>
+    </div>
+  </div>
 
   <dialog class="video-modal" id="video-modal" aria-label="Видео-презентация Варвары Тимофеевой">
     <div class="video-modal__box">
@@ -893,7 +901,7 @@
         <label class="lead__consent quiz__consent">
           <input type="checkbox" name="consent" value="1">
           <span class="lead__check" aria-hidden="true"></span>
-          <span>Я соглашаюсь на <a href="#" class="lead__policy">обработку персональных данных</a></span>
+          <span>Я соглашаюсь на <a href="consent.html" class="lead__policy" target="_blank" rel="noopener">обработку персональных данных</a></span>
         </label>
         <div class="captcha" data-captcha hidden></div>
       </div>

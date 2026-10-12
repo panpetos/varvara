@@ -90,15 +90,15 @@ def patch(page):
     drawer_email = f'''      <a class="drawer__email" href="mailto:{EMAIL}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>{EMAIL}</a>'''
     text = replace_once(text, drawer_phone, drawer_phone + "\n" + drawer_email, "drawer phone", page)
 
+    # на страницах-документов (privacy, consent, cookies) блока заявки нет
     lead_title = '          <p class="lead__contacts-title">или напишите нам в мессенджер</p>'
-    if lead_title not in text:
-        raise RuntimeError(f"{page}: lead title not found")
-    text = text.replace(lead_title, '          <p class="lead__contacts-title">или напишите нам</p>')
+    if lead_title in text:
+        text = text.replace(lead_title, '          <p class="lead__contacts-title">или напишите нам</p>')
 
-    max_lead = '            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>'
-    if max_lead not in text:
-        raise RuntimeError(f"{page}: lead MAX not found")
-    text = text.replace(max_lead, max_lead + "\n" + MAIL_LEAD)
+        max_lead = '            <li><a href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/cta/max.svg" width="44" height="44" alt=""></a></li>'
+        if max_lead not in text:
+            raise RuntimeError(f"{page}: lead MAX not found")
+        text = text.replace(max_lead, max_lead + "\n" + MAIL_LEAD)
 
     max_footer = '          <li><a class="header__social" href="#" aria-label="MAX"><img loading="lazy" decoding="async" src="img/icon-max.svg" width="25" height="25" alt=""></a></li>'
     text = replace_once(text, max_footer, max_footer + "\n" + MAIL_HEADER.replace("        ", "          ", 1), "footer MAX", page)
