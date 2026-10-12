@@ -3993,6 +3993,7 @@ body.is-drawer-open { overflow: hidden; }
     position: static;
     display: flex;
     flex-direction: column;
+    align-items: center; /* блок и подписи — по центру карточки, а не у левого края */
     gap: 30px;
     height: auto;
     margin: 30px 15px 0;
@@ -4083,7 +4084,7 @@ body.is-drawer-open { overflow: hidden; }
   .phero__action { max-width: 340px; margin-left: 0; margin-right: 0; }
 
   .phero__art { grid-column: 2; grid-row: 1; align-self: start; width: 100%; margin: 0; }
-  .stats.stats--static { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; margin: 28px 0 0; }
+  .stats.stats--static { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: start; margin: 28px 0 0; }
 
   .approach__title,
   .results__title { max-width: none; }
