@@ -328,7 +328,7 @@ if ($authed && $isPost) {
             }
 
             $done = 0;
-            $slugs = $everywhere ? array_keys(pages()) : [$slug];
+            $slugs = $everywhere ? array_map('strval', array_keys(pages())) : [$slug];
             foreach ($jobs as [$cur, $new]) {
                 if ($cur === $new) continue;
                 // исходный текст: если фрагмент уже правили — берём оригинал из списка правок
@@ -547,7 +547,7 @@ notices($msg, $err);
 <div style="flex:1;min-width:220px"><label style="margin-top:0">Страница</label>
 <select name="p" onchange="this.form.submit()">
 <?php foreach (pages() as $k => $title): ?>
-<option value="<?= h($k) ?>"<?= $k === $slug ? ' selected' : '' ?>><?= h($title) ?> (<?= h($k) ?>.html)</option>
+<option value="<?= h((string)$k) ?>"<?= (string)$k === $slug ? ' selected' : '' ?>><?= h($title) ?> (<?= h((string)$k) ?>.html)</option>
 <?php endforeach; ?>
 </select></div>
 <a class="btn light" href="/<?= $slug === 'index' ? '' : h($slug) . '.html' ?>" target="_blank" rel="noopener">Открыть страницу</a>
