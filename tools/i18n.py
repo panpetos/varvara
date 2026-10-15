@@ -225,7 +225,7 @@ def translate_jsonld(block, tr, page_html, where):
     return json.dumps(data, ensure_ascii=False, indent=1)
 
 
-def translate_html(text, tr, lang, where):
+def translate_html(text, tr, lang, where, collect=None):
     tree = Tree(text)
     edits = []
     units = []
@@ -237,6 +237,8 @@ def translate_html(text, tr, lang, where):
         new = tr.t(seg, where)
         # ссылки внутри фрагмента (<a href> в тексте) правим здесь: теги фрагмента целиком в переводе
         fixed = re.sub(r'\b(href|src)="([^"]*)"', lambda m: f'{m.group(1)}="{rewrite_url(m.group(2), lang)}"', new)
+        if collect is not None:  # для карты текстов админки: фрагмент → как он выглядит на этом языке
+            collect[(a, b)] = fixed.strip()
         if new is not seg or fixed != new:
             edits.append((a, b, lead + fixed.strip() + trail if new is not seg else fixed))
     inside = lambda pos: any(a <= pos < b for a, b in units)
@@ -347,8 +349,95 @@ def update_sitemap():
     path.write_text(text, encoding='utf-8')
 
 
+# ---------- карта текстов для админки (admin.php) ----------
+# admin-texts.php: по каждой странице — строки «русский фрагмент → английский → китайский» в порядке страницы,
+# разложенные по блокам (шапка, разделы, подвал, окна). Админка по ней показывает языки рядом.
+# Как в admin.php: служебные куски (script, style, svg, head, noscript, комментарии) не трогаем.
+ADMIN_SKIP = re.compile(r'<script\b.*?</script>|<style\b.*?</style>|<svg\b.*?</svg>|<head\b.*?</head>'
+                        r'|<noscript\b.*?</noscript>|<!--.*?-->', re.S | re.I)
+ADMIN_GUARD = '<?php http_response_code(404); exit; ?>\n'
+BLOCK_NAMES = {'header': 'Шапка и меню', 'drawer': 'Мобильное меню', 'footer': 'Подвал',
+               'cookie': 'Окно про cookie', 'video-modal': 'Окно с видео', 'quiz': 'Квиз (окно подбора программы)'}
+
+
+def admin_nodes(text):
+    """Текстовые узлы страницы, как их видит admin.php: [(позиция, текст как в файле)]."""
+    out, prev = [], 0
+    spans = [(m.start(), m.end()) for m in ADMIN_SKIP.finditer(text)] + [(len(text), len(text))]
+    for s0, s1 in spans:
+        gap = text[prev:s0]
+        for m in re.finditer(r'(?<=>)([^<>]+)(?=<)', '>' + gap + '<'):
+            raw = m.group(1).strip()
+            if raw and re.search(r'[^\W_]', raw) and len(html.unescape(raw)) >= 2:
+                out.append((prev + m.start(1) - 1 + (len(m.group(1)) - len(m.group(1).lstrip())), raw))
+        prev = s1
+    return out
+
+
+def admin_blocks(text, tree):
+    """Блоки страницы для группировки в админке: [(начало, конец, название)]."""
+    blocks = []
+    for node in walk(tree.root):
+        cls = (node.attrs.get('class') or '').split()
+        key = next((c for c in cls if c in BLOCK_NAMES), None)
+        if node.tag in ('header', 'footer'):
+            key = node.tag
+        if not (key or node.tag in ('section', 'dialog')):
+            continue
+        title = BLOCK_NAMES.get(key or '', '')
+        if not title or key == 'quiz':
+            h = next((n for n in walk(node) if n.tag in ('h1', 'h2', 'h3')), None)
+            head = norm(html.unescape(re.sub(r'<[^>]+>', ' ', text[h.s1:h.e0]))) if h else ''
+            title = (title + ': ' + head) if title and head else (head or title or 'Блок страницы')
+        blocks.append((node.s1, node.e0, title[:90]))
+    return blocks
+
+
+def admin_map(text, trans):
+    """Строки одной страницы. trans: {язык: {(a, b): перевод фрагмента}} (пусто — страница только на русском)."""
+    tree = Tree(text)
+    units = []
+    text_units(text, tree.root, units)
+    blocks = admin_blocks(text, tree)
+    secs, rows, seen = [], [], set()
+
+    def sec_of(pos):
+        inner = [b for b in blocks if b[0] <= pos < b[1]]
+        title = max(inner, key=lambda b: b[0])[2] if inner else 'Страница'
+        if title not in secs:
+            secs.append(title)
+        return secs.index(title)
+
+    for pos, raw in admin_nodes(text):
+        unit = next(((a, b) for a, b in units if a <= pos < b), None)
+        if unit:
+            ru = text[unit[0]:unit[1]].strip()
+            if ('u', ru) in seen:
+                continue
+            seen.add(('u', ru))
+            rows.append([sec_of(pos), ru] + [trans[lang].get(unit) if trans else None for lang in LANGS])
+        else:
+            if ('s', raw) in seen:
+                continue
+            seen.add(('s', raw))
+            rows.append([sec_of(pos), raw])
+    return {'secs': secs, 'rows': rows}
+
+
+def write_admin_map(trans_by_page):
+    data = {}
+    for page in sorted(ROOT.glob('*.html')):
+        if page.name in PAGES:
+            data[page.stem] = admin_map(branded(page), trans_by_page.get(page.name, {}))
+        else:
+            data[page.stem] = admin_map(unswitch(page.read_text(encoding='utf-8')), {})
+    with open(ROOT / 'admin-texts.php', 'w', encoding='utf-8', newline='\n') as f:
+        f.write(ADMIN_GUARD + json.dumps(data, ensure_ascii=False, separators=(',', ':')))
+
+
 def main(todo=False):
     total = {}
+    trans_by_page = {}
     update_sitemap()
     # русские страницы в корне: переключатель и hreflang
     for page in sorted(ROOT.glob('*.html')):
@@ -362,7 +451,7 @@ def main(todo=False):
         out_dir.mkdir(exist_ok=True)
         for name in PAGES:
             src = branded(ROOT / name)
-            res = translate_html(src, tr, lang, name)
+            res = translate_html(src, tr, lang, name, trans_by_page.setdefault(name, {}).setdefault(lang, {}))
             res = add_switch_and_hreflang(res, name, lang)
             res = res.replace('<!-- Собрано из src/pages/', '<!-- Перевод (tools/i18n.py) страницы, собранной из src/pages/', 1)
             # телефон для иностранцев — в международном виде
@@ -380,6 +469,7 @@ def main(todo=False):
             todo_path.write_text(json.dumps({k: '' for k in tr.missing}, ensure_ascii=False, indent=1), encoding='utf-8')
         print(f'i18n {lang}: {len(PAGES)} страниц, без перевода {len(tr.missing)} фрагментов'
               + (f' → {todo_path.name}' if todo and tr.missing else ''))
+    write_admin_map(trans_by_page)
     return total
 
 

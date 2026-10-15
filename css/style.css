@@ -5055,3 +5055,148 @@ body.is-drawer-open { overflow: hidden; }
 
 html:not([lang="ru"]) .lead__country { display: none; }
 html:not([lang="ru"]) .lead__input--phone { padding-left: 20px; }
+/* ---------- Стоимость: к чему относятся цены, спецнаправления (ведёт основатель) и разговорный клуб ---------- */
+.pricing__scope {
+  margin: 24px auto 0;
+  max-width: 900px;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--c-text-dark);
+}
+
+.pricing__extra {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.xplan {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 34px 41px 36px;
+  border-radius: var(--r-xl);
+  text-align: left;
+}
+
+.xplan--expert { background: var(--c-white); color: #120f0f; }
+.xplan--club { background: #ffeeca; color: #120f0f; }
+
+.xplan__kicker { margin: 0; font-family: var(--ff-display); font-size: 16px; line-height: 1.3; color: var(--c-gold); }
+
+.xplan__title {
+  margin: 8px 0 0;
+  font-family: var(--ff-display);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--c-green);
+}
+
+.xplan__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 18px 0 0;
+  font-family: var(--ff-display);
+  font-size: 34px;
+  line-height: 1.2;
+  color: var(--c-green);
+}
+
+.xplan__per { font-family: var(--ff-text); font-size: 15px; line-height: 1.35; color: #5d5650; }
+.xplan__price .xplan__per { font-size: 17px; }
+
+.xplan__info { margin: 10px 0 0; font-size: 16px; line-height: 1.35; }
+
+.xplan__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xplan__tags li {
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  background: #f2efe9;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.xplan__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xplan__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 14px;
+  align-items: baseline;
+  padding: 14px 22px;
+  border-radius: var(--r-md);
+  background: var(--c-white);
+}
+
+.xplan__who { font-size: 15px; color: #5d5650; }
+.xplan__sum { justify-self: end; font-family: var(--ff-display); font-size: 20px; color: var(--c-black); white-space: nowrap; }
+.xplan__row .xplan__per { grid-column: 1 / -1; font-size: 14px; color: var(--c-gold); }
+
+.xplan__note { margin: 16px 0 0; font-size: 15px; line-height: 1.4; }
+.xplan__note a { color: var(--c-green); text-decoration: underline; text-underline-offset: 3px; }
+
+.xplan__btn {
+  width: 100%;
+  height: 70px;
+  margin-top: auto;
+  background: var(--c-green);
+  color: var(--c-white);
+  font-family: var(--ff-display);
+  font-size: 16px;
+}
+
+.xplan__tags + .xplan__btn,
+.xplan__note + .xplan__btn { margin-top: 28px; }
+.xplan--club .xplan__btn { background: var(--c-gold); }
+
+@media (hover: hover) {
+  .xplan--expert .xplan__btn:hover { background: #003826; }
+  .xplan__note a:hover { color: var(--c-gold); }
+}
+
+@media (max-width: 1023.98px) {
+  .pricing__scope { margin-top: 16px; font-size: 13px; }
+  .pricing__extra { grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+  .xplan { padding: 21px 16px 16px; border-radius: var(--r-md); }
+  .xplan__kicker { font-size: 12px; }
+  .xplan__title { margin-top: 6px; font-size: 18px; }
+  .xplan__price { margin-top: 12px; font-size: 24px; }
+  .xplan__price .xplan__per { font-size: 13px; }
+  .xplan__info { font-size: 13px; }
+  .xplan__tags { gap: 6px; margin-top: 14px; }
+  .xplan__tags li { padding: 6px 11px; font-size: 12px; }
+  .xplan__rows { margin-top: 14px; gap: 8px; }
+  .xplan__row { padding: 11px 16px; border-radius: var(--r-sm); }
+  .xplan__who { font-size: 13px; }
+  .xplan__sum { font-size: 16px; }
+  .xplan__row .xplan__per { font-size: 12px; }
+  .xplan__note { font-size: 13px; }
+  .xplan__btn { height: 55px; font-size: 13px; }
+  .xplan__tags + .xplan__btn,
+  .xplan__note + .xplan__btn { margin-top: 18px; }
+}
+
+@media (min-width: 600px) and (max-width: 1023.98px) {
+  .pricing__extra { grid-template-columns: 1fr 1fr; }
+}
