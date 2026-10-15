@@ -357,7 +357,8 @@ ADMIN_SKIP = re.compile(r'<script\b.*?</script>|<style\b.*?</style>|<svg\b.*?</s
                         r'|<noscript\b.*?</noscript>|<!--.*?-->', re.S | re.I)
 ADMIN_GUARD = '<?php http_response_code(404); exit; ?>\n'
 BLOCK_NAMES = {'header': 'Шапка и меню', 'drawer': 'Мобильное меню', 'footer': 'Подвал',
-               'cookie': 'Окно про cookie', 'video-modal': 'Окно с видео', 'quiz': 'Квиз (окно подбора программы)'}
+               'cookie': 'Окно про cookie', 'video-modal': 'Окно с видео', 'quiz': 'Квиз (окно подбора программы)',
+               'course-modal': 'Окно курса'}
 
 
 def admin_nodes(text):
@@ -385,7 +386,7 @@ def admin_blocks(text, tree):
         if not (key or node.tag in ('section', 'dialog')):
             continue
         title = BLOCK_NAMES.get(key or '', '')
-        if not title or key == 'quiz':
+        if not title or key in ('quiz', 'course-modal'):
             h = next((n for n in walk(node) if n.tag in ('h1', 'h2', 'h3')), None)
             head = norm(html.unescape(re.sub(r'<[^>]+>', ' ', text[h.s1:h.e0]))) if h else ''
             title = (title + ': ' + head) if title and head else (head or title or 'Блок страницы')

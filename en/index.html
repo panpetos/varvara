@@ -36,7 +36,7 @@
 
   <link rel="preload" href="../fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=20261016b">
+  <link rel="stylesheet" href="../css/style.css?v=20261016c">
   <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -457,7 +457,7 @@
                 <span class="program-card__label" lang="zh">旅游汉语</span>
               </div>
               <h3 class="program-card__title">Chinese <br>for travel in&nbsp;12&nbsp;lessons. <br>You’ll never get lost with us!</h3>
-              <a class="program-card__more" href="#lesson">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-travel">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-travel.webp" width="144" height="144" alt="Young woman in front of a pagoda" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -466,7 +466,7 @@
                 <span class="program-card__label" lang="zh">少儿汉语</span>
               </div>
               <h3 class="program-card__title">80 words and phrases for kids. <br>Matches YCT1</h3>
-              <a class="program-card__more" href="#lesson">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-kids">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-kids.webp" width="144" height="144" alt="Schoolboy" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -475,7 +475,7 @@
                 <span class="program-card__label" lang="zh">成人汉语</span>
               </div>
               <h3 class="program-card__title">150 words for successful <br>communication for adults. <br>Matches HSK1</h3>
-              <a class="program-card__more" href="#lesson">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-adults">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-adults.webp" width="144" height="144" alt="Young woman in a grey suit" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -484,7 +484,7 @@
                 <span class="program-card__label" lang="zh">商务汉语入门</span>
               </div>
               <h3 class="program-card__title">Business Chinese course. <br>First steps</h3>
-              <a class="program-card__more" href="#lesson">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-business">Learn more<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-business.webp" width="144" height="144" alt="Man in a suit with the flags of Russia and China" loading="lazy">
             </article>
         </div>
@@ -947,6 +947,101 @@
         <source src="../video/founder-en.mp4" type="video/mp4">
       </video>
       <p class="video-modal__fallback" hidden>The video is coming soon.</p>
+    </div>
+  </dialog>
+  <!-- Электронные курсы: описание по кнопке «Подробнее» (тексты — от Варвары, 6 и 9 октября 2026) -->
+  <dialog class="course-modal" id="course-travel" aria-labelledby="course-travel-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="Close" data-course-close></button>
+      <p class="course-modal__kicker">E-course</p>
+      <h3 class="course-modal__title" id="course-travel-title">Chinese for Travel in&nbsp;12&nbsp;Lessons</h3>
+      <p class="course-modal__lead">Dreaming of exploring China but worried about the language barrier? This course will give you confidence at&nbsp;the airport, in&nbsp;the hotel, at&nbsp;restaurants and on&nbsp;the street.</p>
+      <p class="course-modal__sub">What you get:</p>
+      <ul class="course-modal__list">
+        <li><b>60 key phrases:</b> over a&nbsp;hundred characters, from greetings (你好&nbsp;— Nǐ hǎo, 谢谢&nbsp;— Xièxie) to&nbsp;bargaining.</li>
+        <li><b>Correct tones:</b> master the 4&nbsp;tones and the neutral tone.</li>
+        <li><b>Audio and video files:</b> detailed explanations.</li>
+        <li><b>Sentence structure:</b> learn to&nbsp;build phrases correctly and pick up basic grammar.</li>
+        <li><b>Bonus:</b> numbers and names of&nbsp;dishes (for good bargains and tasty food).</li>
+        <li><b>Homework review.</b></li>
+      </ul>
+      <p class="course-modal__outro">With us you won’t get lost! Discover China with comfort, good value and pleasure. Your ticket to&nbsp;an unforgettable journey.</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">Sign up for the course</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-kids" aria-labelledby="course-kids-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="Close" data-course-close></button>
+      <p class="course-modal__kicker">E-course · YCT&nbsp;1</p>
+      <h3 class="course-modal__title" id="course-kids-title">80 Words and Phrases for Kids</h3>
+      <p class="course-modal__lead"><b>The perfect start for young learners of&nbsp;Chinese!</b> An e-course for children matching YCT&nbsp;1. Learn 80 basic words and phrases in&nbsp;a&nbsp;playful, easy way.</p>
+      <p class="course-modal__sub">What’s inside:</p>
+      <ul class="course-modal__list">
+        <li><b>Effective:</b> the author’s method, focused on&nbsp;key vocabulary.</li>
+        <li><b>YCT&nbsp;1:</b> meets international standards.</li>
+        <li><b>Play:</b> engaging tasks, songs, visual materials.</li>
+        <li><b>Pronunciation:</b> audio by native speakers, videos from the school’s founder explaining the finer points.</li>
+        <li><b>Practice:</b> words for real communication.</li>
+        <li><b>Support:</b> homework review and feedback from teachers.</li>
+        <li><b>Convenient:</b> learn online anywhere, anytime.</li>
+        <li><b>Visuals:</b> bright design.</li>
+      </ul>
+      <p class="course-modal__sub">Result:</p>
+      <ul class="course-modal__list">
+        <li>80+ words and phrases.</li>
+        <li>Correct pronunciation.</li>
+        <li>Understanding and using basic vocabulary.</li>
+        <li>A&nbsp;solid foundation for further learning.</li>
+      </ul>
+      <p class="course-modal__outro">“First Steps in&nbsp;Chinese”&nbsp;— an affordable investment in&nbsp;the future!</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">Sign up for the course</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-adults" aria-labelledby="course-adults-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="Close" data-course-close></button>
+      <p class="course-modal__kicker">E-course · HSK&nbsp;1</p>
+      <h3 class="course-modal__title" id="course-adults-title">150 Words for Successful Communication: your start in&nbsp;Chinese!</h3>
+      <p class="course-modal__lead">Learn Chinese from scratch! Our e-course “150 Words for Successful Communication” is&nbsp;the perfect first step in&nbsp;Chinese. Learning that is accessible, effective and fun.</p>
+      <p class="course-modal__sub">Why our course?</p>
+      <ul class="course-modal__list">
+        <li><b>Focus on&nbsp;150 key words and phrases</b> for real communication: from greetings to&nbsp;shopping. Maximum practice.</li>
+        <li><b>HSK&nbsp;1 2.0:</b> meets the HSK&nbsp;1 exam requirements. Build a&nbsp;solid base for further learning.</li>
+        <li><b>For adults and children:</b> grammar, tones, a&nbsp;flexible schedule.</li>
+        <li><b>All included:</b> video lessons, a&nbsp;dictionary with native-speaker audio, self-check tests and homework review.</li>
+        <li><b>Convenient and affordable:</b> learn online anytime, anywhere. Quality education at&nbsp;a&nbsp;fair price.</li>
+      </ul>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">Sign up for the course</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-business" aria-labelledby="course-business-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="Close" data-course-close></button>
+      <p class="course-modal__kicker">E-course</p>
+      <h3 class="course-modal__title" id="course-business-title">Basic Business Chinese: First Steps</h3>
+      <p class="course-modal__lead"><b>Your confident start in&nbsp;international business with China!</b> An e-course for beginners who want to&nbsp;work or&nbsp;do&nbsp;business in&nbsp;China. Master key business vocabulary and phrases for confident communication.</p>
+      <p class="course-modal__sub">Why choose us:</p>
+      <ul class="course-modal__list">
+        <li><b>Practice:</b> a&nbsp;focus on&nbsp;real business situations and expressions.</li>
+        <li><b>Accessible:</b> simple explanations of&nbsp;grammar and vocabulary, audio and video files.</li>
+        <li><b>Up to&nbsp;date:</b> modern materials and business etiquette.</li>
+        <li><b>Flexible:</b> online learning at&nbsp;your own pace.</li>
+        <li><b>Fast results:</b> confident communication after the very first modules.</li>
+        <li><b>Cost-effective:</b> efficient knowledge without extra costs, with homework review.</li>
+      </ul>
+      <p class="course-modal__sub">You will be able to:</p>
+      <ul class="course-modal__list">
+        <li>Introduce yourself and talk about yourself and your company in&nbsp;an interview.</li>
+        <li>Hold simple business conversations.</li>
+        <li>Understand key phrases.</li>
+        <li>Use basic business vocabulary.</li>
+        <li>Confidently start business contacts.</li>
+      </ul>
+      <p class="course-modal__outro">“Basic Business Chinese: First Steps”&nbsp;— your key to&nbsp;successful business relations with China!</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">Sign up for the course</a>
     </div>
   </dialog>
 

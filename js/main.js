@@ -645,6 +645,25 @@ function initVideoModal() {
   });
 }
 
+/* Электронные курсы: «Подробнее» открывает окно с описанием (без JS ссылка ведёт к форме записи) */
+function initCourseModal() {
+  document.querySelectorAll('[data-course-open]').forEach((btn) => {
+    const modal = document.getElementById(btn.dataset.courseOpen);
+    if (!modal || typeof modal.showModal !== 'function') return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.showModal();
+      document.body.classList.add('is-modal-open');
+    });
+  });
+  document.querySelectorAll('.course-modal').forEach((modal) => {
+    modal.querySelector('[data-course-close]').addEventListener('click', () => modal.close());
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+    // «Записаться на курс» — закрываем окно, дальше обычный переход к форме
+    modal.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', () => modal.close()));
+    modal.addEventListener('close', () => document.body.classList.remove('is-modal-open'));
+  });
+}
 /* Cookie: «Принять все» / «Только необходимые». Счётчик VK (Top.Mail.Ru) грузится только после согласия.
    Номер счётчика — в VK_COUNTER_ID (0 — счётчика нет, ничего не грузится). */
 const VK_COUNTER_ID = 0;
@@ -688,6 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initDrawer();
   initVideoModal();
+  initCourseModal();
   initQuiz();
   initProgramCards();
   initStory();

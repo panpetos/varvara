@@ -36,7 +36,7 @@
 
   <link rel="preload" href="../fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=20261016b">
+  <link rel="stylesheet" href="../css/style.css?v=20261016c">
   <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -457,7 +457,7 @@
                 <span class="program-card__label" lang="zh">旅游汉语</span>
               </div>
               <h3 class="program-card__title">12节课<br>旅游汉语<br>跟着我们，走到哪都不迷路！</h3>
-              <a class="program-card__more" href="#lesson">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-travel">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-travel.webp" width="144" height="144" alt="以宝塔为背景的女孩" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -466,7 +466,7 @@
                 <span class="program-card__label" lang="zh">少儿汉语</span>
               </div>
               <h3 class="program-card__title">儿童80个词语和表达<br>对应YCT1</h3>
-              <a class="program-card__more" href="#lesson">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-kids">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-kids.webp" width="144" height="144" alt="男学生" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -475,7 +475,7 @@
                 <span class="program-card__label" lang="zh">成人汉语</span>
               </div>
               <h3 class="program-card__title">成人150个<br>交际常用词<br>对应HSK1</h3>
-              <a class="program-card__more" href="#lesson">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-adults">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-adults.webp" width="144" height="144" alt="穿灰色西装的女孩" loading="lazy">
             </article>
             <article class="program-card program-card--wide">
@@ -484,7 +484,7 @@
                 <span class="program-card__label" lang="zh">商务汉语入门</span>
               </div>
               <h3 class="program-card__title">商务汉语课程<br>入门</h3>
-              <a class="program-card__more" href="#lesson">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
+              <a class="program-card__more" href="#lesson" data-course-open="course-business">了解更多<img loading="lazy" decoding="async" src="../img/programs/arrow.svg" width="6" height="10" alt=""></a>
               <img class="program-card__img" src="../img/programs/e-business.webp" width="144" height="144" alt="在俄中两国国旗前穿西装的男士" loading="lazy">
             </article>
         </div>
@@ -947,6 +947,101 @@
         <source src="../video/founder-en.mp4" type="video/mp4">
       </video>
       <p class="video-modal__fallback" hidden>视频即将上线。</p>
+    </div>
+  </dialog>
+  <!-- Электронные курсы: описание по кнопке «Подробнее» (тексты — от Варвары, 6 и 9 октября 2026) -->
+  <dialog class="course-modal" id="course-travel" aria-labelledby="course-travel-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="关闭" data-course-close></button>
+      <p class="course-modal__kicker">电子课程</p>
+      <h3 class="course-modal__title" id="course-travel-title">旅游汉语12课</h3>
+      <p class="course-modal__lead">梦想游览中国，却担心语言障碍？本课程让您在机场、酒店、餐厅和街头都充满自信。</p>
+      <p class="course-modal__sub">您将获得：</p>
+      <ul class="course-modal__list">
+        <li><b>60个核心句子：</b>一百多个汉字，从问候（你好&nbsp;— Nǐ hǎo，谢谢&nbsp;— Xièxie）到讨价还价。</li>
+        <li><b>准确的声调：</b>掌握四个声调和轻声。</li>
+        <li><b>音频和视频：</b>详细讲解。</li>
+        <li><b>句子结构：</b>学会正确造句，掌握基础语法。</li>
+        <li><b>附赠：</b>数字和菜名（买得划算，吃得美味）。</li>
+        <li><b>批改作业。</b></li>
+      </ul>
+      <p class="course-modal__outro">有我们在，您不会迷路！舒适、实惠、愉快地探索中国。这是您通往难忘旅程的门票。</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">报名课程</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-kids" aria-labelledby="course-kids-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="关闭" data-course-close></button>
+      <p class="course-modal__kicker">电子课程 · YCT&nbsp;1</p>
+      <h3 class="course-modal__title" id="course-kids-title">儿童80词语课程</h3>
+      <p class="course-modal__lead"><b>小小汉语学习者的理想起点！</b>符合YCT&nbsp;1级的儿童电子课程。以游戏化、易懂的方式掌握80个基础词语和表达。</p>
+      <p class="course-modal__sub">课程内容：</p>
+      <ul class="course-modal__list">
+        <li><b>高效：</b>独创教学法，聚焦核心词汇。</li>
+        <li><b>YCT&nbsp;1：</b>符合国际标准。</li>
+        <li><b>游戏：</b>有趣的练习、儿歌、直观的教具。</li>
+        <li><b>发音：</b>母语者录音，创始人亲自讲解发音细节的视频。</li>
+        <li><b>练习：</b>用于真实交流的词语。</li>
+        <li><b>支持：</b>老师批改作业并给予反馈。</li>
+        <li><b>方便：</b>随时随地在线学习。</li>
+        <li><b>视觉：</b>色彩鲜明的设计。</li>
+      </ul>
+      <p class="course-modal__sub">学习成果：</p>
+      <ul class="course-modal__list">
+        <li>80多个词语和表达。</li>
+        <li>正确的发音。</li>
+        <li>理解并运用基础词汇。</li>
+        <li>为进一步学习打下坚实基础。</li>
+      </ul>
+      <p class="course-modal__outro">“汉语第一步”——对未来的实惠投资！</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">报名课程</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-adults" aria-labelledby="course-adults-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="关闭" data-course-close></button>
+      <p class="course-modal__kicker">电子课程 · HSK&nbsp;1</p>
+      <h3 class="course-modal__title" id="course-adults-title">150个成功交际词语：开启您的汉语之路！</h3>
+      <p class="course-modal__lead">零基础学汉语！我们的电子课程“150个成功交际词语”是您学习汉语的理想第一步。学习轻松、高效、有趣。</p>
+      <p class="course-modal__sub">为什么选择我们的课程？</p>
+      <ul class="course-modal__list">
+        <li><b>聚焦150个核心词语和短语</b>，用于真实交流：从问候到购物。最大量的练习。</li>
+        <li><b>HSK&nbsp;1 2.0：</b>符合HSK一级考试要求。为进一步学习打下坚实基础。</li>
+        <li><b>适合成人和儿童：</b>语法、声调、灵活的上课时间。</li>
+        <li><b>内容齐全：</b>视频课、带母语者录音的词典、自测题，以及作业批改。</li>
+        <li><b>方便实惠：</b>随时随地在线学习。价格合理的优质教育。</li>
+      </ul>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">报名课程</a>
+    </div>
+  </dialog>
+
+  <dialog class="course-modal" id="course-business" aria-labelledby="course-business-title">
+    <div class="course-modal__box">
+      <button class="course-modal__close" type="button" aria-label="关闭" data-course-close></button>
+      <p class="course-modal__kicker">电子课程</p>
+      <h3 class="course-modal__title" id="course-business-title">商务汉语入门：第一步</h3>
+      <p class="course-modal__lead"><b>自信开启与中国的国际商务！</b>面向想在中国工作或经商的初学者的电子课程。掌握核心商务词汇和表达，自信交流。</p>
+      <p class="course-modal__sub">为什么选择我们：</p>
+      <ul class="course-modal__list">
+        <li><b>实用：</b>侧重真实的商务场景和表达。</li>
+        <li><b>易懂：</b>简明讲解语法和词汇，配有音频和视频。</li>
+        <li><b>与时俱进：</b>现代教材和商务礼仪。</li>
+        <li><b>灵活：</b>按照您的节奏在线学习。</li>
+        <li><b>见效快：</b>学完前几个模块即可自信交流。</li>
+        <li><b>划算：</b>高效学习，无额外花费，含作业批改。</li>
+      </ul>
+      <p class="course-modal__sub">学完后您将能够：</p>
+      <ul class="course-modal__list">
+        <li>在面试中自我介绍，介绍自己和公司。</li>
+        <li>进行简单的商务对话。</li>
+        <li>听懂关键句子。</li>
+        <li>使用基础商务词汇。</li>
+        <li>自信地开展商务联系。</li>
+      </ul>
+      <p class="course-modal__outro">“商务汉语入门：第一步”——开启与中国成功商务关系的钥匙！</p>
+      <a class="btn btn--gold course-modal__btn" href="#lesson">报名课程</a>
     </div>
   </dialog>
 
