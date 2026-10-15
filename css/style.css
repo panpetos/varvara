@@ -599,9 +599,9 @@ h1, p { margin: 0; }
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 58px;
   height: 22px;
-  padding: 2px 0 0 12px;
+  padding: 2px 12px 0;
+  white-space: nowrap;
   border-radius: var(--r-pill);
   background: var(--c-gold);
   font-size: 14px;
@@ -2840,9 +2840,8 @@ body.is-drawer-open { overflow: hidden; }
     top: auto;
     left: auto;
     display: inline-block;
-    width: 60px;
     margin: 20px 0 0 20px;
-    padding: 2px 0 0 11px;
+    padding: 2px 11px 0;
   }
 
   .method__summary-text {
