@@ -5008,3 +5008,44 @@ body.is-drawer-open { overflow: hidden; }
 .notfound__socials { justify-content: center; margin: 12px 0 0; }
 .notfound__links { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--c-text-dark); }
 .notfound__links a { color: var(--c-green); text-decoration: underline; text-underline-offset: 3px; }
+/* ----- Языки сайта: переключатель RU / EN / 中文 (tools/i18n.py), телефон любой страны на en/zh ----- */
+.lang {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(0, 78, 52, 0.18);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+.lang__link {
+  padding: 7px 9px;
+  border-radius: var(--r-pill);
+  color: var(--c-green);
+  transition: background-color .2s ease, color .2s ease;
+}
+.lang__link[aria-current] { background: var(--c-green); color: var(--c-white); }
+@media (hover: hover) {
+  .lang__link:not([aria-current]):hover { background: rgba(0, 78, 52, 0.1); }
+}
+.header__lang { margin-left: 20px; }
+.drawer__lang { align-self: flex-start; margin-top: 19px; font-size: 15px; }
+.drawer__lang .lang__link { padding: 9px 13px; }
+/* телефон и планшет: компактно между логотипом и кнопками; на самых узких (Fold снаружи) — только в меню */
+@media (max-width: 1023.98px) {
+  .header__lang { margin-left: auto; margin-right: 6px; padding: 2px; font-size: 12px; }
+  .header__lang .lang__link { padding: 6px 7px; }
+  .header__lang ~ .header__burger { margin-left: 0; }
+}
+@media (min-width: 600px) and (max-width: 1023.98px) {
+  .header__lang ~ .header__cta { margin-left: 0; }
+}
+@media (max-width: 379.98px) {
+  .header__lang { display: none; }
+  .header__lang ~ .header__burger { margin-left: auto; }
+}
+
+html:not([lang="ru"]) .lead__country { display: none; }
+html:not([lang="ru"]) .lead__input--phone { padding-left: 20px; }

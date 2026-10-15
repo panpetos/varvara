@@ -1,6 +1,60 @@
 // thousandli.ru — основной скрипт.
 'use strict';
 
+/* Язык страницы. Английская и китайская версии (en/, zh/) собирает tools/i18n.py, сообщения скрипта — здесь.
+   В заявку ответы квиза и рекомендация уходят по-русски: их читает школа. */
+const LANG = (document.documentElement.lang || 'ru').slice(0, 2);
+const I18N = {
+  en: {
+    'Подтвердите согласие на обработку данных': 'Please confirm your consent to data processing',
+    'Проверьте имя и телефон': 'Please check your name and phone number',
+    'Пройдите проверку «Я не робот»': 'Please complete the “I’m not a robot” check',
+    'Пройдите проверку «Я не робот» ещё раз': 'Please complete the “I’m not a robot” check again',
+    'Отправляем…': 'Sending…',
+    'Спасибо! Мы свяжемся с вами в ближайшее время.': 'Thank you! We’ll contact you shortly.',
+    'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85': 'Couldn’t send. Please call us: +7 953 156-06-85',
+    'подготовка к YCT': 'YCT preparation',
+    'подготовка к HSK и HSKK': 'HSK and HSKK preparation',
+    'подготовка к HSK': 'HSK preparation',
+    'деловой китайский': 'Business Chinese',
+    'подготовка к CSCA': 'CSCA preparation',
+    'общий китайский для детей 11–15 лет': 'General Chinese for kids aged 11–15',
+    'общий китайский для взрослых': 'General Chinese for adults',
+    'Для кого': 'For whom',
+    'Цель': 'Goal',
+    'Уровень': 'Level',
+    'Формат': 'Format',
+    'Телефон с кодом страны': 'Phone number with country code',
+  },
+  zh: {
+    'Подтвердите согласие на обработку данных': '请确认同意处理个人数据',
+    'Проверьте имя и телефон': '请检查姓名和电话号码',
+    'Пройдите проверку «Я не робот»': '请完成“我不是机器人”验证',
+    'Пройдите проверку «Я не робот» ещё раз': '请重新完成“我不是机器人”验证',
+    'Отправляем…': '正在发送…',
+    'Спасибо! Мы свяжемся с вами в ближайшее время.': '谢谢！我们会尽快与您联系。',
+    'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85': '发送失败，请致电：+7 953 156-06-85',
+    'подготовка к YCT': 'YCT备考',
+    'подготовка к HSK и HSKK': 'HSK和HSKK备考',
+    'подготовка к HSK': 'HSK备考',
+    'деловой китайский': '商务汉语',
+    'подготовка к CSCA': 'CSCA备考',
+    'общий китайский для детей 11–15 лет': '11–15岁儿童综合汉语',
+    'общий китайский для взрослых': '成人综合汉语',
+    'Для кого': '对象',
+    'Цель': '目标',
+    'Уровень': '水平',
+    'Формат': '形式',
+    'Телефон с кодом страны': '电话号码（含国家代码）',
+  },
+};
+const t = (s) => (I18N[LANG] && I18N[LANG][s]) || s;
+// телефон: на русской версии — российский номер по маске, на en/zh — любой номер с кодом страны
+const phoneOk = (value) => {
+  const n = value.replace(/\D/g, '').length;
+  return LANG === 'ru' ? n === 11 : n >= 10 && n <= 15;
+};
+
 /* Табы «Выберите подходящую программу» (WAI-ARIA tabs, стрелки ←/→, Home/End) */
 function initTabs(tablist) {
   const tabs = [...tablist.querySelectorAll('[role="tab"]')];
@@ -62,6 +116,10 @@ function initTabLinks() {
 
 /* Маска телефона: +7 (999) 000-00-00 */
 function initPhoneMask(input) {
+  if (LANG !== 'ru') {
+    input.placeholder = t('Телефон с кодом страны');
+    return;
+  }
   const format = (value) => {
     let d = value.replace(/\D/g, '');
     // «+7 …» уже введено — первая 7 это код страны; иначе 8/7 в начале 11-значного номера — тоже код
@@ -168,31 +226,31 @@ function initLeadForm(form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const okName = name.value.trim().length >= 2;
-    const okPhone = phone.value.replace(/\D/g, '').length === 11;
+    const okPhone = phoneOk(phone.value);
     const okConsent = consent.checked;
     name.classList.toggle('is-invalid', !okName);
     phone.classList.toggle('is-invalid', !okPhone);
     consent.closest('.lead__consent').classList.toggle('is-invalid', !okConsent);
     if (!okName || !okPhone || !okConsent) {
-      setStatus(!okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон', true);
+      setStatus(t(!okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон'), true);
       return;
     }
     if (!captcha.ok()) {
       captcha.start();
-      setStatus('Пройдите проверку «Я не робот»', true);
+      setStatus(t('Пройдите проверку «Я не робот»'), true);
       return;
     }
 
     submit.disabled = true;
-    setStatus('Отправляем…');
+    setStatus(t('Отправляем…'));
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'send failed');
       form.reset();
-      setStatus('Спасибо! Мы свяжемся с вами в ближайшее время.');
+      setStatus(t('Спасибо! Мы свяжемся с вами в ближайшее время.'));
     } catch (err) {
-      setStatus(err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85', true);
+      setStatus(t(err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85'), true);
     } finally {
       captcha.reset();
       submit.disabled = false;
@@ -471,15 +529,18 @@ function initQuiz() {
     if (n === 5) {
       const [name, url] = recommend();
       const link = quiz.querySelector('[data-quiz-result]');
-      link.textContent = name;
+      link.textContent = t(name);
       link.href = url;
       if (program) {
         const labels = { q1: 'Для кого', q2: 'Цель', q3: 'Уровень', q4: 'Формат' };
         summary.replaceChildren(...Object.entries(labels).map(([k, label]) => {
           const li = document.createElement('li');
           const b = document.createElement('b');
-          b.textContent = label + ': ';
-          li.append(b, form.elements[k].value);
+          b.textContent = t(label) + ': ';
+          // ответ — подпись выбранного варианта: на en/zh она переведена, value остаётся русским для заявки
+          const opt = form.querySelector(`input[name="${k}"]:checked`);
+          const text = opt && LANG !== 'ru' ? opt.nextElementSibling.firstChild.textContent.trim() : form.elements[k].value;
+          li.append(b, text);
           return li;
         }));
         alt.hidden = url === quiz.dataset.programUrl;
@@ -505,24 +566,24 @@ function initQuiz() {
     e.preventDefault();
     const name = form.elements.name;
     const okName = name.value.trim().length >= 2;
-    const okPhone = phone.value.replace(/\D/g, '').length === 11;
+    const okPhone = phoneOk(phone.value);
     const okConsent = form.elements.consent.checked;
     name.classList.toggle('is-invalid', !okName);
     phone.classList.toggle('is-invalid', !okPhone);
     form.elements.consent.closest('.lead__consent').classList.toggle('is-invalid', !okConsent);
     if (!okName || !okPhone || !okConsent) {
-      status.textContent = !okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон';
+      status.textContent = t(!okConsent && okName && okPhone ? 'Подтвердите согласие на обработку данных' : 'Проверьте имя и телефон');
       status.classList.add('is-error');
       return;
     }
     if (!captcha.ok()) {
-      status.textContent = 'Пройдите проверку «Я не робот»';
+      status.textContent = t('Пройдите проверку «Я не робот»');
       status.classList.add('is-error');
       return;
     }
     submit.disabled = true;
     status.classList.remove('is-error');
-    status.textContent = 'Отправляем…';
+    status.textContent = t('Отправляем…');
     try {
       const data = new FormData(form);
       const rec = recommend()[0];
@@ -532,7 +593,7 @@ function initQuiz() {
       if (!res.ok || !json.ok) throw new Error(json.error || 'send failed');
       show(6);
     } catch (err) {
-      status.textContent = err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85';
+      status.textContent = t(err.message === 'captcha' ? 'Пройдите проверку «Я не робот» ещё раз' : 'Не удалось отправить. Позвоните нам: 8 (953) 156-06-85');
       status.classList.add('is-error');
     } finally {
       captcha.reset();

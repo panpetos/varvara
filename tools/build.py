@@ -86,3 +86,6 @@ def build(page):
 if __name__ == '__main__':
     for p in sorted((SRC / 'pages').glob('*.html')):
         build(p)
+    # английская и китайская версии (en/, zh/) + переключатель языка
+    import i18n
+    i18n.main()

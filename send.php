@@ -36,7 +36,8 @@ $consent = ($_POST['consent'] ?? '') === '1';
 $digits  = preg_replace('/\D/', '', $phone);
 
 if (mb_strlen($name) < 2)   reply(false, 'name', 422);
-if (strlen($digits) !== 11) reply(false, 'phone', 422);
+// русская версия шлёт российский номер (11 цифр), английская и китайская — номер любой страны
+if (strlen($digits) < 10 || strlen($digits) > 15) reply(false, 'phone', 422);
 if (!$consent)              reply(false, 'consent', 422);
 
 // Stitex Captcha: серверный ключ записывает деплой из GitHub Secrets в captcha-secret.php (в git его нет)
