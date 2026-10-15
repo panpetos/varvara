@@ -131,13 +131,41 @@ jobs:
             echo "скопировано: video/$f"
           done
 
+      # Английская запись основателя (для en/ и zh/): один раз сжимаем исходник из test/video так же,
+      # как workflow «Optimize video on hosting», и кладём в video/. Заливаем через .part + переименование,
+      # чтобы прерванный деплой не оставил обрезанный файл. Уже есть — шаг ничего не делает.
+      - name: Prepare English founder video
+        env:
+          SRC: Varvara English Version.mp4
+          DST: founder-en
+        run: |
+          base="ftp://$FTP_SERVER/www/thousandli.ru/video"
+          if curl -sS --ssl-reqd --insecure -I -u "$FTP_USERNAME:$FTP_PASSWORD" "$base/$DST.mp4" >/dev/null 2>&1; then
+            echo "уже есть: video/$DST.mp4"; exit 0
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg webp > /dev/null
+          ENC=$(python3 -c 'import os,urllib.parse; print(urllib.parse.quote(os.environ["SRC"]))')
+          curl -sS --ssl-reqd --insecure -u "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_SERVER/www/thousandli.ru/test/video/$ENC" -o src.mp4
+          ffmpeg -hide_banner -loglevel error -y -i src.mp4 \
+            -vf "scale=w='min(iw,1920)':h='min(ih,1920)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+            -c:v libx264 -preset slow -crf 25 -profile:v high -pix_fmt yuv420p \
+            -c:a aac -b:a 128k -ac 2 -movflags +faststart "$DST.mp4"
+          ffmpeg -hide_banner -loglevel error -y -ss 2 -i "$DST.mp4" -frames:v 1 poster.png
+          cwebp -quiet -q 80 poster.png -o "$DST-poster.webp"
+          ls -l "$DST.mp4" "$DST-poster.webp"
+          for f in "$DST-poster.webp" "$DST.mp4"; do
+            curl -sS --ssl-reqd --insecure --ftp-create-dirs -u "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "$base/$f.part" \
+              -Q "-RNFR $f.part" -Q "-RNTO $f"
+            echo "залито: video/$f"
+          done
+
       - name: Check site
         if: always()
         continue-on-error: true
         run: |
           echo "== $URL =="
           curl -sS -o /dev/null --max-time 20 -L -w "code=%{http_code} url=%{url_effective}\n" "$URL" || true
-          for page in kids.html founder.html 404.html robots.txt sitemap.xml video/founder-ru.mp4; do
+          for page in kids.html founder.html 404.html robots.txt sitemap.xml video/founder-ru.mp4 video/founder-en.mp4; do
             curl -sS -o /dev/null -I --max-time 20 -w "$page: %{http_code}\n" "$URL$page" || true
           done
           echo "== редиректы =="

@@ -369,6 +369,8 @@ def main(todo=False):
             res = res.replace('>8 (953) 156-06-85<', '>+7 (953) 156-06-85<')
             # логотип в таблице сравнения — картинка с русской надписью: ставим логотип с переведённым названием
             res = re.sub(r'<img[^>]*src="\.\./img/compare/logo\.svg"[^>]*>', COMPARE_LOGO[lang], res)
+            # видео основателя: на всех нерусских версиях — английская запись (deploy.yml готовит video/founder-en.*)
+            res = res.replace('../video/founder-ru', '../video/founder-en')
             # запрет индексации тестовой копии deploy.yml снимает только в корне — переводам он не нужен
             res = re.sub(r'^[^\n]*data-env="test"[^\n]*\n', '', res, flags=re.M)
             (out_dir / name).write_text(res, encoding='utf-8')

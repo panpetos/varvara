@@ -7,7 +7,8 @@
 - Любой пуш в `main` / `claude/**` → GitHub Actions заливает сайт по FTPS в `www/thousandli.ru/` → https://thousandli.ru/ (индексация открыта).
 - Копия /test/ убрана 2026-10-13 (шаг «Remove /test copy» в deploy.yml); на хостинге осталась только `test/video/` — исходники видео.
 - Страница 404: `src/pages/404.html` (`<base href="/">`, чтобы стили грузились с любой глубины), подключена в `.htaccess` (ErrorDocument). Соцсети на ней — Telegram, MAX, почта, телефон; VK добавить, когда заказчица пришлёт ссылку.
-- Видео в git нет: на прод workflow копирует `founder-ru.mp4` и постер из `test/video/` в `video/`.
+- Видео в git нет: на прод workflow копирует `founder-ru.mp4` и постер из `test/video/` в `video/`;
+  английскую запись (`test/video/Varvara English Version.mp4`) один раз сжимает в `video/founder-en.mp4` + постер (шаг «Prepare English founder video»).
 - Пароли — только в GitHub Secrets и `deploy/.env` (в .gitignore). Не коммитить.
 
 ## Формы и капча
@@ -91,3 +92,4 @@
 - Ответы квиза (value) и название программы в заявке остаются русскими — их читает школа. Сообщения форм — словарь I18N в `js/main.js`.
   На en/zh телефон без маски, любой страны (10–15 цифр; send.php принимает так же).
 - Правки из админки (admin.php) касаются только русских страниц в корне — переводы они не меняют.
+- Видео основателя на en/ и zh/ — английская запись `video/founder-en.mp4` (замену делает i18n.py).
