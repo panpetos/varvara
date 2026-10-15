@@ -5030,7 +5030,14 @@ body.is-drawer-open { overflow: hidden; }
 @media (hover: hover) {
   .lang__link:not([aria-current]):hover { background: rgba(0, 78, 52, 0.1); }
 }
-.header__lang { margin-left: 20px; }
+.header__lang { margin-left: 12px; }
+/* компьютер: русское меню длиннее — переключатель компактнее, соседние отступы меньше, чтобы шапка влезла в 1440 */
+@media (min-width: 1024px) {
+  .header__lang { gap: 0; padding: 2px; font-size: 12px; }
+  .header__lang .lang__link { padding: 6px 6px; }
+  .header__socials { gap: 6px; }
+  .header__lang ~ .header__cta { margin-left: 14px; padding: 0 16px; }
+}
 .drawer__lang { align-self: flex-start; margin-top: 19px; font-size: 15px; }
 .drawer__lang .lang__link { padding: 9px 13px; }
 /* телефон и планшет: компактно между логотипом и кнопками; на самых узких (Fold снаружи) — только в меню */
