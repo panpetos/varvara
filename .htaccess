@@ -14,6 +14,9 @@
   # www -> без www
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # админка: /admin, /admin/ и ссылка с прилипшей точкой/запятой -> /admin.php
+  RewriteRule ^admin(/|\.php[.,;:!)]+)?$ /admin.php [R=301,L]
 </IfModule>
 
 # --- индексация ---
