@@ -491,7 +491,10 @@ function layout_start(string $title, bool $authed, string $tab, string $csrf, st
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title><?= h($title) ?> — админка «Тысяча ли»</title>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/logo2.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" href="/img/icons/favicon-32.png?v=2" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <style>
 :root{--bg:#fff;--side:#f7f7f5;--text:#37352f;--muted:#787774;--line:#e9e9e7;--hover:rgba(55,53,47,.06);--accent:#004e34;--gold:#ce9351;
 --yellow:#fbf3db;--yellow-line:#e9c46a;--blue:#2383e2;--red:#e03e3e;--radius:6px;
