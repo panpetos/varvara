@@ -666,7 +666,7 @@ function initCourseModal() {
 }
 /* Cookie: «Принять все» / «Только необходимые». Счётчик VK (Top.Mail.Ru) грузится только после согласия.
    Номер счётчика — в VK_COUNTER_ID (0 — счётчика нет, ничего не грузится). */
-const VK_COUNTER_ID = 0;
+const VK_COUNTER_ID = 3805494;
 const COOKIE_KEY = 'tl-cookie';
 
 function cookieChoice() {

@@ -292,7 +292,7 @@ def page(p):
 
   <!-- @include quiz program="{p['quiz_name']}" program_url="{p['slug']}.html" -->
 
-  <script src="js/main.js?v=20261016c" defer></script>
+  <script src="js/main.js?v=20261017a" defer></script>
 </body>
 </html>
 '''
