@@ -59,4 +59,12 @@ AddType application/manifest+json .webmanifest
   ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
+# страницы не кэшировать: браузер всегда сверяется с сервером, иначе после
+# правок (новые ?v= у картинок и стилей) показывает старую версию страницы
+<IfModule mod_headers.c>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
 ErrorDocument 404 /404.html
