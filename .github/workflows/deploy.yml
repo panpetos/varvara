@@ -84,6 +84,7 @@ jobs:
             src/**
             tools/**
             data/**
+            video-new/**
 
       # Тестовая копия /test/ больше не нужна (2026-10-13, по просьбе заказчика): убираем всё, кроме test/video/
       # (там исходники видео для workflow «Optimize video on hosting»). Если копии уже нет — шаг ничего не делает.
@@ -159,13 +160,29 @@ jobs:
             echo "залито: video/$f"
           done
 
+      # Новые записи основателя (28.10.2026, прислала Варвара): уже сжатые лежат в git в video-new/,
+      # заливаем в video/ под новыми именами (founder-ru-2, founder-en-2), чтобы браузеры не показывали старое из кеша.
+      # Уже есть на хостинге — пропускаем.
+      - name: Upload new founder videos
+        run: |
+          base="ftp://$FTP_SERVER/www/thousandli.ru/video"
+          for p in video-new/*; do
+            f=$(basename "$p")
+            if curl -sS --ssl-reqd --insecure -I -u "$FTP_USERNAME:$FTP_PASSWORD" "$base/$f" >/dev/null 2>&1; then
+              echo "уже есть: video/$f"; continue
+            fi
+            curl -sS --ssl-reqd --insecure --ftp-create-dirs -u "$FTP_USERNAME:$FTP_PASSWORD" -T "$p" "$base/$f.part" \
+              -Q "-RNFR $f.part" -Q "-RNTO $f"
+            echo "залито: video/$f"
+          done
+
       - name: Check site
         if: always()
         continue-on-error: true
         run: |
           echo "== $URL =="
           curl -sS -o /dev/null --max-time 20 -L -w "code=%{http_code} url=%{url_effective}\n" "$URL" || true
-          for page in kids.html founder.html 404.html robots.txt sitemap.xml video/founder-ru.mp4 video/founder-en.mp4; do
+          for page in kids.html founder.html 404.html robots.txt sitemap.xml video/founder-ru-2.mp4 video/founder-en-2.mp4; do
             curl -sS -o /dev/null -I --max-time 20 -w "$page: %{http_code}\n" "$URL$page" || true
           done
           echo "== редиректы =="
