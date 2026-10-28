@@ -88,6 +88,56 @@ function data_write_json(string $name, array $v): void {
     data_write($name, json_encode($v, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }
 
+// ---------- заявки ----------
+// Сами заявки send.php дописывает строками JSON в data/leads.php. Статус, заметка и «в корзине» —
+// отдельно, в data/lead_marks.php (ключ — id заявки), чтобы не переписывать файл, в который пишет сайт.
+const LEAD_STATUSES = [  // код => [значок, название, цвет метки]
+    'new'    => ['🆕', 'Новая', '#d3e5ef'],
+    'work'   => ['📞', 'В работе', '#fdecc8'],
+    'client' => ['✅', 'Записался', '#dbeddb'],
+    'off'    => ['💤', 'Не актуальна', '#eeeeec'],
+    'spam'   => ['🚫', 'Спам', '#ffe2dd'],
+    'test'   => ['🧪', 'Тест', '#e8deee'],
+];
+
+function lead_id(string $line): string { return substr(md5(trim($line)), 0, 12); }
+
+/** Все заявки (старые первыми) + служебные поля: _id, _s (статус), _note, _del (в корзине). */
+function leads_all(): array {
+    $marks = data_read('lead_marks');
+    $out = [];
+    foreach (explode("\n", data_raw('leads')) as $line) {
+        $j = json_decode(trim($line), true);
+        if (!is_array($j)) continue;
+        $id = lead_id($line);
+        $m = is_array($marks[$id] ?? null) ? $marks[$id] : [];
+        $s = (string)($m['s'] ?? 'new');
+        $j['_id']   = $id;
+        $j['_s']    = isset(LEAD_STATUSES[$s]) ? $s : 'new';
+        $j['_note'] = (string)($m['note'] ?? '');
+        $j['_del']  = !empty($m['del']);
+        $out[] = $j;
+    }
+    return $out;
+}
+
+/** Удалить заявки навсегда (из data/leads.php). Файл держим под замком: сайт в это время может дописать новую. */
+function leads_purge(array $ids): int {
+    $f = data_path('leads');
+    if (!$ids || !is_file($f) || !($fh = fopen($f, 'c+'))) return 0;
+    flock($fh, LOCK_EX);
+    $keep = [];
+    $n = 0;
+    foreach (explode("\n", (string)stream_get_contents($fh)) as $line) {
+        if (is_array(json_decode(trim($line), true)) && in_array(lead_id($line), $ids, true)) { $n++; continue; }
+        $keep[] = $line;
+    }
+    if ($n) { ftruncate($fh, 0); rewind($fh); fwrite($fh, implode("\n", $keep)); fflush($fh); }
+    flock($fh, LOCK_UN);
+    fclose($fh);
+    return $n;
+}
+
 // ---------- правка текстов в .html ----------
 // Разбор на «служебные» куски (script, style, svg, head, комментарии — не трогаем) и обычную разметку.
 function html_parts(string $html): array {
@@ -477,6 +527,52 @@ if ($authed && $isPost) {
         header('Location: admin.php?tab=texts&p=' . rawurlencode($slug));
         exit;
     }
+
+    if ($action === 'lead') {
+        // op: status (value — код статуса), note (value — текст), del (в корзину), restore, purge (навсегда), purge_trash
+        $op    = (string)($_POST['op'] ?? '');
+        $id    = (string)($_POST['id'] ?? '');
+        $value = (string)($_POST['value'] ?? '');
+        $back  = (string)($_POST['f'] ?? '');
+        $marks = data_read('lead_marks');
+        $known = [];
+        foreach (leads_all() as $l) $known[$l['_id']] = $l;
+        $flash = '';
+        if ($op === 'purge_trash') {
+            $ids = [];
+            foreach ($known as $k => $l) if ($l['_del']) $ids[] = (string)$k;
+            $n = leads_purge($ids);
+            foreach ($ids as $k) unset($marks[$k]);
+            $flash = 'Корзина очищена, удалено заявок: ' . $n . '.';
+        } elseif (isset($known[$id])) {
+            $m = is_array($marks[$id] ?? null) ? $marks[$id] : [];
+            if ($op === 'status' && isset(LEAD_STATUSES[$value])) {
+                $m['s'] = $value;
+                $flash = 'Статус: ' . LEAD_STATUSES[$value][1] . '.';
+            } elseif ($op === 'note') {
+                $m['note'] = mb_substr(trim((string)preg_replace('/\s+/u', ' ', $value)), 0, 500);
+                $flash = 'Заметка сохранена.';
+            } elseif ($op === 'del') {
+                $m['del'] = date('c');
+                $flash = 'Заявка в корзине. Вернуть — раздел «Корзина».';
+            } elseif ($op === 'restore') {
+                unset($m['del']);
+                $flash = 'Заявка возвращена.';
+            } elseif ($op === 'purge' && !empty($m['del'])) {
+                leads_purge([$id]);
+                $m = [];
+                $flash = 'Заявка удалена навсегда.';
+            }
+            if ($m) $marks[$id] = $m; else unset($marks[$id]);
+        } else {
+            $flash = '';
+            $_SESSION['flash'] = ['', 'Заявка не найдена — обновите страницу.'];
+        }
+        data_write_json('lead_marks', $marks);
+        if ($flash !== '') $_SESSION['flash'] = [$flash, ''];
+        header('Location: admin.php?tab=leads' . (isset(LEAD_STATUSES[$back]) || $back === 'trash' ? '&f=' . $back : ''));
+        exit;
+    }
 }
 
 // ---------- вывод ----------
@@ -610,6 +706,13 @@ table.db td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:
 table.db tr:hover td{background:#fbfbfa}
 .tag{display:inline-block;border-radius:4px;padding:0 6px;font-size:12.5px;line-height:20px;white-space:nowrap}
 .tag--quiz{background:#e8deee}.tag--lead{background:#dbeddb}.tag--en{background:#d3e5ef}.tag--zh{background:#ffe2dd}.tag--ru{background:#eeeeec}
+.lchips{display:inline-flex;flex-wrap:wrap;margin:0 0 10px}
+.lchips .chip{text-decoration:none;white-space:nowrap}
+.lsel{height:28px;border:0;border-radius:4px;padding:0 6px;font-size:13px;cursor:pointer}
+.lnote__in{height:30px;min-width:150px;font-size:13px;border-color:transparent;background:transparent}
+.lnote__in:hover{background:rgba(55,53,47,.04)}
+tr.lead--off td,tr.lead--spam td,tr.lead--test td{color:#9b9a97}
+tr.lead--off td b,tr.lead--spam td b,tr.lead--test td b{font-weight:500}
 .muted{color:var(--muted)}
 .small{font-size:13px}
 /* ----- формы входа ----- */
@@ -658,9 +761,9 @@ table.db tr:hover td{background:#fbfbfa}
 <aside class="side" id="side">
 <div class="brand"><span class="brand__logo">千</span><span>Тысяча ли<small>админка сайта</small></span></div>
 <?php
-    $leadsCount = 0;
-    foreach (explode("\n", data_raw('leads')) as $line) if (trim($line) !== '') $leadsCount++;
-    echo nav_link('?tab=leads', '📥', 'Заявки', $tab === 'leads', $leadsCount ? '<span class="nav__badge">' . $leadsCount . '</span>' : '');
+    $leadsCount = 0;  // новые, ещё не разобранные
+    foreach (leads_all() as $l) if ($l['_s'] === 'new' && !$l['_del']) $leadsCount++;
+    echo nav_link('?tab=leads', '📥', 'Заявки', $tab === 'leads', $leadsCount ? '<span class="nav__badge" title="Новые">' . $leadsCount . '</span>' : '');
     echo nav_link('?tab=help', '💡', 'Как пользоваться', $tab === 'help');
     echo nav_link('?tab=password', '🔑', 'Пароль', $tab === 'password');
     echo '<div class="nav__sep"></div><div class="nav__group" style="margin-top:4px">✏️ Тексты сайта</div>';
@@ -746,12 +849,19 @@ if (!$authed) {
 if ($tab === 'texts' && !$isPost) reapply_all();
 
 if ($tab === 'leads') {
-    $leads = [];
-    foreach (explode("\n", data_raw('leads')) as $line) {
-        $j = json_decode(trim($line), true);
-        if (is_array($j)) $leads[] = $j;
+    $all = array_reverse(leads_all());
+    $f = (string)($_GET['f'] ?? '');
+    if (!isset(LEAD_STATUSES[$f]) && $f !== 'trash') $f = '';
+    $counts = array_fill_keys(array_keys(LEAD_STATUSES), 0) + ['trash' => 0, '' => 0];
+    foreach ($all as $l) {
+        if ($l['_del']) { $counts['trash']++; continue; }
+        $counts['']++;
+        $counts[$l['_s']]++;
     }
-    $leads = array_reverse($leads);
+    $leads = array_values(array_filter($all, static function (array $l) use ($f): bool {
+        if ($f === 'trash') return $l['_del'];
+        return !$l['_del'] && ($f === '' || $l['_s'] === $f);
+    }));
     $kindName = static function (array $l): string {
         return ($l['kind'] ?? '') === 'quiz' ? 'Квиз' . (($l['program'] ?? '') !== '' ? ' · ' . $l['program'] : '') : 'Пробный урок';
     };
@@ -775,35 +885,64 @@ if ($tab === 'leads') {
         header('Content-Disposition: attachment; filename="zayavki-thousandli.csv"');
         echo "\xEF\xBB\xBF";
         $o = fopen('php://output', 'w');
-        fputcsv($o, ['Дата', 'Имя', 'Телефон', 'Откуда', 'Ответы квиза', 'Страница'], ';');
+        fputcsv($o, ['Дата', 'Имя', 'Телефон', 'Статус', 'Заметка', 'Откуда', 'Ответы квиза', 'Страница'], ';');
         foreach ($leads as $l) {
-            fputcsv($o, [$fmt((string)($l['ts'] ?? '')), $l['name'] ?? '', $l['phone'] ?? '', $kindName($l), $quizText($l), $l['page'] ?? ''], ';');
+            fputcsv($o, [$fmt((string)($l['ts'] ?? '')), $l['name'] ?? '', $l['phone'] ?? '', LEAD_STATUSES[$l['_s']][1],
+                $l['_note'], $kindName($l), $quizText($l), $l['page'] ?? ''], ';');
         }
         exit;
     }
 
     layout_start('Заявки', true, 'leads', $csrf);
-    topbar('<b>📥 Заявки</b>', $leads ? '<a class="btn btn--sm" href="?tab=leads&amp;csv=1">⬇ Скачать таблицу (Excel)</a>' : '');
+    $csvHref = '?tab=leads&amp;csv=1' . ($f !== '' ? '&amp;f=' . $f : '');
+    topbar('<b>📥 Заявки</b>', $leads ? '<a class="btn btn--sm" href="' . $csvHref . '">⬇ Скачать таблицу (Excel)</a>' : '');
+    $hidden = '<input type="hidden" name="csrf" value="' . h($csrf) . '"><input type="hidden" name="action" value="lead"><input type="hidden" name="f" value="' . h($f) . '">';
     ?>
 <div class="page">
 <div class="title__icon" style="margin-top:34px">📥</div>
 <h1 class="title" style="margin-top:0">Заявки с сайта</h1>
-<div class="props"><span>Всего: <b><?= count($leads) ?></b></span><span>Новые — сверху</span><span>Те же заявки приходят на почту school@thousandli.ru</span></div>
+<div class="props"><span>Всего: <b><?= $counts[''] ?></b></span><span>Новые — сверху</span><span>Те же заявки приходят на почту school@thousandli.ru</span></div>
+<div class="chips lchips">
+<a class="chip" href="?tab=leads" aria-pressed="<?= $f === '' ? 'true' : 'false' ?>">Все <?= $counts[''] ?></a>
+<?php foreach (LEAD_STATUSES as $code => [$ic, $nm]): if (!$counts[$code] && $f !== $code) continue; ?>
+<a class="chip" href="?tab=leads&amp;f=<?= $code ?>" aria-pressed="<?= $f === $code ? 'true' : 'false' ?>"><?= $ic ?> <?= h($nm) ?> <?= $counts[$code] ?></a>
+<?php endforeach; ?>
+<?php if ($counts['trash'] || $f === 'trash'): ?><a class="chip" href="?tab=leads&amp;f=trash" aria-pressed="<?= $f === 'trash' ? 'true' : 'false' ?>">🗑 Корзина <?= $counts['trash'] ?></a><?php endif; ?>
+</div>
+<?php if ($f === 'trash' && $leads): ?>
+<div class="callout"><span class="callout__icon">🗑</span><div><p>Здесь удалённые заявки. «↩ Вернуть» — заявка снова появится в списке. «Удалить навсегда» — восстановить уже нельзя.</p>
+<form method="post" onsubmit="return confirm('Удалить все заявки из корзины навсегда?')"><?= $hidden ?><input type="hidden" name="op" value="purge_trash"><button class="btn btn--sm">Очистить корзину</button></form></div></div>
+<?php endif; ?>
 <?php if (!$leads): ?>
-<div class="callout"><span class="callout__icon">📭</span><div>Пока заявок нет. Здесь появятся заявки с формы и квиза — с русской, английской и китайской версий сайта.</div></div>
+<div class="callout"><span class="callout__icon">📭</span><div><?= $counts[''] || $counts['trash'] ? 'Здесь пусто.' : 'Пока заявок нет. Здесь появятся заявки с формы и квиза — с русской, английской и китайской версий сайта.' ?></div></div>
 <?php else: ?>
-<div class="tools" style="top:46px"><div class="search"><input class="input" type="search" id="lq" placeholder="Найти по имени, телефону, ответам…"></div></div>
-<div class="table-wrap"><table class="db"><thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Откуда</th><th>Язык</th><th>Ответы квиза</th></tr></thead><tbody id="lt">
+<div class="tools" style="top:46px"><div class="search"><input class="input" type="search" id="lq" placeholder="Найти по имени, телефону, ответам, заметке…"></div></div>
+<div class="table-wrap"><table class="db"><thead><tr><th>Статус</th><th>Дата</th><th>Имя</th><th>Телефон</th><th>Откуда</th><th>Язык</th><th>Ответы квиза</th><th>Заметка</th><th></th></tr></thead><tbody id="lt">
 <?php foreach (array_slice($leads, 0, 300) as $l):
     $digits = preg_replace('/\D/', '', (string)($l['phone'] ?? ''));
-    $lang = $langOf($l); ?>
-<tr>
+    $lang = $langOf($l);
+    $id = h((string)$l['_id']); ?>
+<tr class="lead lead--<?= $l['_s'] ?>" data-q="<?= h(mb_strtolower(implode(' ', [(string)($l['name'] ?? ''), (string)($l['phone'] ?? ''), $kindName($l), $quizText($l), $l['_note'], (string)($l['page'] ?? '')]))) ?>">
+<td><form method="post" class="lst"><?= $hidden ?><input type="hidden" name="op" value="status"><input type="hidden" name="id" value="<?= $id ?>">
+<select class="lsel" name="value" onchange="this.form.submit()" style="background:<?= LEAD_STATUSES[$l['_s']][2] ?>" aria-label="Статус заявки">
+<?php foreach (LEAD_STATUSES as $code => [$ic, $nm]): ?><option value="<?= $code ?>"<?= $l['_s'] === $code ? ' selected' : '' ?>><?= $ic ?> <?= h($nm) ?></option><?php endforeach; ?>
+</select><noscript><button class="btn btn--sm">OK</button></noscript></form></td>
 <td class="muted small" style="white-space:nowrap"><?= h($fmt((string)($l['ts'] ?? ''))) ?></td>
 <td><b><?= h((string)($l['name'] ?? '')) ?></b></td>
 <td style="white-space:nowrap"><a href="tel:+<?= h((string)$digits) ?>"><?= h((string)($l['phone'] ?? '')) ?></a></td>
 <td><span class="tag <?= ($l['kind'] ?? '') === 'quiz' ? 'tag--quiz' : 'tag--lead' ?>"><?= h($kindName($l)) ?></span><?php if (($l['page'] ?? '') !== ''): ?><div class="muted small"><?= h((string)$l['page']) ?></div><?php endif; ?></td>
 <td><span class="tag tag--<?= $lang ?>"><?= h(LANGS[$lang][0]) ?></span></td>
 <td class="muted small"><?= h($quizText($l)) ?></td>
+<td><form method="post" class="lnote"><?= $hidden ?><input type="hidden" name="op" value="note"><input type="hidden" name="id" value="<?= $id ?>">
+<input class="input lnote__in" name="value" value="<?= h($l['_note']) ?>" placeholder="Заметка…" maxlength="500" onchange="this.form.submit()"></form></td>
+<td style="white-space:nowrap">
+<?php if ($l['_del']): ?>
+<form method="post" style="display:inline"><?= $hidden ?><input type="hidden" name="op" value="restore"><input type="hidden" name="id" value="<?= $id ?>"><button class="btn btn--sm">↩ Вернуть</button></form>
+<form method="post" style="display:inline" onsubmit="return confirm('Удалить заявку навсегда? Вернуть её будет нельзя.')"><?= $hidden ?><input type="hidden" name="op" value="purge"><input type="hidden" name="id" value="<?= $id ?>"><button class="btn btn--sm btn--ghost" style="color:var(--red)">Удалить навсегда</button></form>
+<?php else: ?>
+<form method="post" onsubmit="return confirm('Удалить заявку? Она попадёт в корзину, оттуда её можно вернуть.')"><?= $hidden ?><input type="hidden" name="op" value="del"><input type="hidden" name="id" value="<?= $id ?>"><button class="btn btn--sm btn--ghost" title="Удалить (в корзину)" aria-label="Удалить">🗑</button></form>
+<?php endif; ?>
+</td>
 </tr>
 <?php endforeach; ?>
 </tbody></table></div>
@@ -811,7 +950,7 @@ if ($tab === 'leads') {
 <script>
 document.getElementById('lq').addEventListener('input', function () {
   var v = this.value.toLowerCase().trim();
-  document.querySelectorAll('#lt tr').forEach(function (tr) { tr.hidden = v !== '' && tr.textContent.toLowerCase().indexOf(v) < 0; });
+  document.querySelectorAll('#lt tr').forEach(function (tr) { tr.hidden = v !== '' && (tr.getAttribute('data-q') || '').indexOf(v) < 0; });
 });
 </script>
 <?php endif; ?>
@@ -886,6 +1025,14 @@ if ($tab === 'help') {
 <li>Жирный шрифт и переносы строк задаются оформлением. Поэтому одна фраза иногда разбита на несколько полей подряд: каждое поле — свой кусочек.</li>
 <li>После обновления сайта разработчиком ваши правки сохраняются. Если какую-то правку не удалось вернуть (исходный текст сильно поменяли), она появится вверху страницы в блоке «Не применились» — внесите её заново.</li>
 <li>Заявки (вкладка «Заявки») можно скачать таблицей для Excel. Колонка «Язык» показывает, с какой версии сайта пришла заявка.</li>
+</ul>
+<h2>📥 Заявки: статусы и удаление</h2>
+<ul>
+<li>У каждой заявки слева — <b>статус</b>: 🆕 Новая, 📞 В работе, ✅ Записался, 💤 Не актуальна, 🚫 Спам, 🧪 Тест. Нажмите и выберите — сохраняется сразу.</li>
+<li>Цифра у «Заявки» в меню — сколько <b>новых</b>, ещё не разобранных заявок.</li>
+<li>Кнопки над таблицей — фильтр: показать только новые, только «в работе» и т. д.</li>
+<li>Поле <b>«Заметка»</b> — для себя: «перезвонить в пятницу», «хочет HSK 3». Написали и нажали Enter (или кликнули мимо) — сохранено.</li>
+<li><b>🗑</b> справа — удалить заявку. Она попадает в <b>Корзину</b>, оттуда её можно вернуть. «Удалить навсегда» и «Очистить корзину» — уже без возврата.</li>
 </ul>
 </div>
 <?php
